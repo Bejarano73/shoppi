@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/main">
     <th:block layout:fragment="content">
-    <div id="page-content" class="coostra-scroll" data-title="Conductores" data-subtitle="Gestión y registro de conductores">
+        <div id="page-content" class="coostra-scroll" data-title="Conductores" data-subtitle="Gestión y registro de conductores">
             <div id="drivers-list" class="content-card p-3"></div>
             <script th:src="@{/js/dataList.js}"></script>
             <script th:src="@{/js/conductores.js}"></script>
         </div>
     </th:block>
 </html>
+

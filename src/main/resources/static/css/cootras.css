@@ -774,21 +774,79 @@ mwc-select{
     background:#f1f5f9;
     border-radius:12px;
 }
-.app-user-menu.show{ display:block }
-.app-user-menu > .d-flex:first-child{ background:linear-gradient(135deg, var(--brand), #0a7a45); color:#fff }
-.app-user-menu > .d-flex:first-child h6{ color:#fff }
-.app-user-menu .rounded-circle{ box-shadow:0 0 0 3px rgba(255,255,255,.6); border:2px solid rgba(255,255,255,.9) }
-.app-user-menu ul{ gap:.25rem }
-.app-user-menu .dropdown-lista-menu{ padding:.5rem .75rem; border-radius:10px }
-.app-user-menu .dropdown-lista-menu i{ font-size:1rem; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center }
-.app-user-menu .dropdown_lista_elemt + .dropdown_lista_elemt{ margin-top:2px }
-.app-user-menu .dropdown-lista-menu.text-030045:hover{ color:var(--brand) }
-.bg-030045{ background:#030045 !important }
-.text-030045{ color:#030045 !important }
-.f-15{ font-size:15px }
-.f-11{ font-size:11px }
-@keyframes menuFade{ from{ opacity:0; transform:translateY(-6px) } to{ opacity:1; transform:translateY(0) } }
-.app-user-avatar{ width:56px; height:56px; border:2px solid rgba(255,255,255,.9); box-shadow:0 4px 10px rgba(0,0,0,.12) }
-.app-user-avatar i{ font-size:1.2rem }
-.user-name{ color:#fff; font-weight:700; letter-spacing:.2px }
-.user-id{ color:rgba(255,255,255,.85); font-size:.8rem }
+.app-user-menu.show{
+    display:block
+}
+.app-user-menu > .d-flex:first-child{
+    background:linear-gradient(135deg, var(--brand), #0a7a45);
+    color:#fff
+}
+.app-user-menu > .d-flex:first-child h6{
+    color:#fff
+}
+.app-user-menu .rounded-circle{
+    box-shadow:0 0 0 3px rgba(255,255,255,.6);
+    border:2px solid rgba(255,255,255,.9)
+}
+.app-user-menu ul{
+    gap:.25rem
+}
+.app-user-menu .dropdown-lista-menu{
+    padding:.5rem .75rem;
+    border-radius:10px
+}
+.app-user-menu .dropdown-lista-menu i{
+    font-size:1rem;
+    width:20px;
+    height:20px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center
+}
+.app-user-menu .dropdown_lista_elemt + .dropdown_lista_elemt{
+    margin-top:2px
+}
+.app-user-menu .dropdown-lista-menu.text-030045:hover{
+    color:var(--brand)
+}
+.bg-030045{
+    background:#030045 !important
+}
+.text-030045{
+    color:#030045 !important
+}
+.f-15{
+    font-size:15px
+}
+.f-11{
+    font-size:11px
+}
+@keyframes menuFade{
+    from{
+        opacity:0;
+        transform:translateY(-6px)
+    }
+    to{
+        opacity:1;
+        transform:translateY(0)
+    }
+}
+.app-user-avatar{
+    width:56px;
+    height:56px;
+    border:2px solid rgba(255,255,255,.9);
+    box-shadow:0 4px 10px rgba(0,0,0,.12)
+}
+.app-user-avatar i{
+    font-size:1.2rem
+}
+.user-name{
+    color:#fff;
+    font-weight:700;
+    letter-spacing:.2px
+}
+.user-id{
+    color:rgba(255,255,255,.85);
+    font-size:.8rem
+}
+

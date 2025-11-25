@@ -1,5 +1,5 @@
-function initConductores(){
-  const card = (d) => `
+function initConductores() {
+    const card = (d) => `
     <div class="border rounded-3 p-3">
       <div class="d-flex align-items-start justify-content-between">
         <div>
@@ -12,17 +12,20 @@ function initConductores(){
       </div>
     </div>
   `;
-  DataList.mount({
-    container: '#drivers-list',
-    endpoint: '/api/conductores',
-    storageKey: 'conductores',
-    pageSize: 5,
-    renderItem: card
-  })
+    DataList.mount({
+        container: '#drivers-list',
+        endpoint: '/api/conductores',
+        storageKey: 'conductores',
+        pageSize: 5,
+        renderItem: card
+    })
 }
 
 if (window.jQuery) {
-  jQuery(function(){ initConductores() })
+    jQuery(function () {
+        initConductores()
+    })
 } else {
-  window.addEventListener('DOMContentLoaded', initConductores)
+    window.addEventListener('DOMContentLoaded', initConductores)
 }
+

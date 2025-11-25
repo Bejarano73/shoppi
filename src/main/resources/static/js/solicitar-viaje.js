@@ -17,7 +17,8 @@ function iniciarInterfaz() {
     const msgEl = document.getElementById('ins-msg');
     const btnSolicitar = document.getElementById('btnSolicitar');
     const items = Array.from(root.querySelectorAll('.ins-item'));
-    if (typeof app.upgradeSelectsBatch === 'function') app.upgradeSelectsBatch(root);
+    if (typeof app.upgradeSelectsBatch === 'function')
+        app.upgradeSelectsBatch(root);
     const state = items.map(() => ({status: 'pendiente', comment: ''}));
     // indexar y setear visual inicial
     items.forEach((wrap, idx) => {
@@ -28,10 +29,10 @@ function iniciarInterfaz() {
             const mwc = document.createElement('mwc-select');
             mwc.className = 'ins-select';
             mwc.setAttribute('label', 'Estado');
-            ['pendiente','ok','defectivo'].forEach(v => {
+            ['pendiente', 'ok', 'defectivo'].forEach(v => {
                 const li = document.createElement('mwc-list-item');
                 li.setAttribute('value', v);
-                li.textContent = v==='ok' ? '✓ OK' : (v==='defectivo' ? '✗ Defectivo' : 'Pendiente');
+                li.textContent = v === 'ok' ? '✓ OK' : (v === 'defectivo' ? '✗ Defectivo' : 'Pendiente');
                 mwc.appendChild(li);
             });
             mwc.value = current;
@@ -50,24 +51,28 @@ function iniciarInterfaz() {
     if (!root.__listenersAttached) {
         root.addEventListener('change', (ev) => {
             const sel = ev.target.closest('.ins-select');
-            if (!sel) return;
+            if (!sel)
+                return;
             const wrap = sel.closest('.ins-item');
             const idx = wrap ? Number(wrap.dataset.idx || 0) : 0;
-            const res = (typeof app.applyInspectionSelect === 'function') ? app.applyInspectionSelect(sel) : { status: sel.value === 'ok' ? 'ok' : (sel.value === 'defectivo' ? 'defectivo' : 'pendiente') };
+            const res = (typeof app.applyInspectionSelect === 'function') ? app.applyInspectionSelect(sel) : {status: sel.value === 'ok' ? 'ok' : (sel.value === 'defectivo' ? 'defectivo' : 'pendiente')};
             state[idx].status = res.status;
             updateSummary();
-            if (typeof app.recountInspection === 'function') app.recountInspection(root);
+            if (typeof app.recountInspection === 'function')
+                app.recountInspection(root);
         });
         // soporte para mwc-select (emite 'selected')
         root.addEventListener('selected', (ev) => {
             const sel = ev.target.closest('.ins-select');
-            if (!sel) return;
+            if (!sel)
+                return;
             const wrap = sel.closest('.ins-item');
             const idx = wrap ? Number(wrap.dataset.idx || 0) : 0;
-            const res = (typeof app.applyInspectionSelect === 'function') ? app.applyInspectionSelect(sel) : { status: sel.value === 'ok' ? 'ok' : (sel.value === 'defectivo' ? 'defectivo' : 'pendiente') };
+            const res = (typeof app.applyInspectionSelect === 'function') ? app.applyInspectionSelect(sel) : {status: sel.value === 'ok' ? 'ok' : (sel.value === 'defectivo' ? 'defectivo' : 'pendiente')};
             state[idx].status = res.status;
             updateSummary();
-            if (typeof app.recountInspection === 'function') app.recountInspection(root);
+            if (typeof app.recountInspection === 'function')
+                app.recountInspection(root);
         });
         root.addEventListener('input', (ev) => {
             const ta = ev.target.closest('.ins-comment');
@@ -221,3 +226,5 @@ if (window.jQuery) {
         iniciarInterfaz();
     });
 }
+
+

@@ -81,7 +81,7 @@ const app = {
         } catch {
         }
     },
-    
+
     initSignatures() {
         if (typeof window.SignaturePad === 'undefined')
             return;
@@ -115,14 +115,13 @@ const app = {
                 c.__pad.clear();
         };
     },
-    
     userMenu: {
         el: null,
-        open(btn){
+        open(btn) {
             this.close();
             const menu = document.createElement('ul');
             menu.className = 'dropdown-menu show app-user-menu rounded-4 shadow-sm';
-            menu.setAttribute('role','menu');
+            menu.setAttribute('role', 'menu');
             menu.innerHTML = `
                 <div class="d-flex flex-column align-items-center text-center p-3">
                     <div class="app-user-avatar rounded-circle bg-030045 d-inline-flex align-items-center justify-content-center">
@@ -141,28 +140,41 @@ const app = {
             const r = btn.getBoundingClientRect();
             const width = 300;
             menu.style.position = 'absolute';
-            menu.style.width = width+'px';
-            menu.style.top = (window.scrollY + r.bottom + 8)+'px';
-            menu.style.left = (window.scrollX + r.right - width)+'px';
+            menu.style.width = width + 'px';
+            menu.style.top = (window.scrollY + r.bottom + 8) + 'px';
+            menu.style.left = (window.scrollX + r.right - width) + 'px';
             try {
                 const name = sessionStorage.getItem('user:name') || '';
                 const id = sessionStorage.getItem('user:id') || '';
                 const nameEl = menu.querySelector('#appUserName');
                 const idEl = menu.querySelector('#appUserId');
-                if (nameEl) nameEl.textContent = name || 'Usuario';
-                if (idEl) idEl.textContent = id || '';
-            } catch {}
+                if (nameEl)
+                    nameEl.textContent = name || 'Usuario';
+                if (idEl)
+                    idEl.textContent = id || '';
+            } catch {
+            }
             this.el = menu;
-            const onDoc = (e)=>{ if (!menu.contains(e.target) && !btn.contains(e.target)) this.close(); };
-            document.addEventListener('click', onDoc, { once: true });
+            const onDoc = (e) => {
+                if (!menu.contains(e.target) && !btn.contains(e.target))
+                    this.close();
+            };
+            document.addEventListener('click', onDoc, {once: true});
         },
-        close(){ if (this.el && this.el.parentNode) { this.el.parentNode.removeChild(this.el); this.el = null; } }
+        close() {
+            if (this.el && this.el.parentNode) {
+                this.el.parentNode.removeChild(this.el);
+                this.el = null;
+            }
+        }
     },
-    upgradeSelectsBatch(container){
+    upgradeSelectsBatch(container) {
         try {
             const native = Array.from(container.querySelectorAll('select.ins-select'));
-            if (!native.length) return;
-            let i = 0; const batch = 6;
+            if (!native.length)
+                return;
+            let i = 0;
+            const batch = 6;
             const run = () => {
                 const end = Math.min(i + batch, native.length);
                 for (; i < end; i++) {
@@ -170,67 +182,107 @@ const app = {
                     const current = sel.value || 'pendiente';
                     const mwc = document.createElement('mwc-select');
                     mwc.className = 'ins-select';
-                    mwc.setAttribute('label','Estado');
-                    ['pendiente','ok','defectivo'].forEach(v => {
+                    mwc.setAttribute('label', 'Estado');
+                    ['pendiente', 'ok', 'defectivo'].forEach(v => {
                         const li = document.createElement('mwc-list-item');
                         li.setAttribute('value', v);
-                        li.textContent = v==='ok' ? '✓ OK' : (v==='defectivo' ? '✗ Defectivo' : 'Pendiente');
+                        li.textContent = v === 'ok' ? '✓ OK' : (v === 'defectivo' ? '✗ Defectivo' : 'Pendiente');
                         mwc.appendChild(li);
                     });
                     mwc.value = current;
                     sel.replaceWith(mwc);
                 }
                 if (i < native.length) {
-                    if (window.requestIdleCallback) requestIdleCallback(run); else setTimeout(run, 0);
+                    if (window.requestIdleCallback)
+                        requestIdleCallback(run);
+                    else
+                        setTimeout(run, 0);
                 }
             };
             run();
-        } catch {}
+        } catch {
+        }
     },
     applyInspectionSelect(sel) {
-        if (!sel) return { status: 'pendiente', value: 'pendiente' };
+        if (!sel)
+            return {status: 'pendiente', value: 'pendiente'};
         const wrap = sel.closest('.ins-item');
         const comment = wrap ? wrap.querySelector('.ins-comment') : null;
         let status = 'pendiente';
         const raw = sel.value;
-        if (raw === 'ok' || raw === '1') { status = 'ok'; }
-        else if (raw === 'defectivo' || raw === '0') { status = 'defectivo'; }
-        else { status = 'pendiente'; }
-        sel.classList.remove('select-ok','select-def');
-        if (wrap) wrap.classList.remove('state-ok','state-def','state-pend');
-        if (status === 'ok') { sel.classList.add('select-ok'); if (wrap) wrap.classList.add('state-ok'); }
-        else if (status === 'defectivo') { sel.classList.add('select-def'); if (wrap) wrap.classList.add('state-def'); }
-        else { if (wrap) wrap.classList.add('state-pend'); }
-        if (comment) comment.classList.toggle('d-none', status !== 'defectivo');
-        return { status, value: raw };
+        if (raw === 'ok' || raw === '1') {
+            status = 'ok';
+        } else if (raw === 'defectivo' || raw === '0') {
+            status = 'defectivo';
+        } else {
+            status = 'pendiente';
+        }
+        sel.classList.remove('select-ok', 'select-def');
+        if (wrap)
+            wrap.classList.remove('state-ok', 'state-def', 'state-pend');
+        if (status === 'ok') {
+            sel.classList.add('select-ok');
+            if (wrap)
+                wrap.classList.add('state-ok');
+        } else if (status === 'defectivo') {
+            sel.classList.add('select-def');
+            if (wrap)
+                wrap.classList.add('state-def');
+        } else {
+            if (wrap)
+                wrap.classList.add('state-pend');
+        }
+        if (comment)
+            comment.classList.toggle('d-none', status !== 'defectivo');
+        return {status, value: raw};
     },
     recountInspection(container) {
-        if (!container) return;
+        if (!container)
+            return;
         const items = Array.from(container.querySelectorAll('.ins-item'));
         let pend = 0, ok = 0, def = 0, crit = 0;
         items.forEach(w => {
             const sel = w.querySelector('.ins-select');
             const v = sel ? sel.value : '';
-            if (v === 'pendiente' || v === '') pend++; else if (v === 'ok' || v === '1') ok++; else if (v === 'defectivo' || v === '0') def++;
-            if (w.querySelector('.ins-critical') && v !== 'ok' && v !== '1') crit++;
+            if (v === 'pendiente' || v === '')
+                pend++;
+            else if (v === 'ok' || v === '1')
+                ok++;
+            else if (v === 'defectivo' || v === '0')
+                def++;
+            if (w.querySelector('.ins-critical') && v !== 'ok' && v !== '1')
+                crit++;
         });
         const sumPend = document.getElementById('sum-pend');
         const sumOk = document.getElementById('sum-ok');
         const sumDef = document.getElementById('sum-def');
         const sumCrit = document.getElementById('sum-crit');
-        if (sumPend) sumPend.textContent = String(pend);
-        if (sumOk) sumOk.textContent = String(ok);
-        if (sumDef) sumDef.textContent = String(def);
-        if (sumCrit) sumCrit.textContent = String(crit);
+        if (sumPend)
+            sumPend.textContent = String(pend);
+        if (sumOk)
+            sumOk.textContent = String(ok);
+        if (sumDef)
+            sumDef.textContent = String(def);
+        if (sumCrit)
+            sumCrit.textContent = String(crit);
         const remainingEl = document.getElementById('ins-remaining');
-        if (remainingEl) remainingEl.textContent = String(pend);
+        if (remainingEl)
+            remainingEl.textContent = String(pend);
         const msgEl = document.getElementById('ins-msg');
         const btn = document.getElementById('btnSolicitar');
         const allSelected = pend === 0;
-        if (btn) btn.disabled = !allSelected;
+        if (btn)
+            btn.disabled = !allSelected;
         if (msgEl) {
-            if (allSelected) { msgEl.classList.remove('ins-alert'); msgEl.classList.add('ins-ok-alert'); msgEl.innerHTML = '<i class="bi bi-check-circle-fill"></i><span>Inspección completa • Puedes solicitar autorización</span>'; }
-            else { msgEl.classList.remove('ins-ok-alert'); msgEl.classList.add('ins-alert'); msgEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i><span>Inspección incompleta • Completa la inspección de los <span id="ins-remaining">'+pend+'</span> elemento(s) restante(s)</span>'; }
+            if (allSelected) {
+                msgEl.classList.remove('ins-alert');
+                msgEl.classList.add('ins-ok-alert');
+                msgEl.innerHTML = '<i class="bi bi-check-circle-fill"></i><span>Inspección completa • Puedes solicitar autorización</span>';
+            } else {
+                msgEl.classList.remove('ins-ok-alert');
+                msgEl.classList.add('ins-alert');
+                msgEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i><span>Inspección incompleta • Completa la inspección de los <span id="ins-remaining">' + pend + '</span> elemento(s) restante(s)</span>';
+            }
         }
     },
     navigate(path) {
@@ -703,10 +755,16 @@ const app = {
                 app.setTitleAndDescFromContent();
                 app.adjustOverflow();
                 if (typeof window.iniciarInterfaz === 'function') {
-                    try { window.iniciarInterfaz(); } catch {}
+                    try {
+                        window.iniciarInterfaz();
+                    } catch {
+                    }
                 }
                 if (typeof window.iniciarInterfazCrearSolicitud === 'function') {
-                    try { window.iniciarInterfazCrearSolicitud(); } catch {}
+                    try {
+                        window.iniciarInterfazCrearSolicitud();
+                    } catch {
+                    }
                 }
                 app.initSignatures();
             }
@@ -778,19 +836,39 @@ const app = {
         app.setTitleAndDescFromContent();
         app.adjustOverflow();
         app.initSignatures();
-        document.addEventListener('click', (e)=>{
+        document.addEventListener('click', (e) => {
             const btn = e.target.closest('button.icon-button');
-            if (!btn) return;
+            if (!btn)
+                return;
             const action = btn.getAttribute('data-action');
-            if (action === 'menu-toggle') { e.preventDefault(); app.toggleSidebar(); return; }
-            if (action === 'settings') { e.preventDefault(); app.userMenu.close(); app.openSettings(); return; }
-            if (action === 'user-menu') { e.preventDefault(); app.userMenu.open(btn); return; }
+            if (action === 'menu-toggle') {
+                e.preventDefault();
+                app.toggleSidebar();
+                return;
+            }
+            if (action === 'settings') {
+                e.preventDefault();
+                app.userMenu.close();
+                app.openSettings();
+                return;
+            }
+            if (action === 'user-menu') {
+                e.preventDefault();
+                app.userMenu.open(btn);
+                return;
+            }
         });
         if (typeof window.iniciarInterfaz === 'function') {
-            try { window.iniciarInterfaz(); } catch {}
+            try {
+                window.iniciarInterfaz();
+            } catch {
+            }
         }
         if (typeof window.iniciarInterfazCrearSolicitud === 'function') {
-            try { window.iniciarInterfazCrearSolicitud(); } catch {}
+            try {
+                window.iniciarInterfazCrearSolicitud();
+            } catch {
+            }
         }
         app.userMenu.close();
         window.addEventListener('resize', () => app.adjustOverflow());

@@ -1,8 +1,21 @@
 /* Estilos específicos para Documentos */
 
-#page-content{width:100%}
-.content-card{width:100%;box-sizing:border-box}
-.table thead.table-warning-subtle th{background:#fff8e1}
-.table thead.table-success-subtle th{background:#eafff1}
-.table td.text-warning{color:#b45309!important}
-.table td.text-success{color:#157347!important}
+#page-content{
+    width:100%
+}
+.content-card{
+    width:100%;
+    box-sizing:border-box
+}
+.table thead.table-warning-subtle th{
+    background:#fff8e1
+}
+.table thead.table-success-subtle th{
+    background:#eafff1
+}
+.table td.text-warning{
+    color:#b45309!important
+}
+.table td.text-success{
+    color:#157347!important
+}
