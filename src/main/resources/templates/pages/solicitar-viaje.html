@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/main">
+    <th:block layout:fragment="content">
+        <div id="page-content" class="coostra-scroll" data-title="Solicitar Viaje" data-subtitle="Detalles del Viaje">
+            <div class="card mb-1">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <mwc-textfield label="Identificación Conductor *" helper="Ej: 1006407890"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <mwc-textfield label="Placa Vehicular *" helper="Ej: ZQB55G"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <mwc-textfield label="Código de Carga" helper="Ej: COD-12345"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <mwc-textfield type="number" label="Peso Estimado de Carga (kg)" helper="Ej: 5000"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <mwc-textfield type="text" label="Fecha de Salida *" helper="Ej: 2025/01/11"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <mwc-textfield type="text" label="Hora de Salida" helper="Ej: 12:00 am"></mwc-textfield>
+                        </div>
+                        <!--                        <div class="col-12 col-md-6 col-lg-4">
+                                                    <label class="form-label">Fecha de Salida *</label>
+                                                    <input id="sv-fecha" type="text" class="form-control" placeholder="dd/mm/aaaa" />
+                                                </div>-->
+                        <!--                        <div class="col-12 col-md-6 col-lg-4">
+                                                    <label class="form-label">Hora de Salida</label>
+                                                    <input id="sv-hora" type="text" class="form-control" placeholder="--:--" />
+                                                </div>-->
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <mwc-textfield label="Origen *" helper="Ej: Bogotá"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <mwc-textfield label="Destino *" helper="Ej: Medellín"></mwc-textfield>
+                        </div>
+                        <div class="col-12">
+                            <mwc-textarea label="Tipo de Carga / Mercancía" rows="3"></mwc-textarea>
+                        </div>
+                        <div class="col-12 d-flex align-items-center flex-wrap gap-3 justify-content-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="chkPersonaCarga">
+                                <label class="form-check-label" for="chkPersonaCarga">Chequeo Persona y Carga</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="chkPersonal">
+                                <label class="form-check-label" for="chkPersonal">Chequeo Personal</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-card p-3">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <div>
+                        <div class="fw-semibold">Inspección Pre-Operacional del Vehículo</div>
+                        <div class="text-muted small">Verifica cada aspecto del vehículo antes de solicitar autorización. Los campos con * son críticos</div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 w-100">
+                        <div class="ins-summary"><span>Pendientes</span><strong id="sum-pend">32</strong></div>
+                        <div class="ins-summary"><span>OK</span><strong id="sum-ok">0</strong></div>
+                        <div class="ins-summary"><span>Defectivos</span><strong id="sum-def">0</strong></div>
+                        <div class="ins-summary"><span>Críticos</span><strong id="sum-crit">0</strong></div>
+                    </div>
+                    <div class="w-100 alert alert-warning d-flex align-items-start p-3 m-0 border rounded">
+                        <i class="bi bi-clock fs-4 text-warning"></i>
+                        <div class="m-1">
+                            <p class="fw-semibold text-warning mb-1">Inspección incompleta</p>
+                            <p class="text-muted mb-0">Completa la inspección de los 32 elemento(s) restante(s)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="inspection-root" class="inspection-root">
+                    <div class="ins-section">
+                        <div class="ins-section-title">Documentos</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>SOAT vigente</span><span class="ins-critical">*</span></div><mwc-select class="ins-select" label="Estado"><mwc-list-item value="pendiente">Pendiente</mwc-list-item><mwc-list-item value="ok">✓ OK</mwc-list-item><mwc-list-item value="defectivo">✗ Defectivo</mwc-list-item></mwc-select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Tarjeta de propiedad vigente</span><span class="ins-critical">*</span></div><mwc-select class="ins-select" label="Estado"><mwc-list-item value="pendiente">Pendiente</mwc-list-item><mwc-list-item value="ok">✓ OK</mwc-list-item><mwc-list-item value="defectivo">✗ Defectivo</mwc-list-item></mwc-select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Tecnomecánica vigente</span><span class="ins-critical">*</span></div><mwc-select class="ins-select" label="Estado"><mwc-list-item value="pendiente">Pendiente</mwc-list-item><mwc-list-item value="ok">✓ OK</mwc-list-item><mwc-list-item value="defectivo">✗ Defectivo</mwc-list-item></mwc-select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Seguro contractual vigente</span><span class="ins-critical">*</span></div><mwc-select class="ins-select" label="Estado"><mwc-list-item value="pendiente">Pendiente</mwc-list-item><mwc-list-item value="ok">✓ OK</mwc-list-item><mwc-list-item value="defectivo">✗ Defectivo</mwc-list-item></mwc-select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Frenos</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Frenos de servicio funcionando</span><span class="ins-critical">*</span></div><mwc-select class="ins-select" label="Estado"><mwc-list-item value="pendiente">Pendiente</mwc-list-item><mwc-list-item value="ok">✓ OK</mwc-list-item><mwc-list-item value="defectivo">✗ Defectivo</mwc-list-item></mwc-select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Freno de emergencia funcionando</span><span class="ins-critical">*</span></div><mwc-select class="ins-select" label="Estado"><mwc-list-item value="pendiente">Pendiente</mwc-list-item><mwc-list-item value="ok">✓ OK</mwc-list-item><mwc-list-item value="defectivo">✗ Defectivo</mwc-list-item></mwc-select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Pastillas de freno con material suficiente</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Llantas</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Llantas en buen estado sin daños</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Profundidad de labrado mínimo 1.6mm</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Presión de aire correcta</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Luces</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Luces delanteras funcionando</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Luces traseras y stop funcionando</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Luz de estacionamiento funcionando</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Reflectores en buen estado</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Dirección y Visibilidad</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Dirección con buen juego</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Parabrisas y cristales sin grietas</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Plumillas limpiaparabrisas funcionando</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Espejo retrovisor en buenas condiciones</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Motor</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Nivel de aceite correcto</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Nivel de refrigerante correcto</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Líquido de frenos correcto</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Batería en buen estado</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Cinturones y mangueras intactos</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Suspensión</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Suspensión en buen estado sin ruidos</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Amortiguadores funcionando correctamente</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Equipo de Seguridad</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Extintor presente y válido</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Botiquín de primeros auxilios presente</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Triángulos de emergencia presentes</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Chaleco de seguridad presente</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+
+                    <div class="ins-section">
+                        <div class="ins-section-title">Cabina y Exterior</div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Cabina en buen estado</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Puertas y cerraduras funcionando</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                        <div class="ins-item state-pend"><div class="ins-label"><span>Cinturones de seguridad en buen estado</span><span class="ins-critical">*</span></div><select class="form-select form-select-sm ins-select"><option value="pendiente">Pendiente</option><option value="ok">✓ OK</option><option value="defectivo">✗ Defectivo</option></select><textarea class="form-control ins-comment d-none" rows="2" placeholder="Describe el problema encontrado..."></textarea></div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <div class="ins-alert d-flex align-items-center gap-2" id="ins-msg">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <span>Inspección incompleta • Completa la inspección de los <span id="ins-remaining">32</span> elemento(s) restante(s)</span>
+                    </div>
+                    <div class="ins-actions-bar mt-2">
+                        <button class="btn btn-outline-secondary cancelar_proceso" type="button">Cancelar</button>
+                        <button class="btn btn-success" id="btnSolicitar" type="button" disabled>Solicitar Autorización</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card p-3 mt-4">
+                <div class="row g-3">
+                    <div class="col-12 col-lg-6">
+                        <label class="form-label">Firma del Conductor</label>
+                        <div class="sv-sig-box"><canvas id="sigConductor" class="sv-sig-pad" data-signature></canvas></div>
+                        <div class="mt-2"><button class="btn btn-outline-secondary btn-sm" type="button" onclick="window.appClearSignature && appClearSignature('sigConductor')">Limpiar</button></div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <label class="form-label">Firma Supervisor / HSE</label>
+                        <div class="sv-sig-box"><canvas id="sigSupervisor" class="sv-sig-pad" data-signature></canvas></div>
+                        <div class="mt-2"><button class="btn btn-outline-secondary btn-sm" type="button" onclick="window.appClearSignature && appClearSignature('sigSupervisor')">Limpiar</button></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <script th:src="@{/js/solicitar-viaje.js}"></script>
+    </th:block>
+</html>

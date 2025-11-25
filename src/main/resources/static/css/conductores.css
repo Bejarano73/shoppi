@@ -1,0 +1,6 @@
+/* Estilos específicos para Conductores (placeholder) */
+
+#page-content{min-height:calc(100vh - var(--header-h) - var(--footer-h));display:flex;flex-direction:column;width:100%;overflow:hidden}
+#drivers-list{display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0;width:100%}
+#dl-list{flex:1;overflow:auto;min-height:0;width:100%}
+#dl-list>div{width:100%}

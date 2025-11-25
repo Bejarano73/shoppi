@@ -1,0 +1,17 @@
+<th:block th:fragment="header">
+    <nav class="navbar app-header">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <button class="icon-button" type="button" data-action="menu-toggle"><i class="bi bi-list" id="menu-icon"></i></button>
+                <div class="d-flex flex-column">
+                    <span class="app-title">Dashboard</span>
+                    <small class="app-subtitle text-muted fst-italic">Resumen y accesos rápidos</small>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button class="icon-button" type="button" data-action="settings"><i class="bi bi-gear"></i></button>
+                <button class="icon-button" type="button" data-action="user-menu"><i class="bi bi-person-circle"></i></button>
+            </div>
+        </div>
+    </nav>
+</th:block>

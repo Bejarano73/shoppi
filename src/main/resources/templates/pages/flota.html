@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/main">
+    <th:block layout:fragment="content">
+        <div id="page-content" class="coostra-scroll" data-title="Flota" data-subtitle="Vehículos registrados">
+            <div class="content-card p-3 mt-3">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center gap-2 toolbar-filters w-100">
+                        <mwc-textfield id="fl-search" label="Buscar" style="max-width:340px;"></mwc-textfield>
+                        <mwc-select id="fl-estado" label="Estado" style="max-width:220px;">
+                            <mwc-list-item value="">Todos los Estados</mwc-list-item>
+                            <mwc-list-item value="activo">Activo</mwc-list-item>
+                            <mwc-list-item value="inactivo">Inactivo</mwc-list-item>
+                            <mwc-list-item value="mantenimiento">Mantenimiento</mwc-list-item>
+                        </mwc-select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="flota-table" class="table table-striped table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Placa</th>
+                                <th>Vehículo</th>
+                                <th>Conductor</th>
+                                <th>KM Mes</th>
+                                <th>KM Total</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <script th:src="@{/js/flota.js}"></script>
+        </div>
+    </th:block>
+</html>

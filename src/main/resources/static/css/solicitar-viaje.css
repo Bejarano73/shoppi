@@ -1,0 +1,74 @@
+/* Estilos específicos para Solicitar Viaje */
+
+#page-content{width:100%}
+.content-card{width:100%;box-sizing:border-box}
+
+/* Formato de campos */
+.content-card .form-label{margin-bottom:.25rem;color:#1f2937}
+.content-card .form-control{border-radius:10px}
+.content-card .row.g-3{row-gap:1rem}
+.input-icon .input-group-text{background:#fff;border-left:0;border-top-right-radius:10px;border-bottom-right-radius:10px}
+.input-icon .form-control{border-right:0;border-top-left-radius:10px;border-bottom-left-radius:10px}
+
+/* Resumen de inspección */
+.ins-summary{display:flex;flex-direction:column;align-items:center;gap:.25rem;border:1px solid var(--border);border-radius:12px;padding:.6rem .8rem;flex:1 1 0}
+.ins-summary span{color:#64748b;font-size:.85rem}
+.ins-summary strong{font-weight:800;font-size:1.25rem}
+.ins-summary:nth-child(1){background:#eef2ff}
+.ins-summary:nth-child(1) strong{color:#1d4ed8}
+.ins-summary:nth-child(2){background:#ecfdf5}
+.ins-summary:nth-child(2) strong{color:#157347}
+.ins-summary:nth-child(3),.ins-summary:nth-child(4){background:#f8fafc}
+.ins-summary:nth-child(3) strong,.ins-summary:nth-child(4) strong{color:#0f172a}
+
+/* Root y secciones */
+.inspection-root{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+@media (max-width: 991.98px){.inspection-root{grid-template-columns:repeat(1,minmax(0,1fr))}}
+.ins-section{background:#fff;border:1px solid var(--border);border-radius:12px;padding:.75rem}
+.ins-section-title{font-weight:600;color:#111827;margin-bottom:.5rem}
+
+/* Ítems */
+.ins-item{display:grid;grid-template-columns:1fr 200px;grid-auto-rows:auto;align-items:center;gap:.5rem;padding:1rem;border:1px solid var(--border);border-radius:12px;margin:.5rem 0}
+.ins-item:first-child{border-top:none}
+.ins-label{display:flex;align-items:center;gap:.35rem;color:#1f2937;min-width:0;word-break:break-word}
+.ins-critical{color:#dc2626;background:#fee2e2;border-radius:6px;padding:.1rem .35rem;font-weight:600}
+.ins-actions{display:flex;align-items:center;gap:.35rem}
+.ins-select{width:200px;height:36px;border-radius:10px;justify-self:end}
+@media (max-width: 575.98px){
+  .ins-item{grid-template-columns:1fr}
+  .ins-select{width:100%;justify-self:stretch}
+}
+/* Estado visual por selección */
+.ins-item.state-ok{background:#dcfce7;border-color:#22c55e}
+.ins-item.state-def{background:#fee2e2;border-color:#ef4444}
+.ins-item.state-pend{background:#f8fafc;border-color:#e2e8f0}
+.ins-comment{margin-top:.35rem}
+.ins-comment{grid-column:1 / -1}
+.state-def .ins-comment{border-color:#ef4444}
+.ins-select.select-ok{border-color:#22c55e}
+.ins-select.select-def{border-color:#ef4444}
+.ins-select.select-ok{background:#ecfdf5;color:#157347}
+.ins-select.select-def{background:#fef2f2;color:#dc2626}
+
+#btnSolicitar:disabled{background:#d1d5db!important;border-color:#d1d5db!important;color:#fff!important;opacity:1}
+.ins-ok-alert{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;padding:.75rem 1rem;color:#157347}
+
+/* Firmas */
+.sv-sig-box{border:1px solid var(--border);border-radius:12px;background:#fff;height:180px;position:relative}
+.sv-sig-pad{width:100%;height:100%;touch-action:none;cursor:crosshair}
+
+/* Checks personalizados */
+.form-check-input{width:18px;height:18px;border-color:#cbd5e1}
+.form-check-input:checked{background-color:var(--brand);border-color:var(--brand)}
+.form-check-label{padding:.15rem .4rem;border-radius:8px}
+.form-check-input:checked ~ .form-check-label{background:#ecfdf5;color:#157347}
+
+/* Flatpickr integraciones */
+.flatpickr-input{background:#fff}
+.flatpickr-calendar{box-shadow:var(--shadow);border:1px solid var(--border);border-radius:12px}
+
+/* Alerta de inspección */
+.ins-alert{background:#fffbeb;border:1px solid #fbd34d;border-radius:12px;padding:.75rem 1rem;color:#4b5563}
+.ins-alert i{color:#f59e0b}
+.ins-actions-bar{display:flex;align-items:center;justify-content:flex-end;gap:.5rem}
+@media (max-width: 575.98px){.ins-actions-bar{flex-direction:column;align-items:stretch}}

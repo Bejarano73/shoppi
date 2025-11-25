@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/main">
+    <th:block layout:fragment="content">
+    <div id="page-content" class="coostra-scroll" data-title="Documentos" data-subtitle="Control y vencimientos de documentos">
+            <link th:href="@{/css/documentos.css}" rel="stylesheet" />
+            <div class="content-card p-3">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-clock-history text-warning"></i>
+                    <strong>Vencen Pronto</strong>
+                    <span class="badge bg-warning-subtle text-warning ms-2">13</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle">
+                        <thead class="table-warning-subtle">
+                            <tr>
+                                <th>Documento</th>
+                                <th>Vehículo</th>
+                                <th>Conductor</th>
+                                <th>Vencimiento</th>
+                                <th>Días Restantes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tecnomecánica</td><td>CTM-001</td><td>Juan Carlos Rodríguez</td><td>29/6/2025</td><td class="text-warning">-146 días</td>
+                            </tr>
+                            <tr>
+                                <td>Tarjeta de Propiedad</td><td>CTM-001</td><td>Juan Carlos Rodríguez</td><td>30/1/2025</td><td class="text-warning">-296 días</td>
+                            </tr>
+                            <tr>
+                                <td>Certificado de Emisiones</td><td>CTM-001</td><td>Juan Carlos Rodríguez</td><td>30/3/2025</td><td class="text-warning">-237 días</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="content-card p-3 mt-4">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-check-circle text-success"></i>
+                    <strong>Documentos Válidos</strong>
+                    <span class="badge bg-success-subtle text-success ms-2">2</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle">
+                        <thead class="table-success-subtle">
+                            <tr>
+                                <th>Documento</th>
+                                <th>Vehículo</th>
+                                <th>Conductor</th>
+                                <th>Vencimiento</th>
+                                <th>Días Válido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SOAT</td><td>CTM-001</td><td>Juan Carlos Rodríguez</td><td>30/12/2025</td><td class="text-success">38 días</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script th:src="@{/js/documentos.js}"></script>
+        </div>
+    </th:block>
+</html>

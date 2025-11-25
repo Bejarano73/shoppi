@@ -1,0 +1,3 @@
+/* Estilos para Crear Solicitud */
+.calc-box{border:1px solid var(--border);border-radius:12px;background:#f8fafc}
+.map-box{border:1px solid var(--border);border-radius:12px;height:220px;background:#eef2ff}

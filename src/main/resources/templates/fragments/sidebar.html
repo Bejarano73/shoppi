@@ -1,0 +1,59 @@
+<th:block th:fragment="sidebar">
+    <div id="appSidebar" class="offcanvas offcanvas-start app-sidebar" tabindex="-1" aria-labelledby="appSidebarLabel" data-bs-scroll="true" data-bs-backdrop="false">
+        <div class="sidebar-brand">
+            <div class="brand-icon"><i class="bi bi-truck"></i></div>
+            <div class="brand-text">
+                <div class="brand-title menu-text menu-d-none">Cootrasmateriales</div>
+                <div class="brand-sub menu-text menu-d-none">Gestión de Flota</div>
+            </div>
+        </div>
+        <div class="offcanvas-body p-0 d-flex flex-column">
+            <div class="p-3">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}" hx-get="/" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
+                            <i class="bi bi-speedometer2"></i>
+                            <span class="nav-text menu-text menu-d-none">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/conductores}" hx-get="/conductores" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
+                            <i class="bi bi-people"></i>
+                            <span class="nav-text menu-text menu-d-none">Conductores</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/documentos}" hx-get="/documentos" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
+                            <i class="bi bi-file-earmark-text"></i>
+                            <span class="nav-text menu-text menu-d-none">Documentos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/solicitar-viaje}" hx-get="/solicitar-viaje" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
+                            <i class="bi bi-truck-front"></i>
+                            <span class="nav-text menu-text menu-d-none">Solicitar Viaje</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/crear-solicitud}" hx-get="/crear-solicitud" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
+                            <i class="bi bi-clipboard-plus"></i>
+                            <span class="nav-text menu-text menu-d-none">Crear Solicitud</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/flota}" hx-get="/flota" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
+                            <i class="bi bi-truck"></i>
+                            <span class="nav-text menu-text menu-d-none">Flota</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/peticiones}" hx-get="/peticiones" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
+                            <i class="bi bi-table"></i>
+                            <span class="nav-text menu-text menu-d-none">Peticiones</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</th:block>

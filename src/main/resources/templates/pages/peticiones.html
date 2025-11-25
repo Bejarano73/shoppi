@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/main">
+<th:block layout:fragment="content">
+<div id="page-content" class="coostra-scroll" data-title="Peticiones" data-subtitle="Gestión de solicitudes">
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+  <div class="content-card p-3">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="badge bg-primary">Total: <span id="pt-total">0</span></div>
+        <div class="badge bg-warning text-dark">Mirando: <span id="pt-mirando">0</span></div>
+      </div>
+      <button class="btn btn-success" id="pt-crear">Crear Solicitud</button>
+    </div>
+    <table id="peticiones-table" class="table table-striped table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Origen</th>
+          <th>Destino</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Kilos</th>
+          <th>Carga</th>
+          <th>Vehículo</th>
+          <th>Distancia</th>
+          <th>Duración</th>
+          <th>Km</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script th:src="@{/js/peticiones.js}"></script>
+</div>
+</th:block>
+</html>
