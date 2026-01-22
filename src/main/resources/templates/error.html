@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/main">
-    <th:block layout:fragment="content">
-        <div class="container d-flex flex-column align-items-center justify-content-center"
-             style="min-height: 80vh; text-align: center;">
-            <div class="mb-4">
-                <h1 class="display-1 fw-bold text-primary">404</h1>
-                <h3 class="fw-semibold">Ruta no disponible</h3>
-                <p class="text-muted">
-                    La página que buscas no existe o fue movida. 
-                </p>
-            </div>
+<head th:replace="layouts/main :: head-app"></head>
+<th:block layout:fragment="content">
+    <div class="container d-flex flex-column align-items-center justify-content-center"
+         style="min-height: 80vh; text-align: center;">
+        <div class="mb-4">
+            <img th:src="@{/img/PAGINA.png}" class="img-fluid" width="330" alt="Gestión de Flota">
+            <h1 class="display-1 fw-bold text-warning">404</h1>
+            <h3 class="fw-semibold">Página no encontrada</h3>
+            <p class="text-muted">
+                La página que estás buscando no existe o ha sido movida. Regresa al inicio para continuar navegando.
+            </p>
         </div>
-    </th:block>
+    </div>
+</th:block>
 </html>

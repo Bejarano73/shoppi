@@ -1,134 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>CONTROLLED-FLEET • Gestión de Flota</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-        <link href="/css/cootras.css" rel="stylesheet">
-        <style>
-            *{
-                font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif
-            }
-            body{
-                background:#f6f7f9
-            }
-            .navbar{
-                background:#ffffffcc;
-                backdrop-filter: blur(8px);
-                transition:.3s
-            }
-            .navbar.scrolled{
-                box-shadow:0 0 25px rgba(0,0,0,.15)
-            }
-            .brand-text{
-                color:var(--brand);
-                font-weight:700;
-                letter-spacing:.5px
-            }
-            .hero{
-                padding:120px 0
-            }
-            .hero h1{
-                font-weight:700
-            }
-            .hero-img{
-                filter: drop-shadow(0 8px 20px rgba(0,0,0,.2));
-                animation: float 3s ease-in-out infinite
-            }
-            @keyframes float{
-                0%{
-                    transform:translateY(0)
-                }
-                50%{
-                    transform:translateY(-10px)
-                }
-                100%{
-                    transform:translateY(0)
-                }
-            }
-            .service-card{
-                background:#fff;
-                border-radius:18px;
-                padding:30px;
-                transition:.25s;
-                border:1px solid var(--border);
-                overflow:hidden;
-                display:flex;
-                flex-direction:column;
-                align-items:center;
-                justify-content:flex-start;
-            }
-            .service-card:hover{
-                transform:translateY(-6px);
-                box-shadow:0 12px 35px rgba(0,0,0,.12)
-            }
-            .service-card i{
-                font-size:40px;
-                color:var(--brand)
-            }
-            .service-card h5{
-                margin-top:.75rem
-            }
-            .service-card p{
-                margin:0;
-                padding:0 .25rem;
-                word-wrap:break-word;
-                white-space:normal
-            }
-            .cta-btn{
-                background:var(--brand);
-                border-color:var(--brand)
-            }
-            .cta-btn:hover{
-                background:var(--brand-600);
-                border-color:var(--brand-600)
-            }
-            .quote{
-                background:#0a1a33
-            }
-            .quote .form-control, .quote .form-select{
-                border-radius:12px;
-                padding:14px 18px;
-                border:1px solid #ced4da
-            }
-            .quote .form-control:focus, .quote .form-select:focus{
-                border-color:var(--brand);
-                box-shadow:0 0 8px var(--focus-ring)
-            }
-            footer{
-                background:#0a1a33;
-                color:#fff
-            }
-            footer a{
-                color:#cfd5e1;
-                text-decoration:none
-            }
-            footer a:hover{
-                color:var(--brand)
-            }
-        </style>
-    </head>
+    <head th:replace="layouts/main :: head-app"></head>
+    <link th:href="@{/css/landing.css}" rel="stylesheet" />
     <body>
-        <nav class="navbar navbar-expand-lg fixed-top py-3">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                    <i class="bi bi-truck text-success fs-3 me-2"></i>
-                    <span class="fs-4 brand-text">CONTROLLED-FLEET</span>
-                </a>
-                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="#inicio">Inicio</a></li>
-                        <li class="nav-item mx-2"><a class="nav-link fw-semibold" href="/login">Login</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
+    <th:block th:insert="fragments/header :: header"></th:block>
+    <div id="page-content" class="col p-1 coostra-scroll content-col height-app-coostra overflow-y-auto" data-title="Gestión de Flota" data-subtitle="Gestión integral de solicitudes entre empresas y conductores">
         <section id="inicio" class="hero container">
             <div class="row align-items-center">
                 <div class="col-md-6" data-aos="fade-right">
@@ -182,32 +58,9 @@
                 </div>
             </div>
         </section>
-
-        <!-- Login ahora es una vista aparte en /login -->
-
-        <footer id="contacto" class="pt-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4"><h5 class="fw-bold">CONTROLLED-FLEET</h5><p class="mt-3 text-light opacity-75">Líderes en gestión de flota y logística.</p></div>
-                    <div class="col-md-4"><h5 class="fw-bold">Enlaces</h5><ul class="list-unstyled mt-3"><li><a href="#servicios">Servicios</a></li><li><a href="#cotizacion">Cotización</a></li><li><a href="#contacto">Contacto</a></li></ul></div>
-                    <div class="col-md-4"><h5 class="fw-bold">Contacto</h5><p class="mt-3"><i class="bi bi-telephone"></i> +57 300 000 0000</p><p><i class="bi bi-envelope"></i> info@CONTROLLED-FLEET.com</p></div>
-                </div>
-                <div class="text-center mt-4 py-3 border-top border-secondary">© 2025 CONTROLLED-FLEET • Todos los derechos reservados.</div>
-            </div>
-        </footer>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-        <script>
-            AOS.init({duration: 900});
-            window.addEventListener('scroll', () => {
-                const nav = document.querySelector('.navbar');
-                if (!nav)
-                    return;
-                nav.classList.toggle('scrolled', window.scrollY > 50);
-            });
-            // asegurar scroll total pese a estilos globales
-            document.body.style.overflow = 'auto';
-        </script>
-    </body>
+    </div>
+    <!-- Login ahora es una vista aparte en /login -->
+    <th:block th:insert="fragments/footer :: footer"></th:block>
+    <th:block th:replace="layouts/main :: footer-app"></th:block>
+</body>
 </html>

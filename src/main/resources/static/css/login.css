@@ -1,10 +1,44 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
-*/
-/*
-    Created on : 24/11/2025, 4:08:33 p. m.
-    Author     : Brahyan_Bejarano
-*/
+:root{
+    --login-max:900px;
+}
+body{
+    min-height:100vh;
+    margin:0;
+    background:
+        linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)),
+        url('../img/volqueta.jpeg') no-repeat center center;
+    background-size:cover;
+    background-attachment:fixed;
+}
+.bg-login-image{
+    background:linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.05));
+}
+.card-login{
+    max-width:var(--login-max);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    box-shadow:var(--shadow-lg);
+}
+.login-title{
+    font-weight:700;
+    color:#fff;
+}
+.login-subtitle{
+    color:#e2e8f0;
+}
+.login-tabs .nav-link{
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+}
+.login-tabs.nav-tabs{border-bottom:1px solid var(--border)}
+.login-tabs .nav-link.active::after{background:var(--color-primary)}
+.login-actions .btn{border-radius:10px}
+.otp-dev{opacity:.75}
 
-
+.modal-content{border-radius:var(--radius-md)}
+.modal-body .content-card{cursor:pointer}
+.modal-body .content-card:hover{border-color:var(--color-primary); box-shadow:var(--shadow-lg)}
+.modal-title{font-weight:700; color:#000}
+.content-card .fw-bold{color:#000}
+.modal-subtitle{color:var(--color-muted)}

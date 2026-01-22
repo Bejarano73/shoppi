@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-    <head>
+    <head th:fragment="head-app">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title th:text="${title} ?: 'CONTROLLED-FLEET'"></title>
@@ -41,27 +41,29 @@
         <img src="/img/spinner.gif" class="spinner-icon-img" alt="Cargando" />
         <div id="text-spinner" class="spinner-text text-success mt-2">Cargando...</div>
     </div>
-    <!-- 1. jQuery primero -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <footer th:fragment="footer-app">
+        <!-- 1. jQuery primero -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- 2. Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- 2. Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- 3. Otros scripts -->
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.0.4/dist/signature_pad.umd.min.js"></script>
-    <script type="module" src="https://unpkg.com/@material/mwc-textfield?module"></script>
-    <script type="module" src="https://unpkg.com/@material/mwc-textarea?module"></script>
-    <script type="module" src="https://unpkg.com/@material/mwc-select?module"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+        <!-- 3. Otros scripts -->
+        <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.0.4/dist/signature_pad.umd.min.js"></script>
+        <script type="module" src="https://unpkg.com/@material/mwc-textfield?module"></script>
+        <script type="module" src="https://unpkg.com/@material/mwc-textarea?module"></script>
+        <script type="module" src="https://unpkg.com/@material/mwc-select?module"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-    <!-- 4. Tus scripts -->
-    <script>window._cssReady = {};
+        <!-- 4. Tus scripts -->
+        <script>window._cssReady = {};
             function cssReady(name) {
                 window._cssReady[name] = true;
             }</script>
-    <script th:src="@{/js/cootras.js}"></script>
+        <script th:src="@{/js/cootras.js}"></script>
+    </footer>
 </body>
 </html>
 

@@ -1,12 +1,15 @@
 package com.cootras.flota.controller;
 
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class RootController {
-    @GetMapping("/flota")
-    public String flota() {
-        return "redirect:/";
+public class CustomErrorController implements ErrorController {
+
+    @RequestMapping("/error")
+    public String handleError() {
+        // Retorna la vista personalizada de error 404
+        return "/error";
     }
 }

@@ -850,3 +850,9 @@ mwc-select{
     font-size:.8rem
 }
 
+.overflow-x-auto{
+    overflow-x: auto !important;
+}
+.overflow-y-auto{
+    overflow-y: auto !important;
+}

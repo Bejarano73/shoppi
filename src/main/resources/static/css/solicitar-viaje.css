@@ -261,3 +261,7 @@
         align-items:stretch
     }
 }
+
+mwc-textfield{
+    margin: 0px;
+}

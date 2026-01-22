@@ -421,27 +421,43 @@ const app = {
             </ul>
             <div class="tab-content pt-3">
                 <div class="tab-pane fade show active" id="tabGeneral">
-                    <div class="mb-3">
-                        <mwc-textfield label="Nombre de la Empresa" value="Cootrasmateriales"></mwc-textfield>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <mwc-textfield label="Nombre de la Empresa" value="Cootrasmateriales"></mwc-textfield>
+                        </div>
+                        <div class="col-12">
+                            <mwc-textfield label="Sub Nombre de la Empresa" value="Gestion de Flota"></mwc-textfield>
+                        </div>
+                        <div class="col-md-6">
+                            <mwc-textfield type="email" label="Email de Contacto" value="contacto@cootrasmateriales.com"></mwc-textfield>
+                        </div>
+                        <div class="col-md-6">
+                            <mwc-textfield label="Teléfono" value="+57 1 2345678"></mwc-textfield>
+                        </div>
+                        <div class="col-12">
+                            <mwc-textfield label="Dirección" value="Bogotá, Colombia"></mwc-textfield>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <mwc-textfield label="Sub Nombre de la Empresa" value="Gestion de Flota"></mwc-textfield>
-                    </div>
-                    <div class="mb-3">
-                        <mwc-textfield type="email" label="Email de Contacto" value="contacto@cootrasmateriales.com"></mwc-textfield>
-                    </div>
-                    <div class="mb-3">
-                        <mwc-textfield label="Teléfono" value="+57 1 2345678"></mwc-textfield>
-                    </div>
-                    <div class="mb-3">
-                        <mwc-textfield label="Dirección" value="Bogotá, Colombia"></mwc-textfield>
-                    </div>
-                </div>
+                 </div>
                 <div class="tab-pane fade" id="tabSistema">
-                   <div class="mb-3">
-                        <mwc-textfield label="Código para registro" value="2025VEH"></mwc-textfield>
-                    </div>
+              <div class="row g-3">
+            <div class="col-12 col-lg-4">
+                <mwc-textfield label="Código para registro empleados" value="EMPLEADOS_2025"></mwc-textfield>
+            </div>
+            <div class="col-12 col-lg-4">
+                <mwc-textfield label="Código para registro conductores" value="CONDUCTORE_S2025"></mwc-textfield>
+            </div>
+            <div class="col-12 col-lg-4">
+                <mwc-textfield label="Código para registro vehiculos" value="VEHICULOS_2025"></mwc-textfield>
+            </div>
+            <div class="col-12">
+                <div class="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
+                    <input type="checkbox" id="notifications" class="w-4 h-4 rounded border-gray-300 text-brand-green" checked>
+                    <label for="notifications" class="text-sm font-medium text-gray-900">Habilitar notificaciones por correo - OTP de seguridad</label>
                 </div>
+            </div>
+        </div>
+            </div>
                 <div class="tab-pane fade" id="tabIntegraciones">
                     <div class="text-muted">Integraciones con servicios externos.</div>
                 </div>
