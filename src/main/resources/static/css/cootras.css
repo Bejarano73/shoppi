@@ -675,6 +675,9 @@ mwc-textarea{
 .h-100{
     height: 100px !important;
 }
+.h-100vh{
+    height: 100vh !important;
+}
 
 .overflow-y{
     overflow-y: auto;
@@ -855,4 +858,8 @@ mwc-select{
 }
 .overflow-y-auto{
     overflow-y: auto !important;
+}
+
+.cursor{
+    cursor: pointer;
 }

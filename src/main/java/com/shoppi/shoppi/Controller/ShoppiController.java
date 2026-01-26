@@ -1,4 +1,4 @@
-package com.shoppi.shoppi.controller;
+package com.shoppi.shoppi.Controller;
 
 import com.cootras.flota.io.IRespuesta;
 import com.cootras.flota.io.Respuesta;

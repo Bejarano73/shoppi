@@ -1,11 +1,14 @@
 package io;
 
+/**
+ * Interfaz que define los métodos para establecer el estado, mensaje y salida
+ * de una respuesta.
+ */
 public interface IRespuesta {
 
-    public void setEstado(boolean estado);
+    void setEstado(boolean estado);
 
-    public void setMensaje(String mensaje);
+    void setMensaje(String mensaje);
 
-    public void setSalida(Object salida);
-
+    void setSalida(Object salida);
 }
