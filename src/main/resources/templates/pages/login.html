@@ -6,7 +6,7 @@
     <th:block th:insert="fragments/header :: header"></th:block>
     <div id="particles-js"></div>
     <div id="page-content" class="d-flex justify-content-center align-items-center min-vh-100 row m-0" data-title="Inicia sesión / Registro" data-subtitle="Inicia sesión o registra tu vehículo, o regístrate como conductor o empleado">
-        <div class="card card-login shadow-lg rounded-4 w-100 col-lg-6 col-lg-6 cool-md-8 col-sm-8 col-11">
+        <div class="card card-login shadow-lg rounded-4 col-xl-12 col-lg-12 col-md-8 col-sm-10 col-11">
             <div class="row g-0">
                 <!-- Imagen solo en escritorio -->
                 <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center bg-login-image py-2">
@@ -17,44 +17,42 @@
                     <div id="pane-email">
                         <div class="p-4 p-lg-5">
                             <div class="text-center mb-4">
-                                <h1 class="h4 text-gray-900">TruckFlow</h1>
+                                <h1 class="h4 text-gray-900 m-0 p-0">TruckFlow</h1>
                                 <small class="text-muted">Gestión Integral de Solicitudes</small>
                             </div>
+                            <!-- Tabs -->
                             <ul class="nav nav-tabs login-tabs mb-3" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active d-flex align-items-center gap-2" id="tab-email" data-bs-toggle="pill" data-bs-target="#pane-email" type="button" role="tab">
+                                    <button class="nav-link active d-flex align-items-center gap-2" id="tab-email" data-bs-toggle="tab" data-bs-target="#pane-email-content" type="button" role="tab">
                                         <i class="bi bi-envelope-fill"></i>
                                         <span>Email</span>
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link d-flex align-items-center gap-2" id="tab-otp" data-bs-toggle="pill" data-bs-target="#pane-otp" type="button" role="tab">
+                                    <button class="nav-link d-flex align-items-center gap-2" id="tab-otp" data-bs-toggle="tab" data-bs-target="#pane-otp-content" type="button" role="tab">
                                         <i class="bi bi-telephone-fill"></i>
                                         <span>OTP</span>
                                     </button>
                                 </li>
                             </ul>
+
                             <div class="tab-content login-actions">
-                                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-email">
-                                    <form id="form-email" class="mt-2">
+                                <!-- Email -->
+                                <div class="tab-pane fade show active" id="pane-email-content" role="tabpanel" aria-labelledby="tab-email">
+                                    <form id="form-email" class="m-0 p-0">
                                         <label>Email:</label>
                                         <input id="email" type="email" class="form-control" placeholder="correo@empresa.com" required autocomplete="false">
                                         <label for="password">Contraseña:</label>
                                         <div class="input-group">
-                                            <input id="password" type="password" class="form-control"
-                                                   placeholder="Contraseña" required autocomplete="off">
+                                            <input id="password" type="password" class="form-control" placeholder="Contraseña" required autocomplete="off">
                                             <span class="input-group-text cursor" id="togglePassword">
                                                 <i class="bi bi-eye"></i>
                                             </span>
                                         </div>
                                         <button class="btn btn-success w-100 my-2" type="submit">
-                                            <i class="bi bi-box-arrow-in-right"></i>
-                                            Iniciar Sesión
+                                            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
                                         </button>
-                                        <!--                                    <div class="text-center mt-3">
-                                                                                <a href="#" class="small text-decoration-none">¿Olvidaste tu contraseña?</a>
-                                                                            </div>-->
-                                        <div class="text-center my-3">
+                                        <div class="text-center m-0 p-0">
                                             <div class="d-flex align-items-center mb-2">
                                                 <hr class="flex-grow-1">
                                                 <span class="px-2 text-muted small">No tienes cuenta</span>
@@ -66,27 +64,15 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="tab-pane fade" id="pane-otp" role="tabpanel" aria-labelledby="tab-otp">
+
+                                <!-- OTP -->
+                                <div class="tab-pane fade" id="pane-otp-content" role="tabpanel" aria-labelledby="tab-otp">
                                     <form id="form-otp" class="mt-2">
                                         <div class="mb-3 input-group">
                                             <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
                                             <input id="otp-email" type="email" class="form-control" placeholder="correo@empresa.com" required>
                                             <button class="btn btn-outline-success" type="button" id="btn-send-otp">Enviar OTP</button>
                                         </div>
-                                        <div id="otp-sent-msg" class="alert alert-success d-none text-center"></div>
-                                        <div id="otp-code-group" class="mb-3 input-group d-none">
-                                            <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
-                                            <input id="otp-code" type="text" class="form-control" placeholder="Código de 6 dígitos" maxlength="6">
-                                        </div>
-                                        <div id="otp-actions" class="d-flex gap-2 justify-content-between mt-2 d-none">
-                                            <button class="btn btn-outline-success" type="button" id="btn-resend-otp">Reenviar OTP</button>
-                                            <button class="btn btn-outline-secondary" type="button" id="btn-change-email">Cambiar correo</button>
-                                        </div>
-                                        <div id="otp-dev" class="otp-dev text-center text-muted small d-none"></div>
-                                        <button class="btn btn-success w-100" type="submit">
-                                            <i class="bi bi-check2-circle"></i>
-                                            Verificar OTP
-                                        </button>
                                     </form>
                                 </div>
                             </div>
@@ -134,7 +120,6 @@
             </div>
         </div>
     </div>
-
     <th:block th:insert="fragments/footer :: footer"></th:block>
     <!-- Modal Crear Cuenta -->
     <div class="modal fade" id="modal-register" tabindex="-1" aria-hidden="true">
