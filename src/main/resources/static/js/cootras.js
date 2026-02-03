@@ -978,7 +978,7 @@ function crearItemDocumento() {
 
 function crearDocumento( { id, icono, titulo, subtitulo, htmlId, htmlClass }) {
     const $item = $(`
-        <div class="btn-toggle btn-toggle-cootras d-following doc-item mb-2 border-input" data-id="${id}">
+        <div class="btn-toggle btn-toggle-cootras d-following doc-item mb-2 border-input cursor" data-id="${id}" title="${titulo}">
             <div class="row align-items-center g-0">
                 <div class="col-auto">
                     <div class="icon-box d-flex align-items-center justify-content-center">
@@ -1003,11 +1003,14 @@ function crearDocumento( { id, icono, titulo, subtitulo, htmlId, htmlClass }) {
 // === Lógica Global del Spinner ===
 // Mostrar spinner inmediatamente al cargar el script
 if (typeof app !== 'undefined') {
-    app.spinner(true, "Cargando librerias...");
+    let id_ = app.spinner(true, "Cargando librerias...");
+    if (window.location.pathname == "/") {
+        spinner(false, id_);
+    }
 }
 
 // Ocultar spinner cuando toda la página (imágenes, scripts, etc.) haya cargado
-$(window).on('load', function() {
+$(window).on('load', function () {
     setTimeout(() => {
         if (typeof app !== 'undefined') {
             app.spinner(false);
