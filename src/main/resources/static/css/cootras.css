@@ -863,3 +863,29 @@ mwc-select{
 .cursor{
     cursor: pointer;
 }
+#particles-js{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #f5f7fb;
+    z-index: -1;
+}
+
+.border-input{
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 14px 18px;
+    transition: all .3s ease;
+    cursor: pointer;
+    background: #e3e3e354;
+}
+
+.icon-box {
+    width: 48px;
+    height: 48px;
+    background: white;
+    border-radius: 10px !important;
+    color: var(--azul-030045);
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.12);
+}

@@ -1,3 +1,40 @@
+
+$(document).ready(function () {
+    iniciarInterfaz();
+});
+
+function iniciarInterfaz() {
+    libreria_parcialesJS();
+    crearItemDocumento();
+}
+
+function libreria_parcialesJS() {
+    console.log("entras?");
+    particlesJS("particles-js", {
+        particles: {
+            number: {value: 80},
+            color: {value: "#bfc7d5"},
+            shape: {type: "circle"},
+            opacity: {value: 0.5},
+            size: {value: 2},
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#cbd2e0",
+                opacity: 0.4,
+                width: 1
+            },
+            move: {enable: true, speed: 1}
+        },
+        interactivity: {
+            events: {
+                onhover: {enable: true, mode: "grab"}
+            }
+        },
+        retina_detect: true
+    });
+}
+
 const app = {
     setToggleIcon(open) {
         const icon = document.getElementById('menu-icon');
@@ -898,3 +935,69 @@ Object.assign(window, {
 });
 
 window.addEventListener('DOMContentLoaded', () => app.init());
+
+
+particlesJS("particles-js", {
+    particles: {
+        number: {value: 80},
+        color: {value: "#bfc7d5"},
+        shape: {type: "circle"},
+        opacity: {value: 0.5},
+        size: {value: 2},
+        line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#cbd2e0",
+            opacity: 0.4,
+            width: 1
+        },
+        move: {enable: true, speed: 1}
+    },
+    interactivity: {
+        events: {
+            onhover: {enable: true, mode: "grab"}
+        }
+    },
+    retina_detect: true
+});
+
+
+function crearItemDocumento() {
+    $("[data-component='documento']").each(function () {
+        const $el = $(this);
+        const item = crearDocumento({
+            id: $el.data("id"),
+            icono: $el.data("icono"),
+            titulo: $el.data("titulo"),
+            subtitulo: $el.data("subtitulo"),
+            htmlId: $el.data("id-html"),
+            htmlClass: $el.data("class-html") // 👈 AQUÍ
+        });
+        $el.replaceWith(item);
+    });
+}
+
+function crearDocumento( { id, icono, titulo, subtitulo, htmlId, htmlClass }) {
+    const $item = $(`
+        <div class="btn-toggle btn-toggle-cootras d-following doc-item mb-2 border-input" data-id="${id}">
+            <div class="row align-items-center g-0">
+                <div class="col-auto">
+                    <div class="icon-box d-flex align-items-center justify-content-center">
+                        <i class="bi ${icono} f-25"></i>
+                    </div>
+                </div>
+                <div class="col ps-3">
+                    <div class="fw-semibold text-dark">${titulo}</div>
+                    <div class="text-muted small">${subtitulo}</div>
+                </div>
+                <div class="col-auto">
+                    <i class="bi bi-chevron-right text-secondary fs-5"></i>
+                </div>
+            </div>
+        </div>
+    `);
+    htmlId && $item.attr("id", htmlId);
+    htmlClass && $item.addClass(htmlClass);
+    return $item;
+}
+
