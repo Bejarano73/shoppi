@@ -56,4 +56,8 @@ public class PageController {
     public String login() {
         return "pages/login";
     }
+    @GetMapping(value = "/formulariopago", produces = MediaType.TEXT_HTML_VALUE)
+    public String formulariopago() {
+        return "pages/formulariopago";
+    }
 }

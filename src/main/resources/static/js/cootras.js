@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     iniciarInterfaz();
 });
@@ -1001,3 +1000,19 @@ function crearDocumento( { id, icono, titulo, subtitulo, htmlId, htmlClass }) {
     return $item;
 }
 
+// === Lógica Global del Spinner ===
+// Mostrar spinner inmediatamente al cargar el script
+if (typeof app !== 'undefined') {
+    app.spinner(true, "Cargando librerias...");
+}
+
+// Ocultar spinner cuando toda la página (imágenes, scripts, etc.) haya cargado
+$(window).on('load', function() {
+    setTimeout(() => {
+        if (typeof app !== 'undefined') {
+            app.spinner(false);
+        } else {
+            $('#spinner').addClass('d-none');
+        }
+    }, 500);
+});

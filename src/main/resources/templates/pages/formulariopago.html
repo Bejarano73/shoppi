@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:replace="layouts/main :: head-app"></head>
+
+<body>
+    <th:block th:insert="fragments/header :: header"></th:block>
+    <div id="page-content" class="d-flex justify-content-center align-items-center min-vh-100 row"
+        data-title="Formulario de Pago"
+        data-subtitle="Completa tu información de pago a continuación">
+        <h1>Formulario de Pago</h1>
+        <h6>hola mundoes</h6>
+        <form>
+            <label for="cardNumber">Número de Tarjeta:</label>
+            <input type="text" id="cardNumber" name="cardNumber" required><br><br>
+
+            <label for="expiryDate">Fecha de Expiración:</label>
+            <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/AA" required><br><br>
+
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" required><br><br>
+
+            <label for="cardHolder">Nombre del Titular:</label>
+            <input type="text" id="cardHolder" name="cardHolder" required><br><br>
+
+            <button type="submit">Pagar</button>
+        </form>
+    </div>
+    <th:block th:replace="layouts/main :: footer-app"></th:block>
+</body>
+
+
+</html>

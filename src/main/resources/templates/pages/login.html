@@ -1,140 +1,248 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head th:replace="layouts/main :: head-app"></head>
-    <link th:href="@{/css/login.css}" rel="stylesheet" />
-    <body>
+
+<head th:replace="layouts/main :: head-app"></head>
+<link th:href="@{/css/login.css}" rel="stylesheet" />
+
+<body>
     <th:block th:insert="fragments/header :: header"></th:block>
     <div id="particles-js"></div>
-    <div id="page-content" class="d-flex justify-content-center align-items-center min-vh-100 row m-0" data-title="Inicia sesión / Registro" data-subtitle="Inicia sesión o registra tu vehículo, o regístrate como conductor o empleado">
-        <div class="card card-login shadow-lg rounded-4 w-100 col-lg-6 col-lg-6 cool-md-8 col-sm-8 col-11">
-            <div class="row g-0">
+    <div id="page-content" class="d-flex justify-content-center align-items-center min-vh-100 row m-0"
+        data-title="Inicia sesión / Registro"
+        data-subtitle="Inicia sesión o registra tu vehículo, o regístrate como conductor o empleado">
+        <div class="card card-login shadow-lg rounded-4 col-xl-12 col-lg-12 col-md-8 col-sm-10 col-11">
+            <div class="row" id="create_empresa">
                 <!-- Imagen solo en escritorio -->
                 <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center bg-login-image py-2">
                     <img th:src="@{/img/servicios.png}" class="img-fluid" width="330" alt="Gestión de Flota">
                 </div>
                 <!-- Formulario -->
-                <div  class="col-lg-6 col-12 m-auto">
-                    <div id="pane-email">
-                        <div class="p-4 p-lg-5">
-                            <div class="text-center mb-4">
-                                <h1 class="h4 text-gray-900">TruckFlow</h1>
-                                <small class="text-muted">Gestión Integral de Solicitudes</small>
+                <div class="col-lg-6 col-12 m-auto">
+
+                    <div id="pane-email" class="p-4 p-lg-5">
+                        <div class="text-center mb-4">
+                            <h1 class="h4 text-gray-900 m-0 p-0">TruckFlow</h1>
+                            <small class="text-muted">Gestión Integral de Solicitudes</small>
+                        </div>
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs login-tabs mb-3" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active d-flex align-items-center gap-2" id="tab-email"
+                                    data-bs-toggle="tab" data-bs-target="#pane-email-content" type="button" role="tab">
+                                    <i class="bi bi-envelope-fill"></i>
+                                    <span>Email</span>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link d-flex align-items-center gap-2" id="tab-otp"
+                                    data-bs-toggle="tab" data-bs-target="#pane-otp-content" type="button" role="tab">
+                                    <i class="bi bi-telephone-fill"></i>
+                                    <span>OTP</span>
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content login-actions">
+                            <!-- Email -->
+                            <div class="tab-pane fade show active" id="pane-email-content" role="tabpanel"
+                                aria-labelledby="tab-email">
+                                <form id="form-email" class="m-0 p-0">
+                                    <label>Email:</label>
+                                    <input id="email" type="email" class="form-control" placeholder="correo@empresa.com"
+                                        required autocomplete="false">
+                                    <label for="password">Contraseña:</label>
+                                    <div class="input-group">
+                                        <input id="password" type="password" class="form-control"
+                                            placeholder="Contraseña" required autocomplete="off">
+                                        <span class="input-group-text cursor" id="togglePassword">
+                                            <i class="bi bi-eye"></i>
+                                        </span>
+                                    </div>
+                                    <button class="btn btn-success w-100 my-2" type="submit">
+                                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                                    </button>
+                                    <div class="text-center m-0 p-0">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <hr class="flex-grow-1">
+                                            <span class="px-2 text-muted small">No tienes cuenta</span>
+                                            <hr class="flex-grow-1">
+                                        </div>
+                                        <button id="btn_crear_cuenta" class="btn btn-outline-secondary w-100">
+                                            Crear cuenta
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <ul class="nav nav-tabs login-tabs mb-3" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active d-flex align-items-center gap-2" id="tab-email" data-bs-toggle="pill" data-bs-target="#pane-email" type="button" role="tab">
-                                        <i class="bi bi-envelope-fill"></i>
-                                        <span>Email</span>
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link d-flex align-items-center gap-2" id="tab-otp" data-bs-toggle="pill" data-bs-target="#pane-otp" type="button" role="tab">
-                                        <i class="bi bi-telephone-fill"></i>
-                                        <span>OTP</span>
-                                    </button>
-                                </li>
-                            </ul>
-                            <div class="tab-content login-actions">
-                                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-email">
-                                    <form id="form-email" class="mt-2">
-                                        <label>Email:</label>
-                                        <input id="email" type="email" class="form-control" placeholder="correo@empresa.com" required autocomplete="false">
-                                        <label for="password">Contraseña:</label>
-                                        <div class="input-group">
-                                            <input id="password" type="password" class="form-control"
-                                                   placeholder="Contraseña" required autocomplete="off">
-                                            <span class="input-group-text cursor" id="togglePassword">
-                                                <i class="bi bi-eye"></i>
-                                            </span>
-                                        </div>
-                                        <button class="btn btn-success w-100 my-2" type="submit">
-                                            <i class="bi bi-box-arrow-in-right"></i>
-                                            Iniciar Sesión
-                                        </button>
-                                        <!--                                    <div class="text-center mt-3">
-                                                                                <a href="#" class="small text-decoration-none">¿Olvidaste tu contraseña?</a>
-                                                                            </div>-->
-                                        <div class="text-center my-3">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <hr class="flex-grow-1">
-                                                <span class="px-2 text-muted small">No tienes cuenta</span>
-                                                <hr class="flex-grow-1">
-                                            </div>
-                                            <button id="btn_crear_cuenta" class="btn btn-outline-secondary w-100">
-                                                Crear cuenta
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="tab-pane fade" id="pane-otp" role="tabpanel" aria-labelledby="tab-otp">
-                                    <form id="form-otp" class="mt-2">
-                                        <div class="mb-3 input-group">
-                                            <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-                                            <input id="otp-email" type="email" class="form-control" placeholder="correo@empresa.com" required>
-                                            <button class="btn btn-outline-success" type="button" id="btn-send-otp">Enviar OTP</button>
-                                        </div>
-                                        <div id="otp-sent-msg" class="alert alert-success d-none text-center"></div>
-                                        <div id="otp-code-group" class="mb-3 input-group d-none">
-                                            <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
-                                            <input id="otp-code" type="text" class="form-control" placeholder="Código de 6 dígitos" maxlength="6">
-                                        </div>
-                                        <div id="otp-actions" class="d-flex gap-2 justify-content-between mt-2 d-none">
-                                            <button class="btn btn-outline-success" type="button" id="btn-resend-otp">Reenviar OTP</button>
-                                            <button class="btn btn-outline-secondary" type="button" id="btn-change-email">Cambiar correo</button>
-                                        </div>
-                                        <div id="otp-dev" class="otp-dev text-center text-muted small d-none"></div>
-                                        <button class="btn btn-success w-100" type="submit">
-                                            <i class="bi bi-check2-circle"></i>
-                                            Verificar OTP
-                                        </button>
-                                    </form>
-                                </div>
+
+                            <!-- OTP -->
+                            <div class="tab-pane fade" id="pane-otp-content" role="tabpanel" aria-labelledby="tab-otp">
+                                <form id="form-otp" class="mt-2">
+                                    <div class="mb-3 input-group">
+                                        <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                        <input id="otp-email" type="email" class="form-control"
+                                            placeholder="correo@empresa.com" required>
+                                        <button class="btn btn-outline-success" type="button" id="btn-send-otp">Enviar
+                                            OTP</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div id="elige_tipo_cuenta" class="d-none my-5">
                         <div class=" border-input">
                             <div class="d-flex align-items-center text-muted">
-                                <i id="return_pane-email"    title="Retroceder al menú principal" class="bi bi-arrow-left me-2 cursor"></i>
+                                <i id="return_panel_email" title="Retroceder al menú principal"
+                                    class="bi bi-arrow-left me-2 cursor"></i>
                                 <span>Elige el tipo de cuenta que deseas crear</span>
                             </div>
                         </div>
                         <div>
-                            <div data-component="documento"
-                                 data-id="1"
-                                 data-icono="bi-building"
-                                 data-titulo="Empresa"
-                                 data-class-html="mt-2"
-                                 data-subtitulo="Crear y gestionar solicitudes de transporte.">
+                            <div data-component="documento" data-id="1" data-icono="bi-building" data-titulo="Empresa"
+                                data-class-html="mt-2" data-subtitulo="Crear y gestionar solicitudes de transporte.">
                             </div>
 
-                            <div data-component="documento"
-                                 data-id="2"
-                                 data-icono="bi-shop"
-                                 data-titulo="Tienda"
-                                 data-subtitulo="Administrar pedidos y solicitudes de transporte.">
+                            <div data-component="documento" data-id="2" data-icono="bi-shop" data-titulo="Tienda"
+                                data-subtitulo="Administrar pedidos y solicitudes de transporte.">
                             </div>
 
-                            <div data-component="documento"
-                                 data-id="3"
-                                 data-icono="bi-person-badge"
-                                 data-titulo="Conductor"
-                                 data-subtitulo="Registrar y gestionar conductores y sus solicitudes.">
+                            <div data-component="documento" data-id="3" data-icono="bi-person-badge"
+                                data-titulo="Conductor"
+                                data-subtitulo="Registrar y gestionar conductores y sus solicitudes.">
                             </div>
 
-                            <div data-component="documento"
-                                 data-id="4"
-                                 data-icono="bi-truck"
-                                 data-titulo="Vehículo"
-                                 data-subtitulo="Registrar vehículos y administrar su operación.">
+                            <div data-component="documento" data-id="4" data-icono="bi-truck" data-titulo="Vehículo"
+                                data-subtitulo="Registrar vehículos y administrar su operación.">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div id="registro_empresa" class="d-none">
+                <div class=" border-input my-2">
+                    <div class="d-flex align-items-center text-muted">
+                        <i id="return_opciones" title="Retroceder al menú principal" class="bi bi-arrow-left me-2 cursor"></i>
+                        <span id="text_cuenta"></span>
+                    </div>
+                </div>
+                <form id="registroForm">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="codigo" class="form-label">Código de Registro</label>
+                            <input type="text" id="codigo" class="form-control input-global" placeholder="EJ: EMP001">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="identificacion" class="form-label">Identificación</label>
+                            <input type="text" id="identificacion" class="form-control input-global"
+                                placeholder="EJ: 900123456-7">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="nombre" class="form-label">Nombre / Razón Social</label>
+                            <input type="text" id="nombre" class="form-control input-global"
+                                placeholder="EJ: Juan / Transporte ABC S.A.S">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" id="apellido" class="form-control input-global" placeholder="Pérez">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="fechaExpedicion" class="form-label">Fecha de Expedición</label>
+                            <input type="date" id="fechaExpedicion" class="form-control input-global">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="ciudadExpedicion" class="form-label">Ciudad de Expedición</label>
+                            <input type="text" id="ciudadExpedicion" class="form-control input-global"
+                                placeholder="Bogotá">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" id="fechaNacimiento" class="form-control input-global">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="genero" class="form-label">Género / Sexo</label>
+                            <select id="genero" class="form-control input-global">
+                                <option value="">Seleccione...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="O">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" id="direccion" class="form-control input-global"
+                                placeholder="Calle 123 #45-67">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="correo" class="form-label">Correo Electrónico</label>
+                            <input type="email" id="correo" class="form-control input-global"
+                                placeholder="correo@dominio.com">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="confirmarCorreo" class="form-label">Confirmar Correo</label>
+                            <input type="email" id="confirmarCorreo" class="form-control input-global"
+                                placeholder="correo@dominio.com">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="usuario" class="form-label">Usuario</label>
+                            <input type="text" id="usuario" class="form-control input-global" placeholder="Usuario123">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" id="password" class="form-control input-global"
+                                placeholder="********">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="tipoLicencia" class="form-label">Tipo de Licencia</label>
+                            <select id="tipoLicencia" class="form-control input-global">
+                                <option value="">Seleccione...</option>
+                                <option value="A1">A1</option>
+                                <option value="B1">B1</option>
+                                <option value="C1">C1</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="tipoVehiculo" class="form-label">Tipo de Vehículo</label>
+                            <select id="tipoVehiculo" class="form-control input-global">
+                                <option value="">Seleccione...</option>
+                                <option value="Carro">Carro</option>
+                                <option value="Moto">Moto</option>
+                                <option value="Camión">Camión</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="soat" class="form-label">SOAT (Fecha Vencimiento)</label>
+                            <input type="date" id="soat" class="form-control input-global">
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <label for="tecno" class="form-label">Tecnomecánica (Fecha Vencimiento)</label>
+                            <input type="date" id="tecno" class="form-control input-global">
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
-
     <th:block th:insert="fragments/footer :: footer"></th:block>
     <!-- Modal Crear Cuenta -->
     <div class="modal fade" id="modal-register" tabindex="-1" aria-hidden="true">
@@ -150,7 +258,8 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-12 col-md-6">
-                            <a id="btn-register-empresa" class="text-decoration-none d-block content-card p-3 cursor-pointer">
+                            <a id="btn-register-empresa"
+                                class="text-decoration-none d-block content-card p-3 cursor-pointer">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="brand-icon"><i class="bi bi-building"></i></div>
                                     <div>
@@ -161,7 +270,8 @@
                             </a>
                         </div>
                         <div class="col-12 col-md-6">
-                            <a id="btn-register-conductor" class="text-decoration-none d-block content-card p-3 cursor-pointer">
+                            <a id="btn-register-conductor"
+                                class="text-decoration-none d-block content-card p-3 cursor-pointer">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="brand-icon"><i class="bi bi-person"></i></div>
                                     <div>
@@ -179,105 +289,8 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal Registro Empresa -->
-    <div class="modal fade" id="modal-register-empresa" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title-group">
-                        <h5 class="modal-title text-dark">Datos de la Empresa</h5>
-                        <small class="modal-subtitle">Únete a TruckFlow hoy</small>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="form-register-empresa">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <input id="emp-nombre" type="text" class="form-control" placeholder="Nombre de la Empresa *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="emp-nit" type="text" class="form-control" placeholder="NIT / RUT *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="emp-servicio" type="text" class="form-control" placeholder="Tipo de Servicio" value="Transporte de Carga">
-                            </div>
-                            <div class="col-md-6">
-                                <input id="emp-email" type="email" class="form-control" placeholder="Correo Electrónico *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="emp-telefono" type="text" class="form-control" placeholder="Teléfono">
-                            </div>
-                            <div class="col-md-6">
-                                <input id="emp-cantidad" type="number" class="form-control" placeholder="Cantidad de Vehículos">
-                            </div>
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6">
-                                <input id="emp-pass" type="password" class="form-control" placeholder="Contraseña *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="emp-pass2" type="password" class="form-control" placeholder="Confirmar Contraseña *" required>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-success w-100" type="submit">Crear Cuenta</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Registro Conductor -->
-    <div class="modal fade" id="modal-register-conductor" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title-group">
-                        <h5 class="modal-title text-dark">Datos del Conductor</h5>
-                        <small class="modal-subtitle">Únete a TruckFlow hoy</small>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="form-register-conductor">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <input id="con-nombre" type="text" class="form-control" placeholder="Nombre Completo *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="con-doc" type="text" class="form-control" placeholder="Documento *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="con-email" type="email" class="form-control" placeholder="Correo Electrónico *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="con-telefono" type="text" class="form-control" placeholder="Teléfono">
-                            </div>
-                            <div class="col-md-6">
-                                <input id="con-licencia" type="text" class="form-control" placeholder="Licencia">
-                            </div>
-                            <div class="col-md-6">
-                                <input id="con-categoria" type="text" class="form-control" placeholder="Categoría">
-                            </div>
-                            <div class="col-md-6">
-                                <input id="con-pass" type="password" class="form-control" placeholder="Contraseña *" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="con-pass2" type="password" class="form-control" placeholder="Confirmar Contraseña *" required>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-success w-100" type="submit">Crear Cuenta</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script th:src="@{/js/login.js}"></script>
     <th:block th:replace="layouts/main :: footer-app"></th:block>
+    <script th:src="@{/js/login.js}"></script>
 </body>
+
 </html>

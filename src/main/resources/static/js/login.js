@@ -4,214 +4,272 @@ $(document).ready(function () {
 });
 
 function iniciarInterfaz() {
+    console.log("Iniciando interfaz de login con jQuery");
     boton_mostrar_password();
-    btn_funciones();
+    // btn_funciones();
+    btn_funciones_registro();
+    crearItemDocumento();
 }
 
-function btn_funciones() {
+function btn_funciones_registro() {
     $("#btn_crear_cuenta").click(function (e) {
         e.preventDefault();
-        console.log("aca estamos?");
         $("#elige_tipo_cuenta").removeClass("d-none");
         $("#pane-email").addClass("d-none");
     });
-    $("#return_pane-email").click(function () {
+   $("#return_panel_email").click(function (e) {
+        e.preventDefault();
         $("#elige_tipo_cuenta").addClass("d-none");
         $("#pane-email").removeClass("d-none");
     });
     $(".btn-toggle-cootras").click(function (e) {
-        const id_tipo = $(this).data("id");
-        console.log(id_tipo);
-    });
-}
+        e.preventDefault();
+        $("#elige_tipo_cuenta, #create_empresa").addClass("d-none");
+        $("#registro_empresa").removeClass("d-none");
+        let id = $(this).data("id");
+        if (id == 1) {
+            $("#text_cuenta").text("Crear cuenta de Empresa");
 
-function boton_mostrar_password() {
-    $("#togglePassword").on("click", function () {
-        const input = $("#password");
-        const icon = $(this).find("i");
+        } else if (id == 2) {
+            $("#text_cuenta").text("Crear cuenta de Conductor");
 
-        if (input.attr("type") === "password") {
-            input.attr("type", "text");
-            icon.removeClass("bi-eye").addClass("bi-eye-slash");
-        } else {
-            input.attr("type", "password");
-            icon.removeClass("bi-eye-slash").addClass("bi-eye");
+        } else if (id == 3) {
+            $("#text_cuenta").text("Crear cuenta de Cliente");
+
+        } else if (id == 4) {
+            $("#text_cuenta").text("Crear cuenta de Proveedor");
+
         }
     });
+    $("#return_opciones").click(function (e) {
+        e.preventDefault();
+        $("#registro_empresa").addClass("d-none");  
+        $("#create_empresa, #elige_tipo_cuenta").removeClass("d-none");
+    });
+}
+function boton_mostrar_password() {
+    $('#togglePassword').click(function () {
+        let input = $('#password');
+        let type = input.attr('type') === 'password' ? 'text' : 'password';
+        input.attr('type', type);
+        $(this).toggleClass('bi-eye').toggleClass('bi-eye-slash');
+    });
 }
 
-(() => {
-    const qs = (s) => document.querySelector(s);
-    const emailForm = qs('#form-email');
-    const otpForm = qs('#form-otp');
-    const sendOtpBtn = qs('#btn-send-otp');
-    const resendOtpBtn = qs('#btn-resend-otp');
-    const changeEmailBtn = qs('#btn-change-email');
-    const otpMsg = qs('#otp-sent-msg');
-    const otpCodeGroup = qs('#otp-code-group');
-    const otpDev = qs('#otp-dev');
+function btn_funciones() {
+    // === Variables y Elementos ===
+    const emailForm = $('#form-email');
+    const otpForm = $('#form-otp');
+    const sendOtpBtn = $('#btn-send-otp');
+    const resendOtpBtn = $('#btn-resend-otp');
+    const changeEmailBtn = $('#btn-change-email');
+    const otpMsg = $('#otp-sent-msg');
+    const otpCodeGroup = $('#otp-code-group');
+    const otpDev = $('#otp-dev');
+    const otpInput = $('#otp-code');
+    const otpEmailInput = $('#otp-email');
+    const otpActions = $('#otp-actions');
 
+    // === Helpers ===
     const notify = (msg, ok = true) => {
-        const el = document.createElement('div');
-        el.className = `alert alert-${ok ? 'success' : 'danger'} mt-3`;
-        el.textContent = msg;
-        const parent = document.querySelector('#pane-email.show') ? emailForm : otpForm;
-        parent.appendChild(el);
-        setTimeout(() => el.remove(), 3500);
+        const el = $(`<div class="alert alert-${ok ? 'success' : 'danger'} mt-3">${msg}</div>`);
+        const parent = $('#pane-email').hasClass('show') ? ($('#form-email').length ? $('#form-email') : emailForm) : otpForm;
+
+        if (parent.length) {
+            parent.append(el);
+            setTimeout(() => el.remove(), 3500);
+        }
     };
 
-    if (emailForm) {
-        emailForm.addEventListener('submit', async (e) => {
+    // === Login Email/Pass ===
+    if (emailForm.length) {
+        emailForm.on('submit', async function (e) {
             e.preventDefault();
-            const email = qs('#email').value.trim();
-            const password = qs('#password').value.trim();
+            const email = $('#email').val().trim();
+            const password = $('#password').val().trim();
+
+            if (typeof app !== 'undefined') app.spinner(true, "Autenticando...");
+
             try {
                 const r = await fetch('/api/auth/login', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({email, password})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
                 });
                 const j = await r.json();
                 if (j.estado) {
                     notify('Sesión iniciada');
                     setTimeout(() => location.href = '/dashboard', 800);
                 } else {
+                    if (typeof app !== 'undefined') app.spinner(false);
                     notify(j.mensaje || 'Error de autenticación', false);
                 }
             } catch (err) {
+                if (typeof app !== 'undefined') app.spinner(false);
                 notify('Error conectando con el servidor', false);
             }
         });
     }
 
-    if (sendOtpBtn) {
-        sendOtpBtn.addEventListener('click', async () => {
-            const email = qs('#otp-email').value.trim();
+    // === OTP Flow ===
+    if (sendOtpBtn.length) {
+        sendOtpBtn.on('click', async function () {
+            const email = otpEmailInput.val().trim();
             if (!email) {
                 notify('Ingresa tu correo para enviar OTP', false);
                 return;
             }
+            if (typeof app !== 'undefined') app.spinner(true, "Enviando código...");
+
             try {
                 const r = await fetch('/api/auth/request-otp', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({email})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
                 });
                 const j = await r.json();
+                if (typeof app !== 'undefined') app.spinner(false);
+
                 if (j.estado) {
-                    otpMsg.classList.remove('d-none');
-                    otpMsg.textContent = `Hemos enviado un código a ${email}`;
-                    otpCodeGroup.classList.remove('d-none');
-                    qs('#otp-code').setAttribute('required', 'true');
-                    qs('#otp-email').setAttribute('disabled', 'true');
-                    qs('#otp-actions').classList.remove('d-none');
-                    setTimeout(() => qs('#otp-code').focus(), 50);
-                    if (otpDev && j.salida && j.salida.devOtp) {
-                        otpDev.textContent = `Solo dev: ${j.salida.devOtp}`;
-                        otpDev.classList.remove('d-none');
+                    otpMsg.removeClass('d-none').text(`Hemos enviado un código a ${email}`);
+                    otpCodeGroup.removeClass('d-none');
+                    otpInput.attr('required', true);
+                    otpEmailInput.attr('disabled', true);
+                    otpActions.removeClass('d-none');
+                    setTimeout(() => otpInput.focus(), 50);
+                    if (otpDev.length && j.salida && j.salida.devOtp) {
+                        otpDev.text(`Solo dev: ${j.salida.devOtp}`).removeClass('d-none');
                     }
                 } else {
                     notify(j.mensaje || 'No se pudo enviar el OTP', false);
                 }
             } catch (err) {
+                if (typeof app !== 'undefined') app.spinner(false);
                 notify('Error conectando con el servidor', false);
             }
         });
     }
 
-    if (resendOtpBtn) {
-        resendOtpBtn.addEventListener('click', () => sendOtpBtn.click());
+    if (resendOtpBtn.length) {
+        resendOtpBtn.on('click', () => sendOtpBtn.click());
     }
 
-    if (changeEmailBtn) {
-        changeEmailBtn.addEventListener('click', () => {
-            qs('#otp-email').removeAttribute('disabled');
-            otpCodeGroup.classList.add('d-none');
-            qs('#otp-code').removeAttribute('required');
-            qs('#otp-code').value = '';
-            qs('#otp-actions').classList.add('d-none');
-            otpMsg.classList.add('d-none');
-            otpDev && otpDev.classList.add('d-none');
-            setTimeout(() => qs('#otp-email').focus(), 50);
+    if (changeEmailBtn.length) {
+        changeEmailBtn.on('click', function () {
+            otpEmailInput.removeAttr('disabled');
+            otpCodeGroup.addClass('d-none');
+            otpInput.removeAttr('required').val('');
+            otpActions.addClass('d-none');
+            otpMsg.addClass('d-none');
+            if (otpDev.length) otpDev.addClass('d-none');
+            setTimeout(() => otpEmailInput.focus(), 50);
         });
     }
 
-    if (otpForm) {
-        otpForm.addEventListener('submit', async (e) => {
+    if (otpForm.length) {
+        otpForm.on('submit', async function (e) {
             e.preventDefault();
-            const email = qs('#otp-email').value.trim();
-            const otp = qs('#otp-code').value.trim();
+            const email = otpEmailInput.val().trim();
+            const otp = otpInput.val().trim();
+
+            if (typeof app !== 'undefined') app.spinner(true, "Verificando...");
+
             try {
                 const r = await fetch('/api/auth/verify-otp', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({email, otp})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp })
                 });
                 const j = await r.json();
                 if (j.estado) {
                     notify('OTP verificado');
                     setTimeout(() => location.href = '/dashboard', 800);
                 } else {
+                    if (typeof app !== 'undefined') app.spinner(false);
                     notify(j.mensaje || 'OTP inválido', false);
                 }
             } catch (err) {
+                if (typeof app !== 'undefined') app.spinner(false);
                 notify('Error conectando con el servidor', false);
             }
         });
     }
 
-    const openRegisterBtn = document.getElementById('link-register-open');
-    const modalEl = document.getElementById('modal-register');
-    const registerEmpresa = document.getElementById('btn-register-empresa');
-    const registerConductor = document.getElementById('btn-register-conductor');
-    const modalEmpresaEl = document.getElementById('modal-register-empresa');
-    const modalConductorEl = document.getElementById('modal-register-conductor');
-    if (openRegisterBtn && modalEl) {
-        openRegisterBtn.addEventListener('click', (e) => {
+    // === Registration Modals ===
+    const openRegisterBtn = $('#btn_crear_cuenta'); // Corregido selector
+    const modalEl = $('#modal-register');
+    const registerEmpresa = $('#btn-register-empresa');
+    const registerConductor = $('#btn-register-conductor');
+    const modalEmpresaEl = $('#modal-register-empresa');
+    const modalConductorEl = $('#modal-register-conductor');
+
+    if (openRegisterBtn.length && modalEl.length) {
+        openRegisterBtn.on('click', function (e) {
             e.preventDefault();
-            const modal = new bootstrap.Modal(modalEl);
+            const modal = new bootstrap.Modal(modalEl[0]);
             modal.show();
         });
     }
-    if (registerEmpresa) {
-        registerEmpresa.addEventListener('click', (e) => {
+
+    if (registerEmpresa.length) {
+        registerEmpresa.on('click', function (e) {
             e.preventDefault();
-            const mSel = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-            mSel.hide();
-            const mEmp = new bootstrap.Modal(modalEmpresaEl);
+            // Cerrar modal selección
+            const mSel = bootstrap.Modal.getInstance(modalEl[0]);
+            if (mSel) mSel.hide();
+
+            // Abrir modal empresa
+            const mEmp = new bootstrap.Modal(modalEmpresaEl[0]);
             mEmp.show();
         });
     }
-    if (registerConductor) {
-        registerConductor.addEventListener('click', (e) => {
+
+    if (registerConductor.length) {
+        registerConductor.on('click', function (e) {
             e.preventDefault();
-            const mSel = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-            mSel.hide();
-            const mCon = new bootstrap.Modal(modalConductorEl);
+            // Cerrar modal selección
+            const mSel = bootstrap.Modal.getInstance(modalEl[0]);
+            if (mSel) mSel.hide();
+
+            // Abrir modal conductor
+            const mCon = new bootstrap.Modal(modalConductorEl[0]);
             mCon.show();
         });
     }
 
-    const formEmp = document.getElementById('form-register-empresa');
-    const formCon = document.getElementById('form-register-conductor');
+    // === Simulación de Registro ===
+    const formEmp = $('#form-register-empresa');
+    const formCon = $('#form-register-conductor');
+
     const simulateSubmit = async (form) => {
-        const btn = form.querySelector('button[type="submit"]');
-        btn.disabled = true;
-        btn.textContent = 'Creando...';
-        await new Promise(r => setTimeout(r, 800));
-        btn.disabled = false;
-        btn.textContent = 'Crear Cuenta';
-        const alert = document.createElement('div');
-        alert.className = 'alert alert-success mt-3';
-        alert.textContent = 'Cuenta creada (simulado)';
-        form.appendChild(alert);
-        setTimeout(() => alert.remove(), 2500);
+        const btn = form.find('button[type="submit"]');
+        const originalText = btn.text();
+        btn.prop('disabled', true).text('Creando...');
+
+        if (typeof app !== 'undefined') app.spinner(true, "Registrando...");
+
+        await new Promise(r => setTimeout(r, 1500));
+
+        if (typeof app !== 'undefined') app.spinner(false);
+
+        btn.prop('disabled', false).text(originalText);
+
+        const alert = $('<div class="alert alert-success mt-3">Cuenta creada con éxito (simulado)</div>');
+        form.append(alert);
+
+        setTimeout(() => {
+            alert.remove();
+            // Cerrar modal
+            const modalInstance = bootstrap.Modal.getInstance(form.closest('.modal')[0]);
+            if (modalInstance) modalInstance.hide();
+        }, 2000);
     };
-    if (formEmp) {
-        formEmp.addEventListener('submit', async (e) => {
+
+    if (formEmp.length) {
+        formEmp.on('submit', async function (e) {
             e.preventDefault();
-            const p1 = document.getElementById('emp-pass').value;
-            const p2 = document.getElementById('emp-pass2').value;
+            const p1 = $('#emp-pass').val();
+            const p2 = $('#emp-pass2').val();
             if (p1 !== p2) {
                 notify('Las contraseñas no coinciden', false);
                 return;
@@ -219,11 +277,12 @@ function boton_mostrar_password() {
             await simulateSubmit(formEmp);
         });
     }
-    if (formCon) {
-        formCon.addEventListener('submit', async (e) => {
+
+    if (formCon.length) {
+        formCon.on('submit', async function (e) {
             e.preventDefault();
-            const p1 = document.getElementById('con-pass').value;
-            const p2 = document.getElementById('con-pass2').value;
+            const p1 = $('#con-pass').val();
+            const p2 = $('#con-pass2').val();
             if (p1 !== p2) {
                 notify('Las contraseñas no coinciden', false);
                 return;
@@ -231,4 +290,4 @@ function boton_mostrar_password() {
             await simulateSubmit(formCon);
         });
     }
-})();
+}
