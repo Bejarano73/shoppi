@@ -17,7 +17,7 @@ function btn_funciones_registro() {
         $("#elige_tipo_cuenta").removeClass("d-none");
         $("#pane-email").addClass("d-none");
     });
-   $("#return_panel_email").click(function (e) {
+    $("#return_panel_email").click(function (e) {
         e.preventDefault();
         $("#elige_tipo_cuenta").addClass("d-none");
         $("#pane-email").removeClass("d-none");
@@ -31,22 +31,43 @@ function btn_funciones_registro() {
             $("#text_cuenta").text("Crear cuenta de Empresa");
 
         } else if (id == 2) {
-            $("#text_cuenta").text("Crear cuenta de Conductor");
-
-        } else if (id == 3) {
             $("#text_cuenta").text("Crear cuenta de Cliente");
 
+        } else if (id == 3) {
+            $("#text_cuenta").text("Crear cuenta de Conductor");
+
         } else if (id == 4) {
-            $("#text_cuenta").text("Crear cuenta de Proveedor");
+            $("#text_cuenta").text("Crear cuenta de Vehículo");
 
         }
     });
     $("#return_opciones").click(function (e) {
         e.preventDefault();
-        $("#registro_empresa").addClass("d-none");  
+        $("#registro_empresa").addClass("d-none");
         $("#create_empresa, #elige_tipo_cuenta").removeClass("d-none");
     });
+
+    
+
+    $("#recuperacion_password").off().click(function (e) {
+        e.preventDefault();
+        $("#modal_recuperar_password").modal("show");
+    });
+    $("#btn-send-otp").off().click(function (e) {
+        e.preventDefault();
+        $("#modal_verificar_otp").modal("show");
+    });
+
+    $("#btn_confirmar_otp").off().click(function (e) {
+        e.preventDefault();
+        var otp = $(".otp").val();
+        if (otp == "") {
+            alert("Por favor, ingrese el código de recuperación.");
+            return;
+        }
+    });
 }
+
 function boton_mostrar_password() {
     $('#togglePassword').click(function () {
         let input = $('#password');
@@ -55,6 +76,8 @@ function boton_mostrar_password() {
         $(this).toggleClass('bi-eye').toggleClass('bi-eye-slash');
     });
 }
+
+
 
 function btn_funciones() {
     // === Variables y Elementos ===
@@ -236,6 +259,8 @@ function btn_funciones() {
             mCon.show();
         });
     }
+
+
 
     // === Simulación de Registro ===
     const formEmp = $('#form-register-empresa');

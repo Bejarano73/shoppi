@@ -14,14 +14,15 @@
             <div class="row" id="create_empresa">
                 <!-- Imagen solo en escritorio -->
                 <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center bg-login-image py-2">
-                    <img th:src="@{/img/servicios.png}" class="img-fluid" width="330" alt="Gestión de Flota">
+                    <img th:src="@{/img/servicios.png}" class="img-fluid" width="330" alt="Gestión de Flota"
+                        draggable="false">
                 </div>
                 <!-- Formulario -->
                 <div class="col-lg-6 col-12 m-auto">
 
                     <div id="pane-email" class="p-4 p-lg-5">
                         <div class="text-center mb-4">
-                            <h1 class="h4 text-gray-900 m-0 p-0">TruckFlow</h1>
+                            <h1 class="h4 text-gray-900 m-0 p-0">TruckFlow bienbenido</h1>
                             <small class="text-muted">Gestión Integral de Solicitudes</small>
                         </div>
                         <!-- Tabs -->
@@ -42,29 +43,47 @@
                             </li>
                         </ul>
 
+
+
                         <div class="tab-content login-actions">
                             <!-- Email -->
                             <div class="tab-pane fade show active" id="pane-email-content" role="tabpanel"
                                 aria-labelledby="tab-email">
                                 <form id="form-email" class="m-0 p-0">
-                                    <label>Email:</label>
-                                    <input id="email" type="email" class="form-control" placeholder="correo@empresa.com"
-                                        required autocomplete="false">
-                                    <label for="password">Contraseña:</label>
-                                    <div class="input-group">
+
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email"
+                                            placeholder="ejemplo@ejemplo.com">
+                                        <label for="email">Email:</label>
+                                    </div>
+
+
+
+                                    <div class="form-floating mb-3 position-relative">
                                         <input id="password" type="password" class="form-control"
-                                            placeholder="Contraseña" required autocomplete="off">
-                                        <span class="input-group-text cursor" id="togglePassword">
+                                            placeholder="Contraseña">
+                                        <label for="password">Contraseña:</label>
+                                        <button type="button"
+                                            class="btn position-absolute top-50 end-0 translate-middle-y me-2 border-0 bg-transparent"
+                                            id="togglePassword">
                                             <i class="bi bi-eye"></i>
-                                        </span>
+                                        </button>
                                     </div>
                                     <button class="btn btn-success w-100 my-2" type="submit">
                                         <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
                                     </button>
+
+                                    <!-- Button trigger modal -->
+                                    <div class="text-center">
+                                        <a id="recuperacion_password"
+                                            class="text-decoration-none m-0 p-0 text-black cursor">
+                                            ¿Se te olvidó tu contraseña?
+                                        </a>
+                                    </div>
                                     <div class="text-center m-0 p-0">
                                         <div class="d-flex align-items-center mb-2">
                                             <hr class="flex-grow-1">
-                                            <span class="px-2 text-muted small">No tienes cuenta</span>
+                                            <span class="px-2 text-muted small">¿No tienes cuenta?</span>
                                             <hr class="flex-grow-1">
                                         </div>
                                         <button id="btn_crear_cuenta" class="btn btn-outline-secondary w-100">
@@ -83,6 +102,7 @@
                                             placeholder="correo@empresa.com" required>
                                         <button class="btn btn-outline-success" type="button" id="btn-send-otp">Enviar
                                             OTP</button>
+
                                     </div>
                                 </form>
                             </div>
@@ -120,51 +140,54 @@
             <div id="registro_empresa" class="d-none">
                 <div class=" border-input my-2">
                     <div class="d-flex align-items-center text-muted">
-                        <i id="return_opciones" title="Retroceder al menú principal" class="bi bi-arrow-left me-2 cursor"></i>
+                        <i id="return_opciones" title="Retroceder al menú principal"
+                            class="bi bi-arrow-left me-2 cursor"></i>
                         <span id="text_cuenta"></span>
                     </div>
                 </div>
                 <form id="registroForm">
                     <div class="row">
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="codigo" class="form-label">Código de Registro</label>
-                            <input type="text" id="codigo" class="form-control input-global" placeholder="EJ: EMP001">
+
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <input type="text" class="form-control input-global" id="floatingInput"
+                                placeholder="EJ: EMP001">
+                            <label for="floatingInput">Código de Registro</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="identificacion" class="form-label">Identificación</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="text" id="identificacion" class="form-control input-global"
                                 placeholder="EJ: 900123456-7">
+                            <label for="floatingInput">Identificación</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="nombre" class="form-label">Nombre / Razón Social</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="text" id="nombre" class="form-control input-global"
                                 placeholder="EJ: Juan / Transporte ABC S.A.S">
+                            <label for="floatingInput">Nombre / Razón Social</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="apellido" class="form-label">Apellido</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="text" id="apellido" class="form-control input-global" placeholder="Pérez">
+                            <label for="apellido" class="form-label">Apellido</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="fechaExpedicion" class="form-label">Fecha de Expedición</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="date" id="fechaExpedicion" class="form-control input-global">
+                            <label for="fechaExpedicion" class="form-label">Fecha de Expedición</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="ciudadExpedicion" class="form-label">Ciudad de Expedición</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="text" id="ciudadExpedicion" class="form-control input-global"
                                 placeholder="Bogotá">
+                            <label for="ciudadExpedicion" class="form-label">Ciudad de Expedición</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="date" id="fechaNacimiento" class="form-control input-global">
+                            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <label for="genero" class="form-label">Género / Sexo</label>
                             <select id="genero" class="form-control input-global">
                                 <option value="">Seleccione...</option>
@@ -174,69 +197,70 @@
                             </select>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="direccion" class="form-label">Dirección</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="text" id="direccion" class="form-control input-global"
                                 placeholder="Calle 123 #45-67">
+                            <label for="direccion" class="form-label">Dirección</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="correo" class="form-label">Correo Electrónico</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="email" id="correo" class="form-control input-global"
                                 placeholder="correo@dominio.com">
+                            <label for="correo" class="form-label">Correo Electrónico</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="confirmarCorreo" class="form-label">Confirmar Correo</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="email" id="confirmarCorreo" class="form-control input-global"
                                 placeholder="correo@dominio.com">
+                            <label for="confirmarCorreo" class="form-label">Confirmar Correo</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="usuario" class="form-label">Usuario</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="text" id="usuario" class="form-control input-global" placeholder="Usuario123">
+                            <label for="usuario" class="form-label">Usuario</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="password" class="form-label">Contraseña</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="password" id="password" class="form-control input-global"
                                 placeholder="********">
+                            <label for="password" class="form-label">Contraseña</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="tipoLicencia" class="form-label">Tipo de Licencia</label>
-                            <select id="tipoLicencia" class="form-control input-global">
-                                <option value="">Seleccione...</option>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <select id="tipoLicencia" class="form-select input-global">
+                                <option value="" selected>Seleccione...</option>
                                 <option value="A1">A1</option>
                                 <option value="B1">B1</option>
                                 <option value="C1">C1</option>
                             </select>
+                            <label for="tipoLicencia" class="form-label">Tipo de Licencia</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="tipoVehiculo" class="form-label">Tipo de Vehículo</label>
-                            <select id="tipoVehiculo" class="form-control input-global">
-                                <option value="">Seleccione...</option>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                            <select id="tipoVehiculo" class="form-select input-global">
+                                <option value="" selected>Seleccione...</option>
                                 <option value="Carro">Carro</option>
                                 <option value="Moto">Moto</option>
                                 <option value="Camión">Camión</option>
                             </select>
+                            <label for="tipoVehiculo" class="form-label">Tipo de Vehículo</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="soat" class="form-label">SOAT (Fecha Vencimiento)</label>
+
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="date" id="soat" class="form-control input-global">
+                            <label for="soat" class="form-label">SOAT (Fecha Vencimiento)</label>
                         </div>
 
-                        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
-                            <label for="tecno" class="form-label">Tecnomecánica (Fecha Vencimiento)</label>
+                        <div class="form-floating mb-3 col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                             <input type="date" id="tecno" class="form-control input-global">
+                            <label for="tecno" class="form-label">Tecnomecánica (Fecha Vencimiento)</label>
                         </div>
 
                     </div>
 
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">Registrar</button>
+                    <div class="text-center m-2">
+                        <button type="submit" class="btn btn-primary w-50">Registrar</button>
                     </div>
 
                 </form>
@@ -289,6 +313,70 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Recuperar Contraseña -->
+    <div id="modal_recuperar_password" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+
+                <!-- Header -->
+                <div class="modal-header border-0">
+                    <h5 class="modal-title d-flex align-items-center gap-2">🔑 Recuperar contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body pt-0">
+
+                    <p class="text-muted">
+                        Ingresa tu correo electrónico y te enviaremos una contraseña temporal
+                        a tu bandeja de entrada.
+                    </p>
+
+                    <!-- Input correo -->
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" placeholder="correo@colplus.com" required>
+                    </div> <!-- Caja informativa -->
+                    <div class="alert alert-info">
+                        <small>• Revisa también tu carpeta de <strong>Spam</strong> o <strong>No
+                                deseados</strong>.</small><br>
+                        <small>• Si no recibes el correo, contáctanos por WhatsApp soporte.</small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"> Cancelar</button>
+                    <button type="submit" class="btn btn-success">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal OTP -->
+    <div class="modal fade" id="modal_verificar_otp" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Verificación de código</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Se ha enviado un código de verificación a su correo electrónico.
+                    <div class="d-flex justify-content-center gap-2 my-3" id="otp-inputs">
+                        <input type="text" class="form-control text-center otp btn-codigo" maxlength="1">
+                        <input type="text" class="form-control text-center otp btn-codigo" maxlength="1">
+                        <input type="text" class="form-control text-center otp btn-codigo" maxlength="1">
+                        <input type="text" class="form-control text-center otp btn-codigo" maxlength="1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button id="btn_confirmar_otp" type="button" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <th:block th:replace="layouts/main :: footer-app"></th:block>
     <script th:src="@{/js/login.js}"></script>
 </body>

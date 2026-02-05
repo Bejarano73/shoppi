@@ -1040,7 +1040,12 @@ mwc-select {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .12);
 }
 
-.form-label {
-    margin: 0px;
-    padding: 0px;
+.form-floating>label {
+    margin: 0px 10px;
+    font-size: 11px;
+}
+
+.btn-codigo {
+    font-size: 30px;
+    height: 100px;
 }

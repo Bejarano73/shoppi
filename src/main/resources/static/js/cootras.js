@@ -3,6 +3,7 @@ $(document).ready(function () {
 });
 
 function iniciarInterfaz() {
+    spinner("Cargando librerias...");
     libreria_parcialesJS();
     crearItemDocumento();
 }
