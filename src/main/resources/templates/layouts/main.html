@@ -22,6 +22,7 @@
         <link rel="preload" as="style" href="/css/solicitar-viaje.css" onload="this.onload = null;this.rel = 'stylesheet'; window.cssReady && cssReady('solicitar-viaje');">
         <link rel="preload" as="style" href="/css/crear-solicitud.css" onload="this.onload = null;this.rel = 'stylesheet'; window.cssReady && cssReady('crear-solicitud');">
         <link href="https://cdn.jsdelivr.net/npm/signature_pad@5.0.4/dist/signature_pad.umd.min.js" rel="preload" as="script">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
     </head>
     <body class="bg-light" hx-boost="true">
     <th:block th:insert="fragments/header :: header"></th:block>
@@ -66,6 +67,8 @@
             }
         </script>
         <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script th:src="@{/js/dataList.js}"></script>
         <script th:src="@{/js/cootras.js}"></script>
         <script>

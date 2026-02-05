@@ -7,6 +7,7 @@ function iniciarInterfazGlobal() {
     spinner("Cargando librerias...");
     libreria_parcialesJS();
     crearItemDocumento();
+
 }
 
 function libreria_parcialesJS() {
@@ -1046,3 +1047,82 @@ $(window).on('load', function () {
         }, 100);
     }
 });
+
+
+function jAlert(titulo, subtitulo = "", tipo = "success", confirmar = false, callback = null) {
+
+    if (confirmar) {
+        iziToast.question({
+            title: titulo,
+            message: subtitulo,
+            backgroundColor: '#28a745',
+            color: '#fff',
+            buttons: [
+                ['<button>Confirmar</button>', function (instance, toast) {
+                        instance.hide({transitionOut: 'fadeOut'}, toast);
+                        if (callback)
+                            callback(true);
+                    }],
+                ['<button>Cancelar</button>', function (instance, toast) {
+                        instance.hide({transitionOut: 'fadeOut'}, toast);
+                        if (callback)
+                            callback(false);
+                    }]
+            ]
+        });
+        return;
+    }
+
+    iziToast.show({
+        title: titulo,
+        message: subtitulo,
+        color: tipo === "advertencia" ? "gray" : "green",
+        position: "topRight"
+    });
+}
+
+function alert(mensaje, param2, param3, onComplete = function(isConfirmed) {}) {
+    mensaje = mensaje.replace(/\n/g, "<br>");
+    let titulo = "Mensaje";
+    let confirmacion = true;
+    if (typeof param2 === "string") {
+        titulo = param2;
+        if (typeof param3 === "boolean" || param3 === null) {
+            confirmacion = param3;
+        }
+    } else if (typeof param2 === "boolean" || param2 === null) {
+        confirmacion = param2;
+    }
+    const options = {
+        title: titulo,
+        html: mensaje,
+        customClass: {
+            title: "mi-titulo-personalizado",
+            popup: "mi-popup-personalizado",
+            confirmButton: "mi-boton-confirmar btn btn-primary",
+            cancelButton: "mi-boton-cancelar btn btn-outline-secondary"
+        },
+        showCloseButton: true,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+        allowOutsideClick: false,
+        focusConfirm: false,
+        didOpen: () => {
+            document.activeElement?.blur();
+        }
+    };
+    if (confirmacion === undefined || confirmacion === true) {
+        options.showConfirmButton = true;
+        options.showCancelButton = false;
+    } else if (confirmacion === null) {
+        options.showConfirmButton = true;
+        options.showCancelButton = true;
+    } else if (confirmacion === false) {
+        options.showConfirmButton = false;
+        options.showCancelButton = true;
+    }
+    return Swal.fire(options).then((result) => {
+        onComplete(result.isConfirmed);
+        return result.isConfirmed;
+    });
+}
