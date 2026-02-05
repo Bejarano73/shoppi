@@ -1,15 +1,15 @@
 $(document).ready(function () {
-    iniciarInterfaz();
+    iniciarInterfazGlobal();
 });
 
-function iniciarInterfaz() {
+function iniciarInterfazGlobal() {
+    console.log("Aca estmaos");
     spinner("Cargando librerias...");
     libreria_parcialesJS();
     crearItemDocumento();
 }
 
 function libreria_parcialesJS() {
-    console.log("entras?");
     particlesJS("particles-js", {
         particles: {
             number: {value: 80},
@@ -742,6 +742,12 @@ const app = {
                 sp.classList.add('d-none');
             }
         };
+        // Reset global al ocultar forzado
+        if (mostrar === false && param === null) {
+            window.__spinnerActiveIds.clear();
+            sp.classList.add('d-none');
+            return;
+        }
         if (arguments.length === 0 || typeof mostrar === 'undefined') {
             const id = genId();
             return show(id, 'Cargando...');
@@ -775,7 +781,29 @@ const app = {
             }
     }
     },
+    waitForComponents() {
+        // Lista de WebComponents críticos a esperar
+        const components = ['mwc-textfield', 'mwc-textarea', 'mwc-select', 'mwc-button', 'mwc-icon'];
+        const promises = components.map(c => customElements.whenDefined(c));
+        // Timeout de seguridad de 3s por si falla la carga de scripts externos
+        const timeout = new Promise(resolve => setTimeout(resolve, 3000));
+        return Promise.race([Promise.all(promises), timeout]);
+    },
+
     init() {
+        // Interceptor HTMX para spinner global
+        document.body.addEventListener('htmx:beforeRequest', () => {
+            // Solo mostrar spinner si no es una petición en segundo plano
+            app.spinner(true, "Cargando...");
+        });
+
+        // Ocultar spinner siempre al finalizar, esperando a los componentes visuales
+        ['htmx:afterSettle', 'htmx:onLoadError', 'htmx:responseError'].forEach(event => {
+            document.body.addEventListener(event, () => {
+                app.waitForComponents().then(() => app.spinner(false));
+            });
+        });
+
         const mq = window.matchMedia('(min-width: 992px)');
         mq.addEventListener('change', () => {
             if (mq.matches) {
@@ -1002,21 +1030,19 @@ function crearDocumento( { id, icono, titulo, subtitulo, htmlId, htmlClass }) {
 }
 
 // === Lógica Global del Spinner ===
-// Mostrar spinner inmediatamente al cargar el script
-if (typeof app !== 'undefined') {
-    let id_ = app.spinner(true, "Cargando librerias...");
-    if (window.location.pathname == "/") {
-        spinner(false, id_);
-    }
-}
+// Nota: El spinner ya se muestra por defecto desde main.html
 
 // Ocultar spinner cuando toda la página (imágenes, scripts, etc.) haya cargado
 $(window).on('load', function () {
-    setTimeout(() => {
-        if (typeof app !== 'undefined') {
+    // Esperar a que los WebComponents estén definidos antes de ocultar
+    if (typeof app !== 'undefined') {
+        app.waitForComponents().then(() => {
             app.spinner(false);
-        } else {
+        });
+    } else {
+        // Fallback simple si app falla
+        setTimeout(() => {
             $('#spinner').addClass('d-none');
-        }
-    }, 500);
+        }, 100);
+    }
 });

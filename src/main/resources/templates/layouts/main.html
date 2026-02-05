@@ -23,21 +23,23 @@
         <link rel="preload" as="style" href="/css/crear-solicitud.css" onload="this.onload = null;this.rel = 'stylesheet'; window.cssReady && cssReady('crear-solicitud');">
         <link href="https://cdn.jsdelivr.net/npm/signature_pad@5.0.4/dist/signature_pad.umd.min.js" rel="preload" as="script">
     </head>
-    <body class="bg-light">
+    <body class="bg-light" hx-boost="true">
     <th:block th:insert="fragments/header :: header"></th:block>
-    <div class="container-fluid layout-body">
-        <div class="row g-0 w-100 coostra-layout-row">
-            <div class="col-auto p-0 sidebar-col">
-                <th:block th:insert="fragments/sidebar :: sidebar"></th:block>
-            </div>
-            <div id="app-content" class="col p-1 content-col height-app-coostra">
-                <div layout:fragment="content"></div>
+    <div layout:fragment="main-content">
+        <div class="container-fluid layout-body">
+            <div class="row g-0 w-100 coostra-layout-row">
+                <div class="col-auto p-0 sidebar-col">
+                    <th:block th:insert="fragments/sidebar :: sidebar"></th:block>
+                </div>
+                <div id="app-content" class="col p-1 content-col height-app-coostra">
+                    <div layout:fragment="content"></div>
+                </div>
             </div>
         </div>
     </div>
     <th:block th:insert="fragments/footer :: footer"></th:block>
     <th:block th:insert="fragments/modal :: modal"></th:block>
-    <div id="spinner" class="global-spinner d-none">
+    <div id="spinner" class="global-spinner">
         <img src="/img/spinner.gif" class="spinner-icon-img" alt="Cargando" />
         <div id="text-spinner" class="spinner-text text-success mt-2">Cargando...</div>
     </div>
@@ -66,6 +68,10 @@
         <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
         <script th:src="@{/js/dataList.js}"></script>
         <script th:src="@{/js/cootras.js}"></script>
+        <script>
+            spinner("Cargando parametros, por favor espereme un momento....");
+        </script>
+        <th:block layout:fragment="scripts"></th:block>
     </footer>
 </body>
 </html>
