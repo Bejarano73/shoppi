@@ -4,7 +4,7 @@
     <head>
         <link th:href="@{/css/login.css}" rel="stylesheet" />
     </head>
-    
+
     <body>
         <div layout:fragment="main-content">
             <div id="particles-js"></div>
@@ -27,22 +27,22 @@
                                     <small class="text-muted">Gestión Integral de Solicitudes</small>
                                 </div>
                                 <!-- Tabs -->
-                                <ul class="nav nav-tabs login-tabs mb-3" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active d-flex align-items-center gap-2" id="tab-email"
-                                                data-bs-toggle="tab" data-bs-target="#pane-email-content" type="button" role="tab">
-                                            <i class="bi bi-envelope-fill"></i>
-                                            <span>Email</span>
-                                        </button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link d-flex align-items-center gap-2" id="tab-otp"
-                                                data-bs-toggle="tab" data-bs-target="#pane-otp-content" type="button" role="tab">
-                                            <i class="bi bi-telephone-fill"></i>
-                                            <span>OTP</span>
-                                        </button>
-                                    </li>
-                                </ul>
+                                <!--                                <ul class="nav nav-tabs login-tabs mb-3" role="tablist">
+                                                                    <li class="nav-item" role="presentation">
+                                                                        <button class="nav-link active d-flex align-items-center gap-2" id="tab-email"
+                                                                                data-bs-toggle="tab" data-bs-target="#pane-email-content" type="button" role="tab">
+                                                                            <i class="bi bi-envelope-fill"></i>
+                                                                            <span>Email</span>
+                                                                        </button>
+                                                                    </li>
+                                                                    <li class="nav-item" role="presentation">
+                                                                        <button class="nav-link d-flex align-items-center gap-2" id="tab-otp"
+                                                                                data-bs-toggle="tab" data-bs-target="#pane-otp-content" type="button" role="tab">
+                                                                            <i class="bi bi-telephone-fill"></i>
+                                                                            <span>OTP</span>
+                                                                        </button>
+                                                                    </li>
+                                                                </ul>-->
 
 
 
@@ -61,13 +61,10 @@
 
 
                                             <div class="form-floating mb-3 position-relative">
-                                                <input id="password" type="password" class="form-control"
-                                                       placeholder="Contraseña">
+                                                <input id="password" type="password" class="form-control" placeholder="Contraseña">
                                                 <label for="password">Contraseña:</label>
-                                                <button type="button"
-                                                        class="btn position-absolute top-50 end-0 translate-middle-y me-2 border-0 bg-transparent"
-                                                        id="togglePassword">
-                                                    <i class="bi bi-eye"></i>
+                                                <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y me-2 border-0 bg-transparent">
+                                                    <i id="togglePassword" class="bi bi-eye"></i>
                                                 </button>
                                             </div>
                                             <button class="btn btn-success w-100 my-2" type="submit">
@@ -76,11 +73,11 @@
                                         </form>
                                         <div class="text-center">
                                             <a id="recuperacion_password"
-                                               class="text-decoration-none m-0 p-0 text-black cursor">
-                                                ¿Se te olvidó tu contraseña?
+                                               class="text-dark text-decoration-none m-0 p-0  cursor">
+                                                <u class="fs-6">¿Se te olvidó tu contraseña?</u>
                                             </a>
                                         </div>
-                                        <div class="text-center m-0 p-0">
+                                        <div class="text-center m-0 p-0 d-none">
                                             <div class="d-flex align-items-center mb-2">
                                                 <hr class="flex-grow-1">
                                                 <span class="px-2 text-muted small">¿No tienes cuenta?</span>
@@ -319,20 +316,15 @@
                             <h5 class="modal-title d-flex align-items-center gap-2">🔑 Recuperar contraseña</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-
                         <!-- Body -->
                         <div class="modal-body pt-0">
-
-                            <p class="text-muted">
-                                Ingresa tu correo electrónico y te enviaremos una contraseña temporal
-                                a tu bandeja de entrada.
-                            </p>
-
+                            <p class="text-muted">Por favor, ingresa tu correo electrónico y tu nueva contraseña.</p>
                             <!-- Input correo -->
                             <div class="mb-3">
                                 <label class="form-label">Correo electrónico</label>
                                 <input type="email" class="form-control" placeholder="correo@gmail.com" required>
-                            </div> <!-- Caja informativa -->
+                            </div>
+
                             <div class="alert alert-info">
                                 <small>• Revisa también tu carpeta de <strong>Spam</strong> o <strong>No
                                         deseados</strong>.</small><br>
@@ -358,19 +350,27 @@
                         <div class="modal-body">
                             <form id="form-verify-otp">
                                 <div class="mb-3">
-                                    <label for="otp-code" class="form-label">Código OTP</label>
-                                    <input type="text" class="form-control" id="otp-code" required>
+                                    <label  class="form-label ">Por favor, ingrese el código OTP que le hemos enviado a su correo electrónico o número de celular.</label>
+                                    <div class="d-flex justify-content-center gap-2 mt-2">
+                                        <input type="text"  class="fs-3 otp_code form-control text-center verificar p-4" maxlength="1">
+                                        <input type="text"  class="fs-3 otp_code form-control text-center verificar p-4" maxlength="1">
+                                        <input type="text"  class="fs-3 otp_code form-control text-center verificar p-4" maxlength="1">
+                                        <input type="text"  class="fs-3 otp_code form-control text-center verificar p-4" maxlength="1">
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Verificar</button>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"> Cancelar</button>
+                                    <button id="btn_confirmar_otp" type="submit" class="btn btn-primary">Verificar</button>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <th:block layout:fragment="scripts">
-            <script th:src="@{/js/login.js}"></script>
-        </th:block>
-    </body>
+
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/js/login.js}"></script>
+    </th:block>
+</body>
 </html>

@@ -1126,3 +1126,93 @@ function alert(mensaje, param2, param3, onComplete = function(isConfirmed) {}) {
         return result.isConfirmed;
     });
 }
+
+
+$.ajaxSetup({
+    error: function (xhr) {
+        if (xhr.status === 401) {
+            // Aquí tú decides: ¿Muestras un mensaje? ¿Abres un modal?
+            console.log("Usuario no autenticado. Quédate donde estás.");
+            // Si decides que sí quieres llevarlo a login tras el error:
+            // window.location.href = "/login";
+        }
+    }
+});
+
+/**
+ * @author Brahyan_Bejarano
+ */
+/**
+ * @author Brahyan_Bejarano
+ */
+const DTO = {
+    // --- BÁSICOS ---
+    id: (valor) => ({id: valor}),
+
+    // Para combos, selects y autocompletados
+    select: (id, desc) => ({id: id, descripcion: desc}),
+
+    // --- SEGURIDAD ---
+    credenciales: (u, p) => ({login: u, password: p}),
+    password: (oldP, newP) => ({actual: oldP, nueva: newP}),
+
+    // --- OPERACIONES DE ESTADO ---
+    // Útil para "Borrado Lógico" o bloquear usuarios/vehículos
+    estado: (id, bol) => ({id: id, activo: bol}),
+
+    // --- BÚSQUEDA Y PAGINACIÓN ---
+    // 'filtros' es un objeto opcional con campos extra (ej: { placa: 'ABC', tipo: 1 })
+    consulta: (buscar, p = 0, t = 10, filtros = {}) => ({
+            buscar: buscar,
+            pagina: p,
+            tamanio: t,
+            filtros: filtros
+        }),
+
+    // --- RANGOS (REPORTES) ---
+    rango: (ini, fin, refId = null) => ({
+            inicio: ini,
+            fin: fin,
+            referenciaId: refId
+        }),
+
+    // --- PERSISTENCIA (GUARDAR / EDITAR) ---
+    /**
+     * @param {Object} data - Los datos del objeto (Conductor, Vehiculo, etc.)
+     * @param {boolean} esNuevo - True para guardar, False para actualizar
+     */
+    transaccion: (data, esNuevo = true) => ({
+            entidad: data,
+            esNuevo: esNuevo,
+            timestamp: new Date().getTime()
+        })
+};
+
+function peticionPro(url, data, onSuccess) {
+    $.ajax({
+        url: url,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        beforeSend: function () {
+            // Podrías poner un loading global aquí
+        },
+        success: function (res) {
+            // res es tu IRespuesta de Java
+            if (res.estado) {
+                // Usamos TU función alert: alert(mensaje, titulo, confirmacion, onComplete)
+                alert(res.mensaje, "¡Logrado!", true, () => {
+                    if (onSuccess)
+                        onSuccess(res.salida, res.mensaje);
+                });
+            } else {
+                alert(res.mensaje, "Atención", true);
+            }
+        },
+        error: function (xhr) {
+            const error = xhr.responseJSON;
+            const msj = error ? error.mensaje : "Error crítico en el servidor";
+            alert(msj, "Error de Sistema", true);
+        }
+    });
+}
