@@ -6,6 +6,8 @@ package com.shoppi.shoppi.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -20,7 +22,7 @@ import lombok.Data;
 public class Sexo {
 
     @Id
-    @Column(length = 8)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String idsexo;
 
     @Column(nullable = false, length = 32)

@@ -6,6 +6,8 @@ package com.shoppi.shoppi.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
@@ -22,8 +24,8 @@ import lombok.Data;
 public class Departamento {
 
     @Id
-    @Column(length = 8)
-    private String iddepartamento;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer iddepartamento;
 
     @Column(nullable = false, length = 128)
     private String nombre;

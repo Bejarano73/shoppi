@@ -42,6 +42,11 @@ function btn_funciones_registro() {
 
         }
     });
+    $("#btn_ingresar_header").click(function (e) {
+        e.preventDefault();
+        $("#elige_tipo_cuenta").addClass("d-none");
+        $("#pane-email").removeClass("d-none");
+    });
     $("#return_opciones").click(function (e) {
         e.preventDefault();
         $("#registro_empresa").addClass("d-none");

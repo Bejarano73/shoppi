@@ -6,6 +6,8 @@ package com.shoppi.shoppi.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
@@ -22,8 +24,8 @@ import lombok.Data;
 public class Ciudad {
 
     @Id
-    @Column(length = 8)
-    private String idciudad;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idciudad;
 
     @Column(nullable = false, length = 128)
     private String nombre;
