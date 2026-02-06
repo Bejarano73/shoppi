@@ -3,67 +3,54 @@ package com.cootras.flota.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 
+/**
+ * @author Brahyan_Bejarano
+ */
 @Controller
 public class PageController {
 
+    // BLOQUEADO: No tiene anotación, por lo tanto requiere auth por defecto
     @GetMapping(value = "/dashboard", produces = MediaType.TEXT_HTML_VALUE)
     public String home() {
         return "pages/inicio";
     }
 
+    // BLOQUEADO: Solo ADMIN podrá entrar (asumiendo que configuraste roles)
     @GetMapping(value = "/conductores", produces = MediaType.TEXT_HTML_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
     public String conductores() {
         return "pages/conductores";
     }
 
-    @GetMapping(value = "/documentos", produces = MediaType.TEXT_HTML_VALUE)
-    public String documentos() {
-        return "pages/documentos";
-    }
-
-    @GetMapping(value = "/solicitar-viaje", produces = MediaType.TEXT_HTML_VALUE)
-    public String solicitarViaje() {
-        return "pages/solicitar-viaje";
-    }
-
-    @GetMapping(value = "/crear-solicitud", produces = MediaType.TEXT_HTML_VALUE)
-    public String crearSolicitud() {
-        return "pages/crear-solicitud";
-    }
-
-    @GetMapping(value = "/peticiones", produces = MediaType.TEXT_HTML_VALUE)
-    public String peticiones() {
-        return "pages/peticiones";
-    }
-
+    // ABIERTO: Cualquier persona puede ver la landing
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    @PreAuthorize("permitAll()")
     public String presentacion() {
         return "pages/landing";
     }
 
-    @GetMapping(value = "/flota", produces = MediaType.TEXT_HTML_VALUE)
-    public String flota() {
-        return "pages/flota";
-    }
-
-    @GetMapping(value = "/flota-detalle", produces = MediaType.TEXT_HTML_VALUE)
-    public String flotaDetalle() {
-        return "pages/flota-detalle";
-    }
-
+    // ABIERTO: Necesario para que puedan loguearse
     @GetMapping(value = "/login", produces = MediaType.TEXT_HTML_VALUE)
+    @PreAuthorize("permitAll()")
     public String login() {
         return "pages/login";
     }
 
+    // BLOQUEADO: Solo logueados
+    @GetMapping(value = "/perfil", produces = MediaType.TEXT_HTML_VALUE)
+    @PreAuthorize("isAuthenticated()")
+    public String perfil() {
+        return "pages/perfil";
+    }
+
     @GetMapping(value = "/formulariopago", produces = MediaType.TEXT_HTML_VALUE)
+    @PreAuthorize("isAuthenticated()")
     public String formulariopago() {
         return "pages/formulariopago";
     }
 
-    @GetMapping(value = "/perfil", produces = MediaType.TEXT_HTML_VALUE)
-    public String perfil() {
-        return "pages/perfil";
-    }
+    // NOTA: Todos los demás métodos que no tienen @PreAuthorize
+    // quedarán bloqueados automáticamente por la configuración global.
 }
