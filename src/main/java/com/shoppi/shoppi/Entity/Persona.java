@@ -41,7 +41,7 @@ public class Persona {
     private LocalDate fechaexpedicion;
 
     @Column(length = 32)
-    private String idciudadexpedicion;
+    private Integer idciudadexpedicion;
 
     @Column(nullable = false, length = 256)
     private String emailcontacto;

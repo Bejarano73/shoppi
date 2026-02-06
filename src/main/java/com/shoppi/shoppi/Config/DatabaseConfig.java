@@ -1,6 +1,7 @@
 package com.shoppi.shoppi.Config;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import java.nio.file.Paths;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +13,22 @@ public class DatabaseConfig {
 
     @Bean
     public DataSource dataSource() {
-        // Cargar archivo config.env desde el directorio raíz
+        // Detectar la ruta absoluta de config.env según el sistema operativo
+        String os = System.getProperty("os.name").toLowerCase();
+        String configPath;
+
+        if (os.contains("win")) {
+            // Windows
+            configPath = "D:/basededatos/config.env";
+        } else {
+            // Linux / macOS
+            configPath = "/home/brahyan-bejarano/config.env"; // Cambia según tu Linux
+        }
+
+        // Cargar archivo config.env
         Dotenv dotenv = Dotenv.configure()
-                .directory("./")
-                .filename("config.env")
+                .directory(Paths.get(configPath).getParent().toString())
+                .filename(Paths.get(configPath).getFileName().toString())
                 .load();
 
         PGSimpleDataSource ds = new PGSimpleDataSource();
@@ -29,7 +42,7 @@ public class DatabaseConfig {
         String sslmode = dotenv.get("DB_SSLMODE", "disable"); // default disable
         if (sslmode.equalsIgnoreCase("require")) {
             ds.setSsl(true);
-            ds.setSslfactory("org.postgresql.ssl.NonValidatingFactory"); // útil si no tienes certificados locales
+            ds.setSslfactory("org.postgresql.ssl.NonValidatingFactory");
         }
 
         return ds;
