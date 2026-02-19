@@ -1,5 +1,7 @@
 package com.shoppi.shoppi.Security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /**
  * @author Brahyan_Bejarano
@@ -22,12 +25,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class AppSecurityConfig {
 
+    // 1. Inyectamos el mapeador de rutas de Spring
+    @Autowired
+    @Qualifier("requestMappingHandlerMapping") // <--- AGREGA ESTO
+    private RequestMappingHandlerMapping handlerMapping; // <--- AGREGAR ESTO
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
-    // 2. Necesario para encriptar/desencriptar contraseñas
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,16 +44,15 @@ public class AppSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                // Ponemos nuestro "freno" antes que cualquier otra cosa
-                .addFilterBefore(new CustomAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+                // 2. Pasamos el handlerMapping al constructor del filtro
+                .addFilterBefore(new CustomAuthFilter(handlerMapping), UsernamePasswordAuthenticationFilter.class) // <--- CAMBIAR ESTO
                 .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() // El filtro CustomAuthFilter ya hizo el trabajo sucio arriba
+                .anyRequest().permitAll()
                 )
                 .exceptionHandling(exception -> exception
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 );
 
         return http.build();
-
     }
 }

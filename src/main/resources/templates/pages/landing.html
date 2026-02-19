@@ -1,67 +1,332 @@
 <!DOCTYPE html>
-<html lang="es">
-    <head th:replace="layouts/main :: head-app"></head>
-    <link th:href="@{/css/landing.css}" rel="stylesheet" />
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+    <head>
+        <link th:href="@{/css/landing.css}" rel="stylesheet" />
+    </head>
+
     <body>
-    <th:block th:insert="fragments/header :: header"></th:block>
-    <div id="page-content" class="col p-1 coostra-scroll content-col height-app-coostra overflow-y-auto" data-title="Gestión de Flota" data-subtitle="Gestión integral de solicitudes entre empresas y conductores">
-        <section id="inicio" class="hero container">
-            <div class="row align-items-center">
-                <div class="col-md-6" data-aos="fade-right">
-                    <h1>Gestión de Flota moderna y eficiente</h1>
-                    <p class="mt-3 fs-5 text-muted">Optimiza rutas, control de documentos, inspecciones, mantenimiento y más. Todo en una sola plataforma.</p>
-                    <a class="btn btn-success btn-lg mt-4 px-4 fw-semibold cta-btn" href="#cotizacion">Conocer precios</a>
-                </div>
-                <div class="col-md-6 text-center" data-aos="zoom-in">
-                    <img th:src="@{/img/coctactos.png}" class="hero-img img-fluid" width="330" alt="Gestión de Flota">
-                </div>
-            </div>
-        </section>
+        <div layout:fragment="content">
+            <div id="page-content" class="h-100 " data-title="Gestión de Flota"
+                 data-subtitle="Gestión integral de solicitudes entre empresas y conductores">
 
-        <section id="servicios" class="container py-5">
-            <h2 class="text-center fw-bold mb-4" data-aos="fade-up">Servicios</h2>
-            <div class="row g-3">
-                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in">
-                    <div class="service-card text-center"><i class="bi bi-truck"></i><h5 class="fw-bold mt-3">Rutas y métricas</h5><p class="text-muted">Cálculo de distancia, duración y peajes.</p></div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="150">
-                    <div class="service-card text-center"><i class="bi bi-clipboard-check"></i><h5 class="fw-bold mt-3">Inspecciones</h5><p class="text-muted">Listas pre-operacionales con estado y evidencia.</p></div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-card text-center"><i class="bi bi-shield-lock"></i><h5 class="fw-bold mt-3">Documentos</h5><p class="text-muted">SOAT, tecnomecánica y pólizas con alertas.</p></div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3" data-aos="zoom-in" data-aos-delay="450">
-                    <div class="service-card text-center"><i class="bi bi-gear"></i><h5 class="fw-bold mt-3">Mantenimiento</h5><p class="text-muted">Historial y programación por kilometraje.</p></div>
-                </div>
-            </div>
-        </section>
 
-        <section id="cotizacion" class="quote py-5">
-            <div class="container">
-                <div class="row mb-4">
-                    <div class="col-md-6" data-aos="fade-right">
-                        <h4 class="text-success fw-bold">Solicitar cotización</h4>
-                        <p class="text-light opacity-75">Cuéntanos sobre tu operación y te enviaremos un plan a medida.</p>
+
+                <div class="p-5 bg-success bg-gradient min-vh-75 d-flex align-items-center">
+                    <div class="container text-center text-white">
+
+                        <div class="mx-auto" style="max-width: 960px;">
+                            <div class="mb-5">
+                                <h1 class="display-4 fw-bold mb-3">TruckFlow</h1>
+                                <p class="fs-4 text-white-70 mx-auto" style="max-width: 600px;">
+                                   Impulsamos empresas, conductores y flotas hacia una gestión más eficiente.
+                                </p>
+                            </div>
+
+                            <div class="mx-auto" style="max-width: 600px;">
+                                <!-- BUSCADOR -->
+                                <div class="col d-none d-lg-flex justify-content-center">
+                                    <form id="form_global_menu" class="d-flex align-items-center bg-light rounded-pill px-3 w-100"
+                                          style="max-width: 600px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="12"
+                                             viewBox="0 0 56 18" class="me-2">
+                                        <path fill="#FF441F" fill-rule="evenodd"
+                                              d="M46.572 5.84c3.14 2.244 5.752 2.084 8.7-.42..."/>
+                                        </svg>
+                                        <input type="search" class="form-control border-0 bg-light" placeholder="Comida, restaurantes, tiendas, productos...">
+                                        <button class="btn p-0 ms-2">
+                                            <i class="bi bi-search text-secondary"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- Ubicación
+                                <div class="d-flex align-items-center bg-white rounded shadow-sm p-3 mb-3 text-dark">
+                                    <i class="bi bi-geo-alt fs-5 me-2 text-success"></i>
+                                    <input type="text" class="form-control border-0 shadow-none"
+                                        placeholder="Ingresa tu ubicación" value="Ubicación actual">
+                                </div> -->
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="row" data-aos="fade-up">
-                    <div class="col-md-7">
-                        <form class="row g-3 bg-white p-4 rounded-4 shadow-lg">
-                            <div class="col-md-6"><label class="form-label fw-semibold">Nombre</label><input type="text" class="form-control" placeholder="Tu nombre"></div>
-                            <div class="col-md-6"><label class="form-label fw-semibold">Email</label><input type="email" class="form-control" placeholder="correo@empresa.com"></div>
-                            <div class="col-md-6"><label class="form-label fw-semibold">Cantidad de vehículos</label><select class="form-select"><option disabled selected>Selecciona</option><option>1-10</option><option>11-50</option><option>51-200</option><option>200+</option></select></div>
-                            <div class="col-md-6"><label class="form-label fw-semibold">Tipo de operación</label><select class="form-select"><option disabled selected>Selecciona</option><option>Carga</option><option>Pasajeros</option><option>Mixta</option></select></div>
-                            <div class="col-md-12"><label class="form-label fw-semibold">Mensaje</label><textarea class="form-control" rows="5" placeholder="Cuéntanos tu necesidad"></textarea></div>
-                            <div class="col-md-4"><button class="btn btn-success btn-lg w-100 fw-semibold cta-btn" type="button">Enviar</button></div>
-                        </form>
+
+
+                <section class="container py-4">
+
+                    <!-- Título + Flechas a la derecha -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-semibold mb-0">Contamos con una amplia variedad para ti.</h5>
+
+                        <!-- Controles personalizados -->
+                        <div class="d-none d-md-flex gap-2">
+                            <button class="btn btn-light rounded-circle" type="button" data-bs-target="#categoriasCarousel"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+
+                            <button class="btn btn-light rounded-circle" type="button" data-bs-target="#categoriasCarousel"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
                     </div>
-                </div>
+
+                  
+
+                    <!-- Slider -->
+                      <!-- Categorías rápidas -->
+                    <div class="row g-3 text-center mb-4">
+                        <div class="col-6 col-md-2">
+                            <a href="/restaurantes" class="text-decoration-none text-dark">
+                                <img src="https://images.rappi.com/home-ab-objects/restaurants_r8.png?e=webp&d=150x150&q=50"
+                                     class="img-fluid mb-2 circular" alt="Restaurantes">
+                                <div class="fw-medium">Restaurantes</div>
+                            </a>
+                        </div>
+
+                        <div class="col-6 col-md-2">
+                            <a href="/tiendas/tipo/market" class="text-decoration-none text-dark">
+                                <img src="https://images.rappi.com/home-ab-objects/market.png?e=webp&d=150x150&q=50"
+                                     class="img-fluid mb-2 circular" alt="Mercados">
+                                <div class="fw-medium">Mercados</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="categoriasCarousel" class="carousel slide" data-bs-ride="false">
+                        <div class="carousel-inner">
+
+                            <div class="carousel-item active">
+                                <div class="row text-center">
+
+                                    <div class="col-6 col-md-2">
+                                        <a href="/tiendas/tipo/super-farma" class="text-decoration-none text-dark">
+                                            <img src="https://images.rappi.com/home-ab-objects/iconfarma.png?e=webp&d=150x150&q=50"
+                                                 class="img-fluid mb-2 circular" alt="Farmacia">
+                                            <h6>Farmacia</h6>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-6 col-md-2">
+                                        <a href="/tiendas/tipo/rappimall-parent" class="text-decoration-none text-dark">
+                                            <img src="https://images.rappi.com/home-ab-objects/iconecomm.png?e=webp&d=150x150&q=50"
+                                                 class="img-fluid mb-2 circular" alt="Tiendas">
+                                            <h6>Tiendas</h6>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-6 col-md-2">
+                                        <a href="/tiendas/tipo/turbo-home" class="text-decoration-none text-dark">
+                                            <img src="https://images.rappi.com/home-ab-objects/turbo_r8_offer.png?e=webp&d=150x150&q=50"
+                                                 class="img-fluid mb-2 circular" alt="Turbo">
+                                            <h6>Turbo</h6>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-6 col-md-2">
+                                        <a href="/tiendas/tipo/vinos-y-licores" class="text-decoration-none text-dark">
+                                            <img src="https://images.rappi.com/home-ab-objects/liquors_r8.png?e=webp&d=150x150&q=50"
+                                                 class="img-fluid mb-2 circular" alt="Licores">
+                                            <h6>Licores</h6>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="container py-1">
+                    <div class="text-center mb-1">
+                        <h2>Únete a <strong class="text-success m-0">TruckFlow</strong></h2>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Card 1 -->
+                        <div class="col-md-4 h-50vh">
+                            <div class="card h-100 shadow-sm">
+                                <img th:src="@{/img/Registraturestaurante.png}" class="card-img-top"
+                                     alt="Registra tu restaurante">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Registra tu Tienda</h5>
+                                    <p class="card-text text-muted">
+                                        Descubre los beneficios que tienen los +20.000 aliados en 4 países que ya trabajan
+                                        con
+                                        TruckFlow.
+                                    </p>
+                                    <a th:href="@{/Registro(step=5)}" class="btn btn-outline-secondary mt-auto">
+                                        Conocer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="col-md-4 h-50vh">
+                            <div class="card h-100 shadow-sm">
+                                <img th:src="@{/img/Registratutienda.png}" class="card-img-top" alt="Registra tu comercio">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Registra tu Empresa</h5>
+                                    <p class="card-text text-muted">
+                                        Accede a millones de usuarios de TruckFlow y disfruta de logística inmediata sin
+                                        salir de tu
+                                        tienda.
+                                    </p>
+                                    <a th:href="@{/Registro(step=3)}" class="btn btn-outline-secondary mt-auto">
+                                        Conocer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="col-md-4 h-50vh">
+                            <div class="card h-100 shadow-sm">
+                                <img th:src="@{/img/conductormoto.png}" class="card-img-top" alt="Únete como repartidor">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">¡Únete como repartidor!</h5>
+                                    <p class="card-text text-muted">
+                                        Gana dinero extra entregando domicilios, con las mejores tarifas y beneficios.
+                                    </p>
+                                    <a th:href="@{/Registro(step=8)}" class="btn btn-outline-secondary mt-auto">
+                                        ¡Regístrate ahora!
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="cotizacion" class="quote py-5 d-none">
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-md-12 text-center" data-aos="fade-right">
+                                <h4 class="text-success fw-bold">Solicitar cotización</h4>
+                                <p class="text-light opacity-75">Cuéntanos sobre tu operación y te enviaremos un plan a
+                                    medida.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center" data-aos="fade-up">
+                            <div class="col-md-7">
+                                <form class="row g-3 bg-white p-4 rounded-4 shadow-lg">
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Nombre</label><input
+                                            type="text" class="form-control" placeholder="Tu nombre"></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Email</label><input
+                                            type="email" class="form-control" placeholder="correo@empresa.com"></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Cantidad de
+                                            vehículos</label><select class="fores m-select">
+                                            <option disabled selected>Selecciona</option>
+                                            <option>1-10</option>
+                                            <option>11-50</option>
+                                            <option>51-200</option>
+                                            <option>200+</option>
+                                        </select></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Tipo de
+                                            operación</label><select class="form-select">
+                                            <option disabled selected>Selecciona</option>
+                                            <option>Carga</option>
+                                            <option>Pasajeros</option>
+                                            <option>Mixta</option>
+                                        </select></div>
+                                    <div class="col-md-12"><label class="form-label fw-semibold">Mensaje</label><textarea
+                                            class="form-control" rows="5" placeholder="Cuéntanos tu necesidad"></textarea>
+                                    </div>
+                                    <div class="col-md-12 text-center"><button
+                                            class="btn btn-success btn-lg w-50 fw-semibold cta-btn"
+                                            type="button">Enviar</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <footer class="bg-dark text-white mt-5">
+                    <div class="container py-5">
+
+                        <div class="row g-4 mb-4">
+
+                            <!-- Marca -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-success rounded d-flex align-items-center justify-content-center me-2"
+                                         style="width:32px;height:32px;">
+                                        <span class="fw-bold text-dark">TF</span>
+                                    </div>
+                                    <span class="fs-5 fw-bold">TruckFlow</span>
+                                </div>
+                                <p class="text-muted small mb-3">
+                                    La mejor plataforma para encontrar tiendas, empresas y vehículos.
+                                </p>
+                                <div class="d-flex gap-3 fs-5">
+                                    <a href="#" class="text-muted hover-success" aria-label="Facebook"><i
+                                            class="bi bi-facebook"></i></a>
+                                    <a href="#" class="text-muted hover-success" aria-label="Instagram"><i
+                                            class="bi bi-instagram"></i></a>
+                                    <a href="#" class="text-muted hover-success" aria-label="Twitter"><i
+                                            class="bi bi-twitter"></i></a>
+                                    <a href="#" class="text-muted hover-success" aria-label="LinkedIn"><i
+                                            class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+
+                            <!-- Categorías -->
+                            <div class="col-6 col-lg-3">
+                                <h6 class="fw-semibold mb-3">Categorías</h6>
+                                <ul class="list-unstyled small">
+                                    <li class="mb-2"> <a href="/Planes?step=empresa" class="text-muted text-decoration-none hover-success">
+                                            Empresa
+                                        </a></li>
+                                    <li class="mb-2"><a href="/Planes?step=tienda" class="text-muted text-decoration-none hover-success">
+                                            Tienda
+                                        </a></li>
+                                    <li><a href="/vehicles"
+                                           class="text-muted text-decoration-none hover-success">Vehículos</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- Empresa -->
+                            <div class="col-6 col-lg-3">
+                                <h6 class="fw-semibold mb-3">Empresa</h6>
+                                <ul class="list-unstyled small">
+                                    <li class="mb-2"><a href="#" class="text-muted text-decoration-none hover-success">Sobre
+                                            Nosotros</a></li>
+                                    <li><a href="#" class="text-muted text-decoration-none hover-success">Prensa</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- Legal -->
+                            <div class="col-6 col-lg-3">
+                                <h6 class="fw-semibold mb-3">Legal</h6>
+                                <ul class="list-unstyled small">
+
+                                    <li class="mb-2"><a href="/TerminoCondiciones"
+                                                        class="text-muted text-decoration-none hover-success">Términos y
+                                            Condiciones</a></li>
+
+                                    <li><a href="/Contactenos" class="text-muted text-decoration-none hover-success">Contacto</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <hr class="border-secondary">
+
+                        <div class="text-center text-muted small pt-3">
+                            © 2026 TruckFlow. Todos los derechos reservados. | Impulsamos Empresas, servicio confiable.
+                        </div>
+
+                    </div>
+                </footer>
             </div>
-        </section>
-    </div>
-    <!-- Login ahora es una vista aparte en /login -->
-    <th:block th:insert="fragments/footer :: footer"></th:block>
-    <th:block th:replace="layouts/main :: footer-app"></th:block>
-    <script th:src="@{/js/landing.js}"></script>
+        </div>
+
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/js/landing.js}"></script>
+    </th:block>
 </body>
+
 </html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+
+<head>
+    <link th:href="@{/css/Planes.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div id="page-content" class="row m-0 min-vh-100">
+            <div th:if="${step == 'tienda'}">
+                
+                <div class="row g-4 plan-row pt-5">
+                    <div class="col-md-4">
+                        <div class="dark-card card-gray shadow card-gray-primary">
+                            <span class="plan-title">Plan Básico</span>
+                            <p class="price">$49.900 <span>COP</span></p>
+                            <ul class="lists">
+                                <li class="list-item"><i class="bi bi-check">Publicación ilimitada</i></li>
+                                <li class="list-item"><i class="bi bi-check">Soporte básico</i></li>
+                                <li class="list-item"><i class="bi bi-check">Acceso a marketplace</i></li>
+                            </ul>
+                            <button class="action-btn seleccionar-plan" data-plan="Plan Básico - Tienda">Seleccionar
+                                Plan</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="dark-card card-green shadow">
+                            <span class="plan-title">Plan Pro</span>
+                            <p class="price">$79.900 <span>COP</span></p>
+                            <ul class="lists">
+                                <li class="list-item"><i class="bi bi-check">Destacado en búsquedas</i></li>
+                                <li class="list-item"><i class="bi bi-check">Reportes básicos</i></li>
+                                <li class="list-item"><i class="bi bi-check">Soporte prioritario</i></li>
+                            </ul>
+                            <button class="action-btn seleccionar-plan" data-plan="Plan Pro - Tienda">Seleccionar
+                                Plan</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="dark-card card-cyan shadow">
+                            <span class="plan-title">Plan Premium</span>
+                            <p class="price">$119.900 <span>COP</span></p>
+                            <ul class="lists">
+                                <li class="list-item"><i class="bi bi-check">Promoción destacada</i></li>
+                                <li class="list-item"><i class="bi bi-check">Estadísticas avanzadas</i></li>
+                                <li class="list-item"><i class="bi bi-check">Asistencia personalizada</i></li>
+                            </ul>
+                            <button class="action-btn seleccionar-plan " data-plan="Plan Premium - Tienda">Seleccionar
+                                Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                <div th:if="${step == 'empresa'}">
+                    
+                    <div class="row g-4 plan-row pt-5">
+                        <div class="col-md-4">
+                            <div class="dark-card card-gray shadow">
+                                <span class="plan-title">Empresarial Start</span>
+                                <p class="price">$199.900 <span>COP</span></p>
+                                <ul class="lists">
+                                    <li class="list-item"><i class="bi bi-check">Hasta 5 usuarios</i></li>
+                                    <li class="list-item"><i class="bi bi-check">Hasta 5 vehículos</i></li>
+                                    <li class="list-item"><i class="bi bi-check">Gestión básica</i></li>
+                                </ul>
+                                <button class="action-btn seleccionar-plan"
+                                    data-plan="Empresarial Start - Empresa">Seleccionar Plan</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="dark-card card-green shadow">
+                                <span class="plan-title">Empresarial Pro</span>
+                                <p class="price">$349.900 <span>COP</span></p>
+                                <ul class="lists">
+                                    <li class="list-item"><i class="bi bi-check">Control de gastos</i></li>
+                                    <li class="list-item"><i class="bi bi-check">Reportes avanzados</i></li>
+                                    <li class="list-item"><i class="bi bi-check">Conductores externos</i></li>
+                                </ul>
+                                <button class="action-btn seleccionar-plan"
+                                    data-plan="Empresarial Pro - Empresa">Seleccionar Plan</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="dark-card card-cyan shadow">
+                                <span class="plan-title">Corporativo</span>
+                                <p class="price">$599.900 <span>COP</span></p>
+                                <ul class="lists">
+                                    <li class="list-item"><i class="bi bi-check">Flota ampliable</i></li>
+                                    <li class="list-item"><i class="bi bi-check">Módulo financiero</i></li>
+                                    <li class="list-item"><i class="bi bi-check">Soporte dedicado</i></li>
+                                </ul>
+                                <button class="action-btn seleccionar-plan"
+                                    data-plan="Corporativo - Empresa">Seleccionar
+                                    Plan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="modal fade" id="planModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content shadow-lg">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                Registro de <strong id="planTitulo" class="text-success">PLAN</strong>
+                            </h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body px-4">
+                            <p class="text-secondary small mb-4">Completa el formulario para activar tu suscripción.</p>
+
+                            <form id="formPlan">
+                                <input type="hidden" id="inputPlan" name="plan">
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="nombre_planes" placeholder="nombre"
+                                        required>
+                                    <label for="nombre_planes">Nombre completo</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="email_planes" placeholder="email"
+                                        required>
+                                    <label for="email_planes">Correo electrónico</label>
+                                </div>
+
+                                <div class="form-floating mb-4">
+                                    <textarea class="form-control" id="mensaje_planes" placeholder="Mensaje"
+                                        style="height: 100px"></textarea>
+                                    <label for="mensaje_planes">Mensaje o dudas (opcional)</label>
+                                </div>
+
+                                <div class="text-center ">
+                                    <button id="btn_planes" type="button" class="btn btn-success w-50 py-2 ">
+                                        Enviar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer justify-content-center">
+                            <p class="small text-muted">Te contactaremos en menos de 24 horas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/js/Planes.js}"></script>
+    </th:block>
+</body>
+
+</html>

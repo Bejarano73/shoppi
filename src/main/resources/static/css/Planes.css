@@ -1,0 +1,115 @@
+.plan-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.dark-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    min-height: 480px;
+    overflow: hidden;
+}
+
+.dark-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.card-gray, .card-green, .card-cyan {
+    background-color: #ffffff;
+    border-color: #e9ecef;
+}
+
+.plan-title {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1.2rem;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.price {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 1.5rem 0 0.5rem;
+    text-align: center;
+    padding: 0 1.5rem;
+}
+
+.price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #666;
+}
+
+.lists {
+    list-style: none;
+    padding: 0 1.5rem;
+    margin: 1.5rem 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.list-item {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.list-item svg {
+    display: none;
+}
+
+.action-btn {
+    width: calc(100% - 3rem);
+    margin: 0 1.5rem 1.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 2px solid #198754;
+    background: transparent;
+    color: #198754;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Free — solo contorno verde */
+.card-gray .action-btn {
+    background: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+.card-gray .action-btn:hover {
+    background: #146c43;
+    border-color: #146c43;
+}
+
+/* Pro y Enterprise — sólido verde */
+.card-green .action-btn,
+.card-cyan .action-btn {
+    background: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+.card-green .action-btn:hover,
+.card-cyan .action-btn:hover {
+    background: #146c43;
+    border-color: #146c43;
+}
+

@@ -1,28 +1,82 @@
 <th:block th:fragment="header">
-    <nav class="navbar app-header">
-        <div class="container-fluid d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <button class="icon-button" type="button" data-action="menu-toggle"><i class="bi bi-list" id="menu-icon"></i></button>
-                <div class="d-flex flex-column">
-                    <span class="app-title"></span>
-                    <small class="app-subtitle text-muted fst-italic"></small>
+    <nav class="p-0 m-0">
+        <div class="container-fluid d-flex align-items-center justify-content-between p-0 m-0">
+            <header class="container-fluid border-bottom">
+                <div class="row align-items-center py-2">
+                    <!--                    <div class="d-flex flex-column">
+                                            <span class="app-title"></span>
+                                            <small class="app-subtitle text-muted fst-italic"></small>
+                                        </div>-->
+                    <!-- IZQUIERDA -->
+                    <div class="col-auto d-flex align-items-center gap-3">
+                        <button class="icon-button" type="button" data-action="menu-toggle"><i class="bi bi-list" id="menu-icon"></i></button>
+                        <a th:href="@{/}">
+                            <img th:src="@{/img/icono.png}" style="height:32px;">
+                        </a>
+                        <div class="vr"></div>
+                        <div id="location_actual" class="cursor d-md-flex align-items-center gap-2 px-3 text-truncate"
+                             style="max-width: 300px;">
+                            <i class="bi bi-geo-alt text-success"></i>
+                            <span class="text-success">Bucaramanga</span>
+                            <i class="bi bi-chevron-down text-success"></i>
+                        </div>
+                    </div>
+
+                    <!-- BUSCADOR
+                    <div class="col d-none d-lg-flex justify-content-center">
+                        <form id="form_global_menu" class="d-flex align-items-center bg-light rounded-pill px-3 w-100"
+                              style="max-width: 600px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="12"
+                                 viewBox="0 0 56 18" class="me-2">
+                                <path fill="#FF441F" fill-rule="evenodd"
+                                      d="M46.572 5.84c3.14 2.244 5.752 2.084 8.7-.42..."/>
+                            </svg>
+                            <input type="search" class="form-control border-0 bg-light" placeholder="Comida, restaurantes, tiendas, productos...">
+                                <button class="btn p-0 ms-2">
+                                    <i class="bi bi-search text-secondary"></i>
+                                </button>
+                        </form>
+                    </div> -->
+
+                    <!-- DERECHA -->
+                    <div class="col-auto d-flex align-items-center gap-3 ms-auto">
+                        <a sec:authorize="!isAuthenticated()" href="/login"><i class="bi bi-person-circle icon-button"></i></a>
+                        <a sec:authorize="!isAuthenticated()"
+                           class="sc-eCYdqJ keojwQ Toolbarstyles__ClientOption-sc-fdt2fy-13 eanDCY btn btn-light dropdown-toggle"
+                           href="#"
+                           id="btnCuenta"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false"
+                           style="color: #666666;">
+                            <i class="bi bi-person-circle icon-button"></i>
+                        </a>
+
+                        <ul sec:authorize="isAuthenticated()"
+                            class="dropdown-menu"
+                            aria-labelledby="btnCuenta"
+                            style="min-width: 160px; padding: 0; border: none; box-shadow: none;">
+                            <li>
+                                <a href="/account/profile" class="sc-eCYdqJ keojwQ Toolbarstyles__ClientOption-sc-fdt2fy-13 eanDCY dropdown-item" style="color: #666666;">
+                                    <i class="bi bi-person me-2"></i> Mi cuenta
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/account/orders" class="sc-eCYdqJ keojwQ Toolbarstyles__ClientOption-sc-fdt2fy-13 eanDCY dropdown-item" style="color: #666666;">
+                                    <i class="bi bi-bag me-2"></i> Mis pedidos
+                                </a>
+                            </li>
+                            <li>
+                                <span id="logout" class="sc-eCYdqJ keojwQ Toolbarstyles__ClientOption-sc-fdt2fy-13 eanDCY dropdown-item" style="color: #666666; cursor: pointer;">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+                                </span>
+                            </li>
+                        </ul>                        
+                        <i class="bi bi-cart icon-button cursor " title="Carrito De Comprass"  id="iconoCarrito"></i>
+                    </div>
+
                 </div>
-            </div>
-                 <div class="d-flex justify-content-center align-items-center gap-3 flex-grow-1">
-                <button class="btn btn-outline-success">Restaurantes</button>
-                <button class="btn btn-outline-success">Tienda</button>
-                <button class="btn btn-outline-success">Vehículos</button>
-            </div>
-            <div class="d-flex justify-content-end align-items-center gap-2 px-2">
-                <button id="btn_ingresar_header" type="button" class="btn btn-outline-success" >Ingresar</button>
-                <button type="button" class="btn btn-success">Registrarse</button>
-                <!-- <a class="icon-button" type="button" href="/formulariopago" ><i class="bi bi-cart"></i></a>
-                <a class="icon-button" type="button" href="/" ><i class="bi bi-house"></i></a> -->
-                <a class="icon-button" type="button" href="/login"><i class="bi bi-person-circle"></i></a>
-                <!-- <button class="icon-button" type="button" data-action="settings"><i class="bi bi-gear"></i></button>
-                <button class="icon-button" type="button" data-action="user-menu"><i class="bi bi-person-circle"></i></button> -->
-                
-            </div>
+            </header>
         </div>
     </nav>
 </th:block>

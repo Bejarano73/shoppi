@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+
+<head>
+    <link th:href="@{/css/ZonaPago.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div id="page-content" class="row m-0 min-vh-100">
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 d-flex p-4">
+                <div class="card p-4 shadow-sm ">
+                    <h2 class=" fs-5 text-secondary">Registrata tu forma de pago</h2>
+                    <form>
+                        <div class="row mb-3">
+                            <div class="form-floating mb-3 col-6">
+                                <input type="text" class="form-control" placeholder="Código Empresarial">
+                                <label for="codigoEmpresarial">Nombre de pila</label>
+                            </div>
+                            <div class="form-floating mb-3 col-6">
+                                <input type="text" class="form-control" placeholder="Identificación">
+                                <label for="identificacion">Apellido</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" placeholder="Nombre_usuario">
+                                <label for="nombre_usuario">@Nombre de usuario</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" placeholder="correo">
+                                <label for="Correo_Electronico">Correo Electrónico <span
+                                        class="text-muted">(opcional)</span></label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" placeholder="Direccion">
+                                <label for="Direccion">Dirección</label>
+                            </div>
+
+                            <div class="form-floating col-4 mb-3">
+                                <input type="text" class="form-control" placeholder="Pais">
+                                <label for="pais">Pais</label>
+                            </div>
+
+                            <div class="form-floating col-4 mb-3">
+                                <input type="text" class="form-control" placeholder="Estado">
+                                <label for="pais">Estado</label>
+                            </div>
+
+                            <div class="form-floating col-4 mb-3">
+                                <input type="text" class="form-control border-bottom" placeholder="cremallera">
+                                <label for="cremallera">Cremallera</label>
+                            </div>
+                            <div>
+                                class="form-check">
+                                <input class="form-check-input" type="checkbox" id="shipping">
+                                <label class="form-check-label" for="shipping">
+                                    Shipping address is the same as my billing address
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+
+
+
+                </div>
+            </div>
+            <th:block layout:fragment="scripts">
+                <script th:src="@{/js/ZonaPago.js}"></script>
+            </th:block>
+</body>
+
+</html>

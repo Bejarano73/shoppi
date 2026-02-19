@@ -1,0 +1,11 @@
+.img_registro {
+    height: 100vh;        /* altura de la pantalla */
+    width: auto;          /* mantener proporción */
+    object-fit: cover;    /* cubre el contenedor sin deformarse */
+    object-position: center; /* centra la imagen */
+}
+
+
+#form_global_menu{
+    display: none !important;
+}

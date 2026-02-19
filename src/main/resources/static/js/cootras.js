@@ -1,42 +1,27 @@
-$(document).ready(function () {
-    iniciarInterfazGlobal();
-});
+const DTO = {
+    id: (valor) => ({ id: valor }),
+    select: (id, desc) => ({ id: id, descripcion: desc }),
+    credenciales: (u, p) => ({ login: u, password: p }),
+    password: (oldP, newP) => ({ actual: oldP, nueva: newP }),
+    estado: (id, bol) => ({ id: id, activo: bol }),
+    consulta: (buscar, p = 0, t = 10, filtros = {}) => ({ buscar: buscar, pagina: p, tamanio: t, filtros: filtros }),
+    rango: (ini, fin, refId = null) => ({ inicio: ini, fin: fin, referenciaId: refId }),
+    transaccion: (data, esNuevo = true) => ({ entidad: data, esNuevo: esNuevo, timestamp: new Date().getTime() })
+};
 
-function iniciarInterfazGlobal() {
-    console.log("Aca estmaos");
-    spinner("Cargando librerias...");
-    libreria_parcialesJS();
-    crearItemDocumento();
-
+if (typeof window.cootrasCargado === 'undefined') {
+    window.cootrasCargado = true;
+    console.log("Lógica de cootras.js inicializada");
 }
-
-function libreria_parcialesJS() {
-    particlesJS("particles-js", {
-        particles: {
-            number: {value: 80},
-            color: {value: "#bfc7d5"},
-            shape: {type: "circle"},
-            opacity: {value: 0.5},
-            size: {value: 2},
-            line_linked: {
-                enable: true,
-                distance: 150,
-                color: "#cbd2e0",
-                opacity: 0.4,
-                width: 1
-            },
-            move: {enable: true, speed: 1}
-        },
-        interactivity: {
-            events: {
-                onhover: {enable: true, mode: "grab"}
-            }
-        },
-        retina_detect: true
-    });
-}
-
+// ============================================
+// OBJETO APP PRINCIPAL
+// ============================================
 const app = {
+    // --- PROPIEDADES ---
+    _savingTimer1: null,
+    _savingTimer2: null,
+
+    // --- MÉTODOS DE UI ---
     setToggleIcon(open) {
         const icon = document.getElementById('menu-icon');
         if (!icon)
@@ -46,50 +31,28 @@ const app = {
         icon.classList.toggle('bi-x', open);
         setTimeout(() => icon.classList.remove('icon-anim'), 250);
     },
-    cerrar_session() {
-        const done = (ok) => {
-            try {
-                app.spinner(false);
-            } catch {
-            }
-            if (ok) {
-                location.href = '/';
-            } else {
-                alert('No se pudo cerrar la sesión. Recargando página...');
-                location.reload();
-            }
-        }
-        try {
-            app.spinner(true, 'Cerrando sesión...');
-        } catch {
-        }
-        if (window.jQuery) {
-            jQuery.ajax({url: '/usuario/cerrarsession', method: 'POST'})
-                    .done(() => done(true))
-                    .fail(() => done(false))
-        } else {
-            fetch('/usuario/cerrarsession', {method: 'POST'})
-                    .then(r => done(r.ok))
-                    .catch(() => done(false))
-        }
-    },
+
     setTitleAndDescFromContent() {
         const pc = document.getElementById('page-content');
         if (!pc)
             return;
+
         const title = pc.getAttribute('data-title') || pc.querySelector('h4')?.textContent || '';
         const subtitle = pc.getAttribute('data-subtitle') || pc.querySelector('.page-subtitle')?.textContent || '';
         const titleEl = document.querySelector('.app-title');
         const subEl = document.querySelector('.app-subtitle');
+
         if (titleEl)
             titleEl.textContent = title;
         if (subEl)
             subEl.textContent = subtitle;
     },
+
     adjustOverflow() {
         const containers = document.querySelectorAll('#app-content.height-app-coostra');
         if (!containers.length)
             return;
+
         const headerEl = document.querySelector('.app-header');
         const footerEl = document.querySelector('.app-footer');
         const hVar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0;
@@ -97,11 +60,13 @@ const app = {
         const h = headerEl ? Math.ceil(headerEl.getBoundingClientRect().height) : hVar;
         const f = footerEl ? Math.ceil(footerEl.getBoundingClientRect().height) : fVar;
         const avail = Math.max(0, window.innerHeight - h - f);
+
         containers.forEach(ac => {
             ac.style.height = `${avail}px`;
             const pc = ac.querySelector('.coostra-scroll') || ac.querySelector('#page-content');
             if (!pc)
                 return;
+
             const acs = getComputedStyle(ac);
             const acPad = (parseFloat(acs.paddingTop) || 0) + (parseFloat(acs.paddingBottom) || 0);
             const pcs = getComputedStyle(pc);
@@ -110,51 +75,69 @@ const app = {
             pc.style.maxHeight = `${usable}px`;
         });
     },
+
     setActiveMenuByPath(path) {
         document.querySelectorAll('.app-sidebar .nav-link').forEach(a => {
             a.classList.toggle('active', a.getAttribute('href') === path);
         });
         try {
             sessionStorage.setItem('activePath', path);
-        } catch {
+        } catch (e) {
+            console.warn('SessionStorage no disponible:', e);
         }
     },
 
+    // --- FIRMAS DIGITALES ---
     initSignatures() {
         if (typeof window.SignaturePad === 'undefined')
             return;
+
         document.querySelectorAll('.sv-sig-pad[data-signature]').forEach(canvas => {
             try {
                 const ensureResize = () => {
                     const ratio = Math.max(window.devicePixelRatio || 1, 1);
                     const rect = canvas.getBoundingClientRect();
                     if (rect.width === 0 || rect.height === 0)
-                        return; // invisible
+                        return;
+
                     canvas.width = Math.floor(rect.width * ratio);
                     canvas.height = Math.floor(rect.height * ratio);
                     const ctx = canvas.getContext('2d');
                     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
                     if (canvas.__pad)
                         canvas.__pad.clear();
                 };
+
                 if (!canvas.__pad) {
-                    canvas.__pad = new window.SignaturePad(canvas, {backgroundColor: '#ffffff', penColor: '#0f172a', minWidth: 1.5, maxWidth: 2.5});
+                    canvas.__pad = new window.SignaturePad(canvas, {
+                        backgroundColor: '#ffffff',
+                        penColor: '#0f172a',
+                        minWidth: 1.5,
+                        maxWidth: 2.5
+                    });
                     canvas.__resize = () => ensureResize();
                     window.addEventListener('resize', canvas.__resize);
                 }
+
                 ensureResize();
                 setTimeout(ensureResize, 100);
-            } catch {
+            } catch (e) {
+                console.error('Error inicializando firma:', e);
             }
         });
+
         window.appClearSignature = (id) => {
             const c = document.getElementById(id);
             if (c && c.__pad)
                 c.__pad.clear();
         };
     },
+
+    // --- MENÚ DE USUARIO ---
     userMenu: {
         el: null,
+
         open(btn) {
             this.close();
             const menu = document.createElement('ul');
@@ -173,7 +156,9 @@ const app = {
                     <li class="dropdown_lista_elemt cursor py-1"><a class="dropdown-lista-menu text-030045 d-flex align-items-center gap-2" id="appMenuSettings"><i class="bi bi-gear"></i><span>Configuración</span></a></li>
                     <li class="dropdown_lista_elemt cursor py-1"><a class="dropdown-lista-menu text-030045 d-flex align-items-center gap-2" id="appMenuHelp"><i class="bi bi-question-circle"></i><span>Ayuda</span></a></li>
                     <li class="dropdown_lista_elemt cursor py-1"><a class="dropdown-lista-menu text-danger d-flex align-items-center gap-2" id="appMenuLogout"><i class="bi bi-box-arrow-right"></i><span>Salir</span></a></li>
-                </ul>`;
+                </ul>
+            `;
+
             document.body.appendChild(menu);
             const r = btn.getBoundingClientRect();
             const width = 300;
@@ -181,24 +166,29 @@ const app = {
             menu.style.width = width + 'px';
             menu.style.top = (window.scrollY + r.bottom + 8) + 'px';
             menu.style.left = (window.scrollX + r.right - width) + 'px';
+
             try {
-                const name = sessionStorage.getItem('user:name') || '';
+                const name = sessionStorage.getItem('user:name') || 'Usuario';
                 const id = sessionStorage.getItem('user:id') || '';
                 const nameEl = menu.querySelector('#appUserName');
                 const idEl = menu.querySelector('#appUserId');
                 if (nameEl)
-                    nameEl.textContent = name || 'Usuario';
+                    nameEl.textContent = name;
                 if (idEl)
-                    idEl.textContent = id || '';
-            } catch {
+                    idEl.textContent = id;
+            } catch (e) {
+                console.warn('Error cargando datos de usuario:', e);
             }
+
             this.el = menu;
             const onDoc = (e) => {
-                if (!menu.contains(e.target) && !btn.contains(e.target))
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
                     this.close();
+                }
             };
-            document.addEventListener('click', onDoc, {once: true});
+            document.addEventListener('click', onDoc, { once: true });
         },
+
         close() {
             if (this.el && this.el.parentNode) {
                 this.el.parentNode.removeChild(this.el);
@@ -206,13 +196,17 @@ const app = {
             }
         }
     },
+
+    // --- SELECTORES PERSONALIZADOS ---
     upgradeSelectsBatch(container) {
         try {
             const native = Array.from(container.querySelectorAll('select.ins-select'));
             if (!native.length)
                 return;
+
             let i = 0;
             const batch = 6;
+
             const run = () => {
                 const end = Math.min(i + batch, native.length);
                 for (; i < end; i++) {
@@ -221,43 +215,52 @@ const app = {
                     const mwc = document.createElement('mwc-select');
                     mwc.className = 'ins-select';
                     mwc.setAttribute('label', 'Estado');
+
                     ['pendiente', 'ok', 'defectivo'].forEach(v => {
                         const li = document.createElement('mwc-list-item');
                         li.setAttribute('value', v);
                         li.textContent = v === 'ok' ? '✓ OK' : (v === 'defectivo' ? '✗ Defectivo' : 'Pendiente');
                         mwc.appendChild(li);
                     });
+
                     mwc.value = current;
                     sel.replaceWith(mwc);
                 }
+
                 if (i < native.length) {
-                    if (window.requestIdleCallback)
+                    if (window.requestIdleCallback) {
                         requestIdleCallback(run);
-                    else
+                    } else {
                         setTimeout(run, 0);
+                    }
                 }
             };
+
             run();
-        } catch {
+        } catch (e) {
+            console.error('Error actualizando selects:', e);
         }
     },
+
     applyInspectionSelect(sel) {
         if (!sel)
-            return {status: 'pendiente', value: 'pendiente'};
+            return { status: 'pendiente', value: 'pendiente' };
+
         const wrap = sel.closest('.ins-item');
         const comment = wrap ? wrap.querySelector('.ins-comment') : null;
         let status = 'pendiente';
         const raw = sel.value;
+
         if (raw === 'ok' || raw === '1') {
             status = 'ok';
         } else if (raw === 'defectivo' || raw === '0') {
             status = 'defectivo';
-        } else {
-            status = 'pendiente';
         }
+
         sel.classList.remove('select-ok', 'select-def');
         if (wrap)
             wrap.classList.remove('state-ok', 'state-def', 'state-pend');
+
         if (status === 'ok') {
             sel.classList.add('select-ok');
             if (wrap)
@@ -270,31 +273,39 @@ const app = {
             if (wrap)
                 wrap.classList.add('state-pend');
         }
+
         if (comment)
             comment.classList.toggle('d-none', status !== 'defectivo');
-        return {status, value: raw};
+        return { status, value: raw };
     },
+
     recountInspection(container) {
         if (!container)
             return;
+
         const items = Array.from(container.querySelectorAll('.ins-item'));
         let pend = 0, ok = 0, def = 0, crit = 0;
+
         items.forEach(w => {
             const sel = w.querySelector('.ins-select');
             const v = sel ? sel.value : '';
+
             if (v === 'pendiente' || v === '')
                 pend++;
             else if (v === 'ok' || v === '1')
                 ok++;
             else if (v === 'defectivo' || v === '0')
                 def++;
+
             if (w.querySelector('.ins-critical') && v !== 'ok' && v !== '1')
                 crit++;
         });
+
         const sumPend = document.getElementById('sum-pend');
         const sumOk = document.getElementById('sum-ok');
         const sumDef = document.getElementById('sum-def');
         const sumCrit = document.getElementById('sum-crit');
+
         if (sumPend)
             sumPend.textContent = String(pend);
         if (sumOk)
@@ -303,14 +314,18 @@ const app = {
             sumDef.textContent = String(def);
         if (sumCrit)
             sumCrit.textContent = String(crit);
+
         const remainingEl = document.getElementById('ins-remaining');
         if (remainingEl)
             remainingEl.textContent = String(pend);
+
         const msgEl = document.getElementById('ins-msg');
         const btn = document.getElementById('btnSolicitar');
         const allSelected = pend === 0;
+
         if (btn)
             btn.disabled = !allSelected;
+
         if (msgEl) {
             if (allSelected) {
                 msgEl.classList.remove('ins-alert');
@@ -319,20 +334,26 @@ const app = {
             } else {
                 msgEl.classList.remove('ins-ok-alert');
                 msgEl.classList.add('ins-alert');
-                msgEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i><span>Inspección incompleta • Completa la inspección de los <span id="ins-remaining">' + pend + '</span> elemento(s) restante(s)</span>';
+                msgEl.innerHTML = `<i class="bi bi-exclamation-triangle-fill"></i><span>Inspección incompleta • Completa la inspección de los <span id="ins-remaining">${pend}</span> elemento(s) restante(s)</span>`;
             }
         }
     },
+
+    // --- NAVEGACIÓN ---
     navigate(path) {
         try {
             sessionStorage.setItem('activePath', path);
-        } catch {
+        } catch (e) {
+            console.warn('Error guardando ruta:', e);
         }
+
         if (window.htmx) {
             try {
                 app.spinner(true, 'Cargando...');
-            } catch {
+            } catch (e) {
+                console.warn('Error mostrando spinner:', e);
             }
+
             htmx.ajax('GET', path, {
                 target: '#app-content',
                 swap: 'innerHTML',
@@ -341,18 +362,20 @@ const app = {
             }).finally(() => {
                 try {
                     app.spinner(false);
-                } catch {
+                } catch (e) {
+                    console.warn('Error ocultando spinner:', e);
                 }
                 app.adjustOverflow();
                 app.initSignatures();
             });
         } else {
-            // fallback: full navigation
             location.href = path;
             return;
         }
+
         app.setTitleAndDescFromContent();
         app.setActiveMenuByPath(path);
+
         const mq = window.matchMedia('(max-width: 991.98px)');
         if (mq.matches) {
             const el = document.getElementById('appSidebar');
@@ -362,82 +385,78 @@ const app = {
                 app.setToggleIcon(false);
                 try {
                     sessionStorage.setItem('menuOpen', '0');
-                } catch {
+                } catch (e) {
+                    console.warn('Error guardando estado menú:', e);
                 }
             }
         }
     },
+
     toggleSidebar() {
         const mq = window.matchMedia('(min-width: 992px)');
+
+        // Desktop
         if (mq.matches) {
-            const collapsing = document.body.classList.contains('sidebar-collapsed') || document.documentElement.classList.contains('sidebar-collapsed');
-            if (collapsing) {
-                // expand: espera a que termine la animación para mostrar el texto
-                document.body.classList.add('sidebar-expanding');
-                document.querySelectorAll('.menu-d-none').forEach(el => {
-                    el.classList.add('d-none');
-                    el.classList.remove('menu-text-show');
-                });
+            const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+
+            if (isCollapsed) {
                 document.body.classList.remove('sidebar-collapsed');
                 document.documentElement.classList.remove('sidebar-collapsed');
-                setTimeout(() => {
-                    document.body.classList.remove('sidebar-expanding');
-                    document.querySelectorAll('.menu-d-none').forEach(el => {
-                        el.classList.remove('d-none');
-                        el.classList.add('menu-text-show');
-                        setTimeout(() => el.classList.remove('menu-text-show'), 280);
-                    });
-                }, 320);
+                document.body.classList.add('sidebar-expanding');
+                setTimeout(() => document.body.classList.remove('sidebar-expanding'), 300);
+
+                document.querySelectorAll('.menu-d-none').forEach(el => {
+                    el.classList.remove('d-none');
+                    requestAnimationFrame(() => el.classList.add('menu-text-show'));
+                });
+
                 app.setToggleIcon(true);
             } else {
-                // collapse inmediato: oculta texto al instante
                 document.body.classList.add('sidebar-collapsed');
                 document.documentElement.classList.add('sidebar-collapsed');
+
                 document.querySelectorAll('.menu-d-none').forEach(el => {
                     el.classList.add('d-none');
                     el.classList.remove('menu-text-show');
                 });
+
                 app.setToggleIcon(false);
             }
-            try {
-                sessionStorage.setItem('sidebarCollapsed', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
-            } catch {
-            }
+
             const footer = document.querySelector('.sidebar-footer');
             if (footer)
-                footer.classList.toggle('d-none', document.body.classList.contains('sidebar-collapsed'));
+                footer.classList.toggle('d-none', !isCollapsed);
+
+            try {
+                sessionStorage.setItem('sidebarCollapsed', !isCollapsed ? '1' : '0');
+            } catch (e) {
+                console.warn('Error guardando estado sidebar:', e);
+            }
+
+            setTimeout(() => app.adjustOverflow(), 320);
             return;
         }
+
+        // Mobile
         const el = document.getElementById('appSidebar');
         if (!el || typeof bootstrap === 'undefined')
             return;
-        const oc = bootstrap.Offcanvas.getInstance(el) || new bootstrap.Offcanvas(el, {backdrop: false, scroll: true});
-        if (el.classList.contains('show')) {
-            oc.hide();
-            app.setToggleIcon(false);
-        } else {
-            const footer = document.querySelector('.sidebar-footer');
-            if (footer)
-                footer.classList.remove('d-none');
-            document.querySelectorAll('.menu-d-none').forEach(el => el.classList.add('d-none'));
-            oc.show();
-            const onShown = () => {
-                document.querySelectorAll('.menu-d-none').forEach(el => {
-                    el.classList.remove('d-none');
-                    el.classList.add('menu-text-show');
-                    setTimeout(() => el.classList.remove('menu-text-show'), 280);
-                });
-                el.removeEventListener('shown.bs.offcanvas', onShown);
-                app.setToggleIcon(true);
-            };
-            el.addEventListener('shown.bs.offcanvas', onShown);
-        }
+
+        document.querySelectorAll('.menu-d-none').forEach(e => {
+            e.classList.remove('d-none');
+        });
+
+        const oc = bootstrap.Offcanvas.getOrCreateInstance(el, { backdrop: false, scroll: true });
+        oc.toggle();
     },
+
+    // --- MODALES ---
     modalApp(title, html, footer) {
         let body = '';
         let ft = '';
         const placeholder = '<div class="modal-empty text-center text-muted py-4">Esperando contenido…</div>';
-        const hasButtons = typeof html === 'string' && /<button|btn\s|role=\"button\"|data-bs-dismiss/.test(html);
+        const hasButtons = typeof html === 'string' && /<button|btn\s|role="button"|data-bs-dismiss/.test(html);
+
         if (typeof footer === 'string' && footer.trim()) {
             body = typeof html === 'string' ? html : '';
             ft = footer;
@@ -448,8 +467,16 @@ const app = {
             body = typeof html === 'string' && html.trim() ? html : placeholder;
             ft = '<button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>';
         }
-        app.modal.show({title: title || '', body: body, footer: ft, centered: true, scrollable: true});
+
+        app.modal.show({
+            title: title || '',
+            body: body,
+            footer: ft,
+            centered: true,
+            scrollable: true
+        });
     },
+
     openSettings() {
         const body = `
             <ul class="nav nav-tabs">
@@ -476,35 +503,37 @@ const app = {
                             <mwc-textfield label="Dirección" value="Bogotá, Colombia"></mwc-textfield>
                         </div>
                     </div>
-                 </div>
-                <div class="tab-pane fade" id="tabSistema">
-              <div class="row g-3">
-            <div class="col-12 col-lg-4">
-                <mwc-textfield label="Código para registro empleados" value="EMPLEADOS_2025"></mwc-textfield>
-            </div>
-            <div class="col-12 col-lg-4">
-                <mwc-textfield label="Código para registro conductores" value="CONDUCTORE_S2025"></mwc-textfield>
-            </div>
-            <div class="col-12 col-lg-4">
-                <mwc-textfield label="Código para registro vehiculos" value="VEHICULOS_2025"></mwc-textfield>
-            </div>
-            <div class="col-12">
-                <div class="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
-                    <input type="checkbox" id="notifications" class="w-4 h-4 rounded border-gray-300 text-brand-green" checked>
-                    <label for="notifications" class="text-sm font-medium text-gray-900">Habilitar notificaciones por correo - OTP de seguridad</label>
                 </div>
-            </div>
-        </div>
-            </div>
+                <div class="tab-pane fade" id="tabSistema">
+                    <div class="row g-3">
+                        <div class="col-12 col-lg-4">
+                            <mwc-textfield label="Código para registro empleados" value="EMPLEADOS_2025"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <mwc-textfield label="Código para registro conductores" value="CONDUCTORE_S2025"></mwc-textfield>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <mwc-textfield label="Código para registro vehiculos" value="VEHICULOS_2025"></mwc-textfield>
+                        </div>
+                        <div class="col-12">
+                            <div class="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
+                                <input type="checkbox" id="notifications" class="w-4 h-4 rounded border-gray-300 text-brand-green" checked>
+                                <label for="notifications" class="text-sm font-medium text-gray-900">Habilitar notificaciones por correo - OTP de seguridad</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane fade" id="tabIntegraciones">
                     <div class="text-muted">Integraciones con servicios externos.</div>
                 </div>
             </div>
         `;
+
         const footer = `
             <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button class="btn btn-success ms-2">Guardar Cambios</button>
         `;
+
         app.modal.show({
             title: 'Configuración del Sistema',
             subtitle: 'Gestione la configuración de su sistema de gestión de flotas',
@@ -514,10 +543,13 @@ const app = {
             centered: true,
             scrollable: true
         });
+
         app.guardando(false);
+
         const modalEl = document.getElementById('appModal');
         const footerEl = modalEl ? modalEl.querySelector('.footer-modal-app') : null;
         const primaryBtn = footerEl ? footerEl.querySelector('.btn-success') : null;
+
         if (primaryBtn) {
             primaryBtn.addEventListener('click', () => {
                 if (!primaryBtn.disabled) {
@@ -526,11 +558,13 @@ const app = {
             });
         }
     },
+
     modal: {
         show(opts = {}) {
             const el = document.getElementById('appModal');
             if (!el || typeof bootstrap === 'undefined')
                 return;
+
             const titleEl = el.querySelector('.titulo-model-app');
             const subtitleEl = el.querySelector('.subtitle-modal-app');
             const bodyEl = el.querySelector('.modal-header-app');
@@ -538,12 +572,15 @@ const app = {
             const headerEl = document.getElementById('appModalHeader');
             const dialogEl = document.getElementById('appModalDialog');
             const contentEl = document.getElementById('appModalContent');
+
             const title = opts.title ?? '';
             const subtitle = opts.subtitle ?? '';
             const body = opts.body ?? '';
             const footer = opts.footer ?? '';
+
             titleEl.textContent = title;
             headerEl.classList.toggle('d-none', !title);
+
             if (subtitle) {
                 subtitleEl.classList.remove('d-none');
                 subtitleEl.textContent = subtitle;
@@ -551,12 +588,14 @@ const app = {
                 subtitleEl.classList.add('d-none');
                 subtitleEl.textContent = '';
             }
+
             bodyEl.innerHTML = body;
             if (opts.bodyClasses) {
                 bodyEl.className = 'modal-body modal-header-app ' + opts.bodyClasses;
             } else {
                 bodyEl.className = 'modal-body modal-header-app';
             }
+
             if (footer) {
                 footerEl.classList.remove('d-none');
                 footerEl.innerHTML = footer;
@@ -564,6 +603,7 @@ const app = {
                 footerEl.classList.add('d-none');
                 footerEl.innerHTML = '';
             }
+
             if (!footerEl.classList.contains('d-none')) {
                 let statusEl = footerEl.querySelector('.modal-status');
                 if (!statusEl) {
@@ -571,6 +611,7 @@ const app = {
                     statusEl.className = 'modal-status d-none';
                     footerEl.prepend(statusEl);
                 }
+
                 let actionsEl = footerEl.querySelector('.modal-actions');
                 if (!actionsEl) {
                     actionsEl = document.createElement('div');
@@ -580,6 +621,7 @@ const app = {
                     footerEl.appendChild(actionsEl);
                 }
             }
+
             dialogEl.classList.remove('modal-sm', 'modal-lg', 'modal-xl', 'modal-dialog-centered', 'modal-dialog-scrollable');
             if (opts.size === 'sm')
                 dialogEl.classList.add('modal-sm');
@@ -591,13 +633,21 @@ const app = {
                 dialogEl.classList.add('modal-dialog-centered');
             if (opts.scrollable)
                 dialogEl.classList.add('modal-dialog-scrollable');
-            if (opts.contentClasses)
+
+            if (opts.contentClasses) {
                 contentEl.className = 'modal-content ' + opts.contentClasses;
-            else
+            } else {
                 contentEl.className = 'modal-content';
-            const instance = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el, {backdrop: opts.backdrop ?? true, keyboard: true, focus: true});
+            }
+
+            const instance = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el, {
+                backdrop: opts.backdrop ?? true,
+                keyboard: true,
+                focus: true
+            });
             instance.show();
         },
+
         hide() {
             const el = document.getElementById('appModal');
             if (!el || typeof bootstrap === 'undefined')
@@ -605,15 +655,18 @@ const app = {
             const instance = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
             instance.hide();
         },
+
         clear() {
             const el = document.getElementById('appModal');
             if (!el)
                 return;
+
             const titleEl = el.querySelector('.titulo-model-app');
             const subtitleEl = el.querySelector('.subtitle-modal-app');
             const bodyEl = el.querySelector('.modal-header-app');
             const footerEl = el.querySelector('.footer-modal-app');
             const headerEl = document.getElementById('appModalHeader');
+
             titleEl.textContent = '';
             headerEl.classList.add('d-none');
             subtitleEl.classList.add('d-none');
@@ -623,19 +676,23 @@ const app = {
             footerEl.innerHTML = '';
         }
     },
+
     guardando(active, ms = 0) {
         const el = document.getElementById('appModal');
         if (!el)
             return;
+
         const footerEl = el.querySelector('.footer-modal-app');
         if (!footerEl || footerEl.classList.contains('d-none'))
             return;
+
         let statusEl = footerEl.querySelector('.modal-status');
         if (!statusEl) {
             statusEl = document.createElement('div');
             statusEl.className = 'modal-status d-none';
             footerEl.prepend(statusEl);
         }
+
         let actionsEl = footerEl.querySelector('.modal-actions');
         if (!actionsEl) {
             actionsEl = document.createElement('div');
@@ -644,7 +701,9 @@ const app = {
             nodes.forEach(n => actionsEl.appendChild(n));
             footerEl.appendChild(actionsEl);
         }
+
         const primaryBtn = actionsEl.querySelector('.btn-success');
+
         const showSaving = () => {
             statusEl.innerHTML = '<div class="spinner-border text-success spinner-border-sm me-2" role="status"></div><span class="status-text">Guardando configuración..</span>';
             statusEl.classList.remove('d-none');
@@ -658,6 +717,7 @@ const app = {
             }
             app.spinner(true, 'Guardando configuración..');
         };
+
         const showSuccess = () => {
             statusEl.innerHTML = '<i class="bi bi-check-circle-fill me-2 text-success"></i><span class="status-text">Configuración guardada exitosamente</span>';
             statusEl.classList.remove('d-none');
@@ -671,6 +731,7 @@ const app = {
             if (txtEl)
                 txtEl.innerHTML = 'Configuración guardada exitosamente';
         };
+
         const clearAll = () => {
             statusEl.classList.add('d-none');
             statusEl.innerHTML = '';
@@ -682,8 +743,10 @@ const app = {
             }
             app.spinner(false);
         };
+
         clearTimeout(app._savingTimer1);
         clearTimeout(app._savingTimer2);
+
         if (active) {
             showSaving();
             if (ms && ms > 0) {
@@ -693,22 +756,25 @@ const app = {
             }
         } else {
             if (ms && ms > 0) {
-                const half = Math.floor(ms / 2);
                 showSuccess();
                 app._savingTimer2 = setTimeout(clearAll, ms);
             } else {
                 clearAll();
             }
-    }
+        }
     },
+
+    // --- SPINNER GLOBAL ---
     spinner(mostrar, param = null, duracionMs = null) {
         window.__spinnerActiveIds = window.__spinnerActiveIds || new Set();
         let sp = document.getElementById('spinner');
         let txt = document.getElementById('text-spinner');
+
         if (!sp) {
             sp = document.createElement('div');
             sp.id = 'spinner';
             sp.className = 'global-spinner d-none';
+
             const img = document.createElement('img');
             img.src = '/img/spinner.gif';
             img.alt = 'Cargando';
@@ -719,16 +785,20 @@ const app = {
                 icon.setAttribute('role', 'status');
                 img.replaceWith(icon);
             };
+
             const t = document.createElement('div');
             t.id = 'text-spinner';
             t.className = 'spinner-text text-success mt-2';
             t.textContent = 'Cargando...';
+
             sp.appendChild(img);
             sp.appendChild(t);
             document.body.appendChild(sp);
             txt = t;
         }
+
         const genId = () => Math.random().toString(36).substr(2, 9);
+
         const show = (id, msg) => {
             window.__spinnerActiveIds.add(id);
             sp.setAttribute('data-id', id);
@@ -737,68 +807,105 @@ const app = {
                 txt.innerHTML = msg || 'Cargando...';
             return id;
         };
+
         const hideById = (id) => {
             window.__spinnerActiveIds.delete(id);
             if (window.__spinnerActiveIds.size === 0) {
                 sp.classList.add('d-none');
             }
         };
-        // Reset global al ocultar forzado
+
         if (mostrar === false && param === null) {
             window.__spinnerActiveIds.clear();
             sp.classList.add('d-none');
             return;
         }
+
         if (arguments.length === 0 || typeof mostrar === 'undefined') {
             const id = genId();
             return show(id, 'Cargando...');
         }
+
         if (typeof mostrar === 'string') {
             const id = genId();
             show(id, mostrar);
-            if (duracionMs && typeof duracionMs === 'number')
+            if (duracionMs && typeof duracionMs === 'number') {
                 setTimeout(() => hideById(id), duracionMs);
+            }
             return id;
         }
+
         if (mostrar) {
             const id = genId();
             return show(id, param);
         } else {
             if (typeof param === 'string') {
                 const id = param;
-                if (duracionMs && typeof duracionMs === 'number')
+                if (duracionMs && typeof duracionMs === 'number') {
                     setTimeout(() => hideById(id), duracionMs);
-                else
+                } else {
                     hideById(id);
+                }
             } else if (typeof param === 'number') {
                 const delay = param;
                 setTimeout(() => {
-                    if (window.__spinnerActiveIds.size === 0)
+                    if (window.__spinnerActiveIds.size === 0) {
                         sp.classList.add('d-none');
+                    }
                 }, delay);
             } else {
                 window.__spinnerActiveIds.clear();
                 sp.classList.add('d-none');
             }
-    }
+        }
     },
+
     waitForComponents() {
-        // Lista de WebComponents críticos a esperar
         const components = ['mwc-textfield', 'mwc-textarea', 'mwc-select', 'mwc-button', 'mwc-icon'];
         const promises = components.map(c => customElements.whenDefined(c));
-        // Timeout de seguridad de 3s por si falla la carga de scripts externos
         const timeout = new Promise(resolve => setTimeout(resolve, 3000));
         return Promise.race([Promise.all(promises), timeout]);
     },
 
+    cerrar_session() {
+        const done = (ok) => {
+            try {
+                app.spinner(false);
+            } catch (e) {
+                console.error('Error ocultando spinner:', e);
+            }
+            if (ok) {
+                location.href = '/';
+            } else {
+                alert('No se pudo cerrar la sesión. Recargando página...');
+                location.reload();
+            }
+        };
+
+        try {
+            app.spinner(true, 'Cerrando sesión...');
+        } catch (e) {
+            console.error('Error mostrando spinner:', e);
+        }
+
+        if (window.jQuery) {
+            jQuery.ajax({ url: '/usuario/cerrarsession', method: 'POST' })
+                .done(() => done(true))
+                .fail(() => done(false));
+        } else {
+            fetch('/usuario/cerrarsession', { method: 'POST' })
+                .then(r => done(r.ok))
+                .catch(() => done(false));
+        }
+    },
+
+    // --- INICIALIZACIÓN ---
     init() {
-        // Interceptor HTMX para spinner global
+        // Interceptor HTMX
         document.body.addEventListener('htmx:beforeRequest', () => {
-            // Solo mostrar spinner si no es una petición en segundo plano
             app.spinner(true, "Cargando...");
         });
 
-        // Ocultar spinner siempre al finalizar, esperando a los componentes visuales
         ['htmx:afterSettle', 'htmx:onLoadError', 'htmx:responseError'].forEach(event => {
             document.body.addEventListener(event, () => {
                 app.waitForComponents().then(() => app.spinner(false));
@@ -808,14 +915,12 @@ const app = {
         const mq = window.matchMedia('(min-width: 992px)');
         mq.addEventListener('change', () => {
             if (mq.matches) {
-                // asegurar que el offcanvas esté oculto y estado desktop limpio
                 const el = document.getElementById('appSidebar');
                 if (el && el.classList.contains('show') && typeof bootstrap !== 'undefined') {
                     const oc = bootstrap.Offcanvas.getInstance(el) || new bootstrap.Offcanvas(el);
                     oc.hide();
                 }
             } else {
-                // al pasar a móvil, desactiva colapso mini para mostrar texto en el menú
                 document.body.classList.remove('sidebar-collapsed');
                 const footer = document.querySelector('.sidebar-footer');
                 if (footer)
@@ -824,35 +929,37 @@ const app = {
         });
 
         this.setActiveMenuByPath(location.pathname);
-        // Asegurar activo en carga inicial también por servidor
         document.querySelectorAll('.app-sidebar .nav-link').forEach(a => {
             a.classList.toggle('active', a.getAttribute('href') === location.pathname);
         });
 
-        // htmx: actualizar activo y asegurar que la columna ocupa 100%
         document.addEventListener('htmx:afterSwap', (e) => {
             if (e.detail && e.detail.target && e.detail.target.id === 'app-content') {
                 const path = location.pathname;
                 app.setActiveMenuByPath(path);
                 app.setTitleAndDescFromContent();
                 app.adjustOverflow();
+
                 if (typeof window.iniciarInterfaz === 'function') {
                     try {
                         window.iniciarInterfaz();
-                    } catch {
+                    } catch (e) {
+                        console.error('Error en iniciarInterfaz:', e);
                     }
                 }
+
                 if (typeof window.iniciarInterfazCrearSolicitud === 'function') {
                     try {
                         window.iniciarInterfazCrearSolicitud();
-                    } catch {
+                    } catch (e) {
+                        console.error('Error en iniciarInterfazCrearSolicitud:', e);
                     }
                 }
+
                 app.initSignatures();
             }
         });
 
-        // Persistencia al hacer clic en nav links
         document.addEventListener('click', (ev) => {
             const link = ev.target.closest('.app-sidebar .nav-link');
             if (!link)
@@ -862,7 +969,7 @@ const app = {
             app.navigate(href);
         });
 
-        // Restaurar estado desde sessionStorage (pestaña)
+        // Restaurar estado
         try {
             const collapsed = sessionStorage.getItem('sidebarCollapsed');
             if (collapsed === '1' && mq.matches) {
@@ -875,24 +982,28 @@ const app = {
                 app.setToggleIcon(true);
             }
 
-            // Estado del icono en móvil según última sesión
             const el = document.getElementById('appSidebar');
             if (el && typeof bootstrap !== 'undefined') {
                 const oc = bootstrap.Offcanvas.getInstance(el) || new bootstrap.Offcanvas(el);
+
                 el.addEventListener('shown.bs.offcanvas', () => {
                     app.setToggleIcon(true);
                     try {
                         sessionStorage.setItem('menuOpen', '1');
-                    } catch {
+                    } catch (e) {
+                        console.warn('Error guardando estado menú:', e);
                     }
                 });
+
                 el.addEventListener('hidden.bs.offcanvas', () => {
                     app.setToggleIcon(false);
                     try {
                         sessionStorage.setItem('menuOpen', '0');
-                    } catch {
+                    } catch (e) {
+                        console.warn('Error guardando estado menú:', e);
                     }
                 });
+
                 const menuOpen = sessionStorage.getItem('menuOpen');
                 if (!mq.matches) {
                     if (menuOpen === '1') {
@@ -907,107 +1018,98 @@ const app = {
 
             const savedPath = sessionStorage.getItem('activePath');
             if (!savedPath || savedPath !== location.pathname) {
-                try {
-                    sessionStorage.setItem('activePath', location.pathname);
-                } catch {
-                }
+                sessionStorage.setItem('activePath', location.pathname);
             }
-        } catch {
+        } catch (e) {
+            console.warn('Error restaurando estado:', e);
         }
-        // Inicializa título/subtítulo y overflow
+
         app.setTitleAndDescFromContent();
         app.adjustOverflow();
         app.initSignatures();
+
+        // Delegación de eventos para botones
         document.addEventListener('click', (e) => {
             const btn = e.target.closest('button.icon-button');
             if (!btn)
                 return;
+
             const action = btn.getAttribute('data-action');
+
             if (action === 'menu-toggle') {
                 e.preventDefault();
                 app.toggleSidebar();
                 return;
             }
+
             if (action === 'settings') {
                 e.preventDefault();
                 app.userMenu.close();
                 app.openSettings();
                 return;
             }
+
             if (action === 'user-menu') {
                 e.preventDefault();
                 app.userMenu.open(btn);
                 return;
             }
         });
+
         if (typeof window.iniciarInterfaz === 'function') {
             try {
                 window.iniciarInterfaz();
-            } catch {
+            } catch (e) {
+                console.error('Error en iniciarInterfaz:', e);
             }
         }
+
         if (typeof window.iniciarInterfazCrearSolicitud === 'function') {
             try {
                 window.iniciarInterfazCrearSolicitud();
-            } catch {
+            } catch (e) {
+                console.error('Error en iniciarInterfazCrearSolicitud:', e);
             }
         }
+
         app.userMenu.close();
         window.addEventListener('resize', () => app.adjustOverflow());
     }
 };
 
-Object.assign(window, {
-    modalApp: (title, html, footer) => app.modalApp(title, html, footer),
-    ['modal-app']: (title, html, footer) => app.modalApp(title, html, footer),
-    spinner: (...args) => app.spinner(...args),
-});
-
-window.addEventListener('DOMContentLoaded', () => app.init());
-
-
-particlesJS("particles-js", {
-    particles: {
-        number: {value: 80},
-        color: {value: "#bfc7d5"},
-        shape: {type: "circle"},
-        opacity: {value: 0.5},
-        size: {value: 2},
-        line_linked: {
-            enable: true,
-            distance: 150,
-            color: "#cbd2e0",
-            opacity: 0.4,
-            width: 1
-        },
-        move: {enable: true, speed: 1}
-    },
-    interactivity: {
-        events: {
-            onhover: {enable: true, mode: "grab"}
-        }
-    },
-    retina_detect: true
-});
-
+// ============================================
+// FUNCIONES AUXILIARES
+// ============================================
+function iniciarInterfazGlobal() {
+    crearItemDocumento();
+    btn_globales();
+    libreria_parcialesJS();
+    carritoDeCompras();
+}
 
 function crearItemDocumento() {
-    $("[data-component='documento']").each(function () {
-        const $el = $(this);
+    if (typeof jQuery === 'undefined')
+        return;
+
+    jQuery("[data-component='documento']").each(function () {
+        const $el = jQuery(this);
         const item = crearDocumento({
             id: $el.data("id"),
             icono: $el.data("icono"),
             titulo: $el.data("titulo"),
             subtitulo: $el.data("subtitulo"),
             htmlId: $el.data("id-html"),
-            htmlClass: $el.data("class-html") // 👈 AQUÍ
+            htmlClass: $el.data("class-html")
         });
         $el.replaceWith(item);
     });
 }
 
-function crearDocumento( { id, icono, titulo, subtitulo, htmlId, htmlClass }) {
-    const $item = $(`
+function crearDocumento({ id, icono, titulo, subtitulo, htmlId, htmlClass }) {
+    if (typeof jQuery === 'undefined')
+        return null;
+
+    const $item = jQuery(`
         <div class="btn-toggle btn-toggle-cootras d-following doc-item mb-2 border-input cursor" data-id="${id}" title="${titulo}">
             <div class="row align-items-center g-0">
                 <div class="col-auto">
@@ -1025,31 +1127,136 @@ function crearDocumento( { id, icono, titulo, subtitulo, htmlId, htmlClass }) {
             </div>
         </div>
     `);
-    htmlId && $item.attr("id", htmlId);
-    htmlClass && $item.addClass(htmlClass);
+
+    if (htmlId)
+        $item.attr("id", htmlId);
+    if (htmlClass)
+        $item.addClass(htmlClass);
+
     return $item;
 }
 
-// === Lógica Global del Spinner ===
-// Nota: El spinner ya se muestra por defecto desde main.html
+function libreria_parcialesJS() {
+    const id = "particles-js";
+    const existeDiv = document.getElementById(id);
 
-// Ocultar spinner cuando toda la página (imágenes, scripts, etc.) haya cargado
-$(window).on('load', function () {
-    // Esperar a que los WebComponents estén definidos antes de ocultar
-    if (typeof app !== 'undefined') {
-        app.waitForComponents().then(() => {
-            app.spinner(false);
-        });
-    } else {
-        // Fallback simple si app falla
-        setTimeout(() => {
-            $('#spinner').addClass('d-none');
-        }, 100);
+    if (!existeDiv) {
+        console.warn("Saltando partículas: No se encontró #" + id);
+        return;
     }
-});
 
+    if (typeof particlesJS === 'undefined') {
+        console.warn('ParticlesJS no está cargado');
+        return;
+    }
 
+    try {
+        particlesJS(id, {
+            particles: {
+                number: { value: 80 },
+                color: { value: "#bfc7d5" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 2 },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#cbd2e0",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: { enable: true, speed: 1 }
+            },
+            interactivity: {
+                events: {
+                    onhover: { enable: true, mode: "grab" }
+                }
+            },
+            retina_detect: true
+        });
+    } catch (e) {
+        console.error("Error controlado en ParticlesJS:", e);
+    }
+}
+
+function btn_globales() {
+    const locationBtn = document.getElementById("location_actual");
+    if (locationBtn) {
+        locationBtn.addEventListener('click', function () {
+            const modal = document.getElementById("addressModal");
+            if (modal && typeof bootstrap !== 'undefined') {
+                const modalInstance = new bootstrap.Modal(modal);
+                modalInstance.show();
+            }
+        });
+    }
+}
+
+function cargarAutocompletadoCiudades() {
+    const inputCiudad = document.getElementById('input-ciudad');
+    const datalist = document.getElementById('ciudades-datalist');
+
+    if (!inputCiudad || !datalist)
+        return;
+
+    inputCiudad.addEventListener('input', function () {
+        let filtro = this.value;
+
+        if (filtro.length > 2) {
+            if (typeof jQuery !== 'undefined') {
+                jQuery.ajax({
+                    url: '/public/ciudades',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.estado) {
+                            let html = "";
+                            let coincidencias = res.salida.filter(c =>
+                                c.nombre.toLowerCase().includes(filtro.toLowerCase())
+                            );
+
+                            coincidencias.slice(0, 10).forEach(c => {
+                                let label = `${c.departamento.nombre} - ${c.nombre}`;
+                                html += `<option value="${label}" data-id="${c.idciudad}">`;
+                            });
+
+                            datalist.innerHTML = html;
+                        } else {
+                            console.error("Error del servidor: " + res.mensaje);
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Error en la petición AJAX");
+                    }
+                });
+            } else {
+                fetch('/public/ciudades')
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res.estado) {
+                            let html = "";
+                            let coincidencias = res.salida.filter(c =>
+                                c.nombre.toLowerCase().includes(filtro.toLowerCase())
+                            );
+
+                            coincidencias.slice(0, 10).forEach(c => {
+                                let label = `${c.departamento.nombre} - ${c.nombre}`;
+                                html += `<option value="${label}" data-id="${c.idciudad}">`;
+                            });
+
+                            datalist.innerHTML = html;
+                        }
+                    })
+                    .catch(err => console.error("Error:", err));
+            }
+        }
+    });
+}
 function jAlert(titulo, subtitulo = "", tipo = "success", confirmar = false, callback = null) {
+    if (typeof iziToast === 'undefined') {
+        console.warn('iziToast no está cargado');
+        return;
+    }
 
     if (confirmar) {
         iziToast.question({
@@ -1059,15 +1266,15 @@ function jAlert(titulo, subtitulo = "", tipo = "success", confirmar = false, cal
             color: '#fff',
             buttons: [
                 ['<button>Confirmar</button>', function (instance, toast) {
-                        instance.hide({transitionOut: 'fadeOut'}, toast);
-                        if (callback)
-                            callback(true);
-                    }],
+                    instance.hide({ transitionOut: 'fadeOut' }, toast);
+                    if (callback)
+                        callback(true);
+                }],
                 ['<button>Cancelar</button>', function (instance, toast) {
-                        instance.hide({transitionOut: 'fadeOut'}, toast);
-                        if (callback)
-                            callback(false);
-                    }]
+                    instance.hide({ transitionOut: 'fadeOut' }, toast);
+                    if (callback)
+                        callback(false);
+                }]
             ]
         });
         return;
@@ -1081,10 +1288,16 @@ function jAlert(titulo, subtitulo = "", tipo = "success", confirmar = false, cal
     });
 }
 
-function alert(mensaje, param2, param3, onComplete = function(isConfirmed) {}) {
+function alert(mensaje, param2, param3, onComplete = function (isConfirmed) { }) {
+    if (typeof Swal === 'undefined') {
+        window.alert(mensaje);
+        return Promise.resolve(false);
+    }
+
     mensaje = mensaje.replace(/\n/g, "<br>");
     let titulo = "Mensaje";
     let confirmacion = true;
+
     if (typeof param2 === "string") {
         titulo = param2;
         if (typeof param3 === "boolean" || param3 === null) {
@@ -1093,6 +1306,7 @@ function alert(mensaje, param2, param3, onComplete = function(isConfirmed) {}) {
     } else if (typeof param2 === "boolean" || param2 === null) {
         confirmacion = param2;
     }
+
     const options = {
         title: titulo,
         html: mensaje,
@@ -1111,6 +1325,7 @@ function alert(mensaje, param2, param3, onComplete = function(isConfirmed) {}) {
             document.activeElement?.blur();
         }
     };
+
     if (confirmacion === undefined || confirmacion === true) {
         options.showConfirmButton = true;
         options.showCancelButton = false;
@@ -1121,86 +1336,29 @@ function alert(mensaje, param2, param3, onComplete = function(isConfirmed) {}) {
         options.showConfirmButton = false;
         options.showCancelButton = true;
     }
+
     return Swal.fire(options).then((result) => {
         onComplete(result.isConfirmed);
         return result.isConfirmed;
     });
 }
 
-
-$.ajaxSetup({
-    error: function (xhr) {
-        if (xhr.status === 401) {
-            // Aquí tú decides: ¿Muestras un mensaje? ¿Abres un modal?
-            console.log("Usuario no autenticado. Quédate donde estás.");
-            // Si decides que sí quieres llevarlo a login tras el error:
-            // window.location.href = "/login";
-        }
+function peticionesGlobales(url, data, onSuccess) {
+    if (typeof jQuery === 'undefined') {
+        console.error('jQuery no está disponible');
+        return;
     }
-});
 
-/**
- * @author Brahyan_Bejarano
- */
-/**
- * @author Brahyan_Bejarano
- */
-const DTO = {
-    // --- BÁSICOS ---
-    id: (valor) => ({id: valor}),
-
-    // Para combos, selects y autocompletados
-    select: (id, desc) => ({id: id, descripcion: desc}),
-
-    // --- SEGURIDAD ---
-    credenciales: (u, p) => ({login: u, password: p}),
-    password: (oldP, newP) => ({actual: oldP, nueva: newP}),
-
-    // --- OPERACIONES DE ESTADO ---
-    // Útil para "Borrado Lógico" o bloquear usuarios/vehículos
-    estado: (id, bol) => ({id: id, activo: bol}),
-
-    // --- BÚSQUEDA Y PAGINACIÓN ---
-    // 'filtros' es un objeto opcional con campos extra (ej: { placa: 'ABC', tipo: 1 })
-    consulta: (buscar, p = 0, t = 10, filtros = {}) => ({
-            buscar: buscar,
-            pagina: p,
-            tamanio: t,
-            filtros: filtros
-        }),
-
-    // --- RANGOS (REPORTES) ---
-    rango: (ini, fin, refId = null) => ({
-            inicio: ini,
-            fin: fin,
-            referenciaId: refId
-        }),
-
-    // --- PERSISTENCIA (GUARDAR / EDITAR) ---
-    /**
-     * @param {Object} data - Los datos del objeto (Conductor, Vehiculo, etc.)
-     * @param {boolean} esNuevo - True para guardar, False para actualizar
-     */
-    transaccion: (data, esNuevo = true) => ({
-            entidad: data,
-            esNuevo: esNuevo,
-            timestamp: new Date().getTime()
-        })
-};
-
-function peticionPro(url, data, onSuccess) {
-    $.ajax({
+    jQuery.ajax({
         url: url,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),
         beforeSend: function () {
-            // Podrías poner un loading global aquí
+            // Loading global
         },
         success: function (res) {
-            // res es tu IRespuesta de Java
             if (res.estado) {
-                // Usamos TU función alert: alert(mensaje, titulo, confirmacion, onComplete)
                 alert(res.mensaje, "¡Logrado!", true, () => {
                     if (onSuccess)
                         onSuccess(res.salida, res.mensaje);
@@ -1214,5 +1372,72 @@ function peticionPro(url, data, onSuccess) {
             const msj = error ? error.mensaje : "Error crítico en el servidor";
             alert(msj, "Error de Sistema", true);
         }
+    });
+}
+
+function carritoDeCompras() {
+    const carritoOffcanvas = new bootstrap.Offcanvas($("#carritoOffcanvas"));
+    // Abrir el offcanvas al hacer clic en el icono
+    $("#iconoCarrito").off().click(function () {
+        carritoOffcanvas.show();
+    });
+}
+// ============================================
+// CONFIGURACIÓN GLOBAL DE JQUERY
+// ============================================
+if (typeof jQuery !== 'undefined') {
+    jQuery.ajaxSetup({
+        error: function (xhr) {
+            if (xhr.status === 401) {
+                console.log("Usuario no autenticado. Quédate donde estás.");
+            }
+        }
+    });
+}
+
+// ============================================
+// EXPORTAR A WINDOW
+// ============================================
+Object.assign(window, {
+    app,
+    modalApp: (title, html, footer) => app.modalApp(title, html, footer),
+    'modal-app': (title, html, footer) => app.modalApp(title, html, footer),
+    spinner: (...args) => app.spinner(...args),
+    iniciarInterfazGlobal,
+    crearItemDocumento,
+    crearDocumento,
+    libreria_parcialesJS,
+    btn_globales,
+    cargarAutocompletadoCiudades,
+    jAlert,
+    peticionesGlobales
+});
+
+// ============================================
+// INICIALIZACIÓN AL CARGAR DOM
+// ============================================
+window.addEventListener('DOMContentLoaded', () => {
+    app.init();
+});
+
+// Ocultar spinner cuando toda la página haya cargado
+window.addEventListener('load', function () {
+    if (typeof app !== 'undefined') {
+        app.waitForComponents().then(() => {
+            app.spinner(false);
+        });
+    } else {
+        setTimeout(() => {
+            const spinner = document.getElementById('spinner');
+            if (spinner)
+                spinner.classList.add('d-none');
+        }, 100);
+    }
+});
+
+// Inicializar interfaz global cuando jQuery esté listo
+if (typeof jQuery !== 'undefined') {
+    jQuery(document).ready(function () {
+        iniciarInterfazGlobal();
     });
 }

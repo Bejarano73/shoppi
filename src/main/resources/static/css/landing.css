@@ -107,3 +107,12 @@ footer a{
 footer a:hover{
     color:var(--brand)
 }
+
+.circular{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: #b0d2ad;
+    padding: 8px;
+}

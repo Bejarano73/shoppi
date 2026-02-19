@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+
+<head>
+    <link th:href="@{/css/TerminoCondiciones.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div id="page-content" class="row m-0 min-vh-100">
+
+            <div class="row m-0">
+
+                <!-- Columna izquierda - Tabla de contenidos -->
+                <div class="col-12 col-md-4 col-lg-3 col-xl-3 p-3">
+                    <div class="card p-4 shadow-sm" style="position: sticky; top: 20px;">
+                        <h6 class="fw-bold mb-3">Tabla de contenidos</h6>
+                        <ul class="list-unstyled m-0">
+                            <li class="py-2 border-bottom">
+                                <a href="#aceptacion" class="text-decoration-none text-dark small">Aceptación de los
+                                    Términos</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#uso-plataforma" class="text-decoration-none text-dark small">Uso de la
+                                    Plataforma</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#registro-cuentas" class="text-decoration-none text-dark small">Registro y
+                                    Cuentas de Usuario</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#servicios-disponibles" class="text-decoration-none text-dark small">Servicios
+                                    Disponibles</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#responsabilidad-usuario"
+                                    class="text-decoration-none text-dark small">Responsabilidad del Usuario</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#pagos-tarifas" class="text-decoration-none text-dark small">Pagos y
+                                    Tarifas</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#cancelaciones-reembolsos"
+                                    class="text-decoration-none text-dark small">Cancelaciones y Reembolsos</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#privacidad-datos" class="text-decoration-none text-dark small">Privacidad y
+                                    Protección de Datos</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#limitacion-responsabilidad"
+                                    class="text-decoration-none text-dark small">Limitación de Responsabilidad</a>
+                            </li>
+                            <li class="py-2 border-bottom">
+                                <a href="#modificacion-terminos"
+                                    class="text-decoration-none text-dark small">Modificación de los Términos</a>
+                            </li>
+                            <li class="py-2 ">
+                                <a href="#jurisdiccion-ley" class="text-decoration-none text-dark small">Jurisdicción y
+                                    Ley Aplicable</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Columna derecha - Contenido -->
+                <div class="col-12 col-md-8 col-xl-9 col-lg-9 p-3">
+
+                    <div class="card p-4 shadow-sm mb-4 ">
+                        <h5 class="fw-bold">Resumen</h5>
+                        <p class="text-muted">Las páginas web corporativas necesitan establecer un contrato con sus
+                            visitantes
+                            para asegurarse de que estén claros los derechos y obligaciones de las partes. Este tipo de
+                            documento
+                            formal es clave para la transparencia, lo que permite prevenir problemas que podrían derivar
+                            en
+                            conflictos legales.</p>
+                    </div>
+                    <div class="card p-4 shadow-sm mb-4 ">
+                        <h5 id="aceptacion" class="fw-bold mb-3">Aceptación de los Términos</h5>
+                        <p class="text-muted border-bottom">Al utilizar la plataforma Truck Flow, ya sea como cliente,
+                            tienda o conductor,
+                            usted acepta estos
+                            términos y condiciones. Si no está de acuerdo con estos términos, por favor, absténgase de
+                            utilizar
+                            nuestros servicios.</p>
+
+                        <h5 id="uso-plataforma" class="fw-bold mb-3">Uso de la Plataforma</h5>
+                        <p class="text-muted border-bottom">Truck Flow proporciona una plataforma para facilitar la
+                            conexión entre
+                            clientes, tiendas, conductores y
+                            empresas de transporte. El usuario se compromete a utilizar la plataforma de manera legal,
+                            ética
+                            y
+                            respetuosa con todas las leyes locales e internacionales aplicables.</p>
+
+                        <h5 id="registro-cuentas" class="fw-bold mb-3">Registro y Cuentas de Usuario</h5>
+                        <p class="text-muted border-bottom">Para acceder a ciertos servicios de Truck Flow, los usuarios
+                            deben crear una
+                            cuenta. El usuario es
+                            responsable de mantener la confidencialidad de su cuenta y contraseñas, y acepta notificar
+                            inmediatamente a Truck Flow si detecta un uso no autorizado de su cuenta.</p>
+
+                        <h5 id="sevicios-disponibles" class="fw-bold mb-3">Servicios Disponibles</h5>
+                        <p class="text-muted border-bottom">Los servicios ofrecidos por Truck Flow incluyen, entre
+                            otros, transporte de
+                            mercancías, mensajería,
+                            domiciliarios y logística. Truck Flow se reserva el derecho de modificar, suspender o
+                            eliminar
+                            cualquiera
+                            de estos servicios sin previo aviso.</p>
+
+                        <h5 id="responsabilidad-usuario" class="fw-bold mb-3">Responsabilidad del Usuario</h5>
+                        <p class="text-muted border-bottom">El cliente es responsable de proporcionar información
+                            precisa y completa al
+                            solicitar cualquier servicio. El
+                            conductor o empresa de transporte es responsable de realizar el servicio de acuerdo con las
+                            normas de
+                            seguridad y profesionalismo.</p>
+
+                        <h5 id="pagos-tarifas" class="fw-bold mb-3">Pagos y Tarifas</h5>
+                        <p class="text-muted border-bottom">Las tarifas de los servicios serán proporcionadas antes de
+                            la confirmación de
+                            la solicitud. El cliente
+                            acepta pagar el costo total del servicio al momento de su confirmación. Truck Flow puede
+                            cobrar
+                            comisiones a los conductores o tiendas, según las tarifas previamente acordadas.</p>
+                        <h5 id="cancelaciones-reembolsos" class="fw-bold mb-3">Cancelaciones y Reembolsos</h5>
+                        <p class="text-muted border-bottom">Las cancelaciones de servicios deben realizarse dentro de un
+                            plazo determinado
+                            para evitar cargos
+                            adicionales. El cliente tiene derecho a solicitar un reembolso en caso de incumplimiento por
+                            parte del
+                            conductor o la tienda, según lo estipulado en las políticas de reembolso de Truck Flow.</p>
+                        <h5 id="privacidad-datos" class="fw-bold mb-3">Privacidad y Protección de Datos</h5>
+                        <p class="text-muted border-bottom">Truck Flow respeta la privacidad de sus usuarios y garantiza
+                            que toda la
+                            información personal será
+                            manejada conforme a nuestra política de privacidad. No compartimos ni vendemos datos de los
+                            usuarios
+                            a terceros sin su consentimiento expreso, salvo que sea necesario para cumplir con los
+                            servicios
+                            ofrecidos.</p>
+                        <h5 id="limitacion-responsabilidad" class="fw-bold mb-3">Limitación de Responsabilidad</h5>
+                        <p class="text-muted border-bottom">Truck Flow no se hace responsable por daños, pérdidas o
+                            inconvenientes
+                            derivados del uso de los
+                            servicios de transporte o cualquier otro servicio solicitado a través de la plataforma,
+                            excepto
+                            en los casos
+                            de negligencia directa por parte de Truck Flow.</p>
+                        <h5 id="modificacion-terminos" class="fw-bold mb-3">Modificación de los Términos</h5>
+                        <p class="text-muted border-bottom">Truck Flow se reserva el derecho de modificar estos términos
+                            y condiciones en
+                            cualquier momento, y
+                            dichas modificaciones entrarán en vigor una vez publicadas en la plataforma.</p>
+                        <h5 id="jurisdiccion-ley" class="fw-bold mb-3">Jurisdicción y Ley Aplicable</h5>
+                        <p class="text-muted">Cualquier disputa relacionada con estos términos será
+                            resuelta de acuerdo con 
+                            las leyes locales e
+                            internacionales aplicables en el lugar donde Truck Flow tiene su sede.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/js/TerminoCondiciones.js}"></script>
+    </th:block>
+</body>
+
+</html>

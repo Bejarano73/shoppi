@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+    <head>
+        <link th:href="@{/css/Contactenos.css}" rel="stylesheet" />
+    </head>
+
+    <body>
+        <div layout:fragment="content">
+            <div id="page-content" class="row m-0 min-vh-100">
+
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex align-items-start justify-content-center p-3">
+                    <div class="card p-4 shadow-sm w-100">
+                        <h2 class="text-center fs-5 mb-4">Contáctenos</h2>
+                        <form>
+                            <input type="hidden" name="registro">
+                            <div class="form-floating mb-2">
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre" required>
+                                <label for="nombre">Nombre</label>
+                            </div>
+                            <div class="form-floating mb-2">
+                                <input type="email" class="form-control" id="email" placeholder="Email" required>
+                                <label for="email">Correo electrónico</label>
+                            </div>
+                            <div class="form-floating mb-2">
+                                <input type="text" class="form-control" id="subject" placeholder="Asunto" required>
+                                <label for="subject">Asunto</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="mensaje_planes" placeholder="Mensaje"
+                                          style="height: 100px"></textarea>
+                                <label for="mensaje_planes">Mensaje o dudas (opcional)</label>
+                            </div>
+                            <div class="text-center"><button id="btn_planes" type="button" class="btn btn-success w-50 py-2">
+                                    Enviar
+                                </button></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex align-items-start justify-content-center  p-3">
+                    <div class="card p-4 shadow-sm w-100">
+                        <h2 class="text-center fs-5 text-secondary">TruckFlow</h2>
+                        <div class="accordion accordion-flush" id="accordioncontactenos">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                            aria-controls="flush-collapseOne">
+                                        ¿Tienes dudas sobre tu pedido?
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingOne" data-bs-parent="#accordioncontactenos">
+                                    <div class="accordion-body">
+                                        Si necesitas ayuda con tu solicitud de servicio, seguimiento de envíos o cualquier
+                                        otra consulta,
+                                        nuestro equipo está disponible para asistirte.
+                                        <ul>
+                                            <li>Teléfono: [Número de teléfono]</li>
+                                            <li>Correo electrónico: [Correo electrónico]</li>
+                                            <li>Horario de atención: [Días y horas]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                            aria-controls="flush-collapseTwo">
+                                        ¿Eres una tienda interesada en ofrecer tus productos?
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingTwo" data-bs-parent="#accordioncontactenos">
+                                    <div class="accordion-body">
+                                        Si deseas unirte a nuestra plataforma, contáctanos para conocer más sobre cómo
+                                        puedes
+                                        registrarte y comenzar a vender a través de Truck Flow.
+                                        <ul>
+                                            <li>Teléfono: [Número de teléfono]</li>
+                                            <li>Correo electrónico: [Correo electrónico]</li>
+                                            <li>Horario de atención: [Días y horas]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                            aria-controls="flush-collapseThree">
+                                        ¿Quieres ser parte de nuestra red de conductores?
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-headingThree" data-bs-parent="#accordioncontactenos">
+                                    <div class="accordion-body">
+                                        Si eres conductor y deseas ofrecer tus servicios, contáctanos para unirte a Truck
+                                        Flow y empezar a recibir solicitudes de transporte.
+                                        <ul>
+                                            <li>Teléfono: [Número de teléfono]</li>
+                                            <li>Correo electrónico: [Correo electrónico]</li>
+                                            <li>Horario de atención: [Días y horas]</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/js/Contactenos.js}"></script>
+    </th:block>
+</body>
+
+</html>

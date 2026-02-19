@@ -23,7 +23,7 @@ public class Sexo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String idsexo;
+    private Integer idsexo;
 
     @Column(nullable = false, length = 32)
     private String descripcion;

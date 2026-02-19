@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/main}">
+
+<head>
+    <link th:href="@{/css/Registro.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div id="page-content" class="row m-0 min-vh-100">
+            <!-- LADO IZQUIERDO (IMAGEN) -->
+            <div class="col-lg-4 col-xl-6  d-none d-xl-flex p-0">
+                <img th:if="${step == '10'}" th:src="@{/img/conductor.png}" class="img-fluid w-100 img_registro"
+                    alt="Imagen" draggable="false">
+                <img th:if="${step == '5'}" th:src="@{/img/camion.png}" class="img-fluid w-100 img_registro"
+                    alt="Imagen" draggable="false">
+                <img th:if="${step == '3'}" th:src="@{/img/registrate.png}" class="img-fluid w-100 img_registro"
+                    alt="Imagen" draggable="false">
+                <img th:if="${step == '8'}" th:src="@{/img/RegistroConductor.png}" class="img-fluid w-100 img_registro"
+                    alt="Imagen" draggable="false">
+            </div>
+            <!-- LADO DERECHO (FORMULARIO) -->
+            <div
+                class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 d-flex align-items-center justify-content-center bg-success p-4">
+                <div class="card p-4 shadow-sm ">
+                    <h2 class="text-center fs-5 text-secondary">Registrate con TruckFlow </h2>
+                    <form id="registrar">
+                        <div class="row mb-3">
+                            <div class="form-floating mb-3 col-6">
+                                <input type="text" id="codigoEmpresarial" class="form-control"
+                                    placeholder="Código Empresarial">
+                                <label for="codigoEmpresarial">Código Empresarial</label>
+                            </div>
+                            <div class="form-floating mb-3 col-6">
+                                <input type="text" id="identificacion" class="form-control"
+                                    placeholder="Identificación">
+                                <label for="identificacion">Identificación</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" id="nombre" class="form-control" placeholder="Nombre">
+                                <label for="nombre">Nombre</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" id="apellido" class="form-control" placeholder="Apellido">
+                                <label for="apellido">Apellido</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" id="telefono" class="form-control" placeholder="Tu móvil">
+                                <label for="telefono">Teléfono</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" id="correo" class="form-control" placeholder="Correo electrónico">
+                                <label for="correo">Correo electrónico</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="password" id="password" class="form-control"
+                                    placeholder="Crea una contraseña">
+                                <label for="password">Contraseña</label>
+                            </div>
+
+                            <div class="text-center">
+                                <button id="btn_registrar_registro" type="submit" class="btn btn-success w-100 cursor">
+                                    Registrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Link inferior -->
+                    <div class="d-flex align-items-center ">
+                        <hr class="flex-grow-1">
+                        <span class="px-2 text-muted small">¿Ya tienes cuenta?</span>
+                        <hr class="flex-grow-1">
+                    </div>
+                    <div class="text-center">
+                        <button id="iniciar_section_registro" type="button"
+                            class="btn btn-link fw-semibold text-decoration-none text-secondary cursor">
+                            Inicia sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Acordeon -->
+            <div class="mx-0 p-0 my-5">
+                <div class=" mx-auto p-4 border-top border-bottom">
+                    <h5>Preguntas frecuentes</h5>
+                    <div class="accordion " id="accordionPanelsStayOpenExample">
+
+                        <!-- ITEM 1 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne">
+                                    <span th:if="${step == '5'}">🛒 ¿Qué es Truck Flow para tiendas?</span>
+                                    <span th:if="${step == '3'}">🏢 ¿Qué es Truck Flow para Empresa?</span>
+                                    <span th:if="${step == '8'}">🚚 ¿Qué es Truck Flow para conductores?</span>
+                                    <span th:if="${step == '10'}">🧑‍💼 ¿Qué es Truck Flow?</span>
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse ">
+                                <div class="accordion-body">
+                                    <span th:if="${step == '5'}">Truck Flow es una plataforma digital donde tu tienda
+                                        puede
+                                        <strong>publicar productos, promocionar sus servicios y vender en
+                                            línea</strong>de
+                                        forma
+                                        sencilla.
+                                        Funcionamos como un marketplace, permitiendo que más clientes encuentren tu
+                                        negocio
+                                        y
+                                        reciban
+                                        tus productos de manera rápida y segura.</span>
+                                    <span th:if="${step == '3'}">Truck Flow es una plataforma tecnológica diseñada para
+                                        optimizar la gestión logística de empresas
+                                        que trabajan con vehículos, conductores, motos, transporte de carga, mensajería
+                                        o servicios urbanos.
+                                        Permite llevar control completo de viajes, gastos, conductores, vehículos y
+                                        operaciones en tiempo
+                                        real desde un solo sistema, mejorando la eficiencia, reduciendo costos y
+                                        facilitando la toma de
+                                        decisiones.</span>
+                                    <span th:if="${step == '8'}"> Truck Flow es una plataforma tecnológica diseñada para
+                                        conectar conductores con empresas y
+                                        clientes que requieren servicios de transporte, mensajería, domicilios y
+                                        logística urbana. A través de
+                                        Truck Flow puedes trabajar de forma independiente con tu propio vehículo o
+                                        postularte para
+                                        colaborar con empresas que buscan conductores confiables según su operación y
+                                        demanda.
+                                        La plataforma centraliza las solicitudes de transporte, optimiza la asignación
+                                        de servicios y te
+                                        permite generar ingresos de manera flexible y segura, sin intermediarios
+                                        innecesarios.</span>
+                                    <span th:if="${step == '10'}">
+                                        <p>Truck Flow es una plataforma que permite a los clientes solicitar servicios
+                                            de transporte,
+                                            mensajería, domicilios o logística de forma rápida, segura y organizada.</p>
+                                        <p>A través de la plataforma, el cliente puede conectarse con:</p>
+                                        <ul>
+                                            <li>Tiendas registradas</li>
+                                            <li>Empresas de transporte</li>
+                                            <li>Conductores independientes</li>
+                                            <li>Vehículos disponibles según su necesidad</li>
+                                        </ul>
+                                        <p>Todo desde un solo lugar y con seguimiento del servicio en tiempo real.</p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ITEM 2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo">
+                                    <span th:if="${step == '5'}">🚚 ¿Cómo funciona Truck Flow en tiendas?</span>
+                                    <span th:if="${step == '3'}">🔄 ¿Cómo funciona Truck Flow para empresas?</span>
+                                    <span th:if="${step == '8'}">🔄 ¿Cómo funciona Truck Flow para conductores?</span>
+                                    <span th:if="${step == '10'}">🔄 ¿Cómo funciona Truck Flow?</span>
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <span th:if="${step == '5'}"> Truck Flow conecta tu tienda con clientes que buscan
+                                        productos cerca de ellos.
+                                        Tú publicas lo que vendes, estableces precios y disponibilidad, y nuestro
+                                        sistema se
+                                        encarga de
+                                        <strong>mostrar tu tienda, gestionar pedidos y facilitar la entrega,</strong>
+                                        todo
+                                        desde
+                                        una sola
+                                        plataforma.</span>
+                                    <span th:if="${step == '3'}">
+                                        <p>Las empresas crean su perfil dentro de la plataforma y registran:</p>
+                                        <ul>
+                                            <li>Conductores internos</li>
+                                            <li>Vehículos (carros, motos, camiones, etc.)</li>
+                                            <li>Tipos de servicios que realizan</li>
+                                            <li>Rutas o zonas de operación</li>
+                                        </ul>
+                                        <p>Desde el panel administrativo podrán:</p>
+                                        <ul>
+                                            <li>Asignar servicios</li>
+                                            <li>Solicitar conductores externos si los necesitan</li>
+                                            <li>Visualizar conductores cercanos disponibles</li>
+                                            <li>Gestionar turnos</li>
+                                            <li>Llevar historial de cada viaje</li>
+                                            <li>Controlar gastos operativos</li>
+                                        </ul>
+                                        <p>El sistema centraliza toda la información para que la empresa tenga control
+                                            total de su operación logística. </p>
+                                    </span>
+                                    <span th:if="${step == '8'}"> Una vez registrado y aprobado, el conductor crea su
+                                        perfil indicando su experiencia, tipo de
+                                        vehículo, disponibilidad y tipos de servicio que puede realizar. El sistema te
+                                        mostrará solicitudes
+                                        acordes a tu perfil, como domicilios, transporte de carga, turnos de envío,
+                                        cargue y descargue, o
+                                        traslados especiales solicitados por clientes o empresas.
+                                        Tú decides qué solicitudes aceptar, cuándo trabajar y con quién, manteniendo
+                                        control total sobre tu
+                                        tiempo y tus servicios.</span>
+                                    <span th:if="${step == '10'}">
+                                        <p>El proceso es simple:</p>
+                                        <ol>
+                                            <li>El cliente se registra en la plataforma.</li>
+                                            <li>Selecciona el tipo de servicio que necesita.</li>
+                                            <li>Ingresa los detalles del servicio.</li>
+                                            <li>Confirma la solicitud.</li>
+                                            <li>La plataforma asigna el conductor o empresa disponible.</li>
+                                            <li>El cliente puede hacer seguimiento hasta que el servicio finalice.</li>
+                                        </ol>
+                                        <p>El cliente solo solicita el servicio y Truck Flow se encarga de la conexión
+                                            y gestión.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ITEM 3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree">
+                                    <span th:if="${step == '5'}">📝 ¿Cómo me registro en Truck Flow como tienda?</span>
+                                    <span th:if="${step == '3'}">🚛 Gestión de conductores y vehículos</span>
+                                    <span th:if="${step == '8'}">📝 ¿Cómo me registro como conductor en Truck
+                                        Flow?</span>
+                                    <span th:if="${step == '10'}">🚚 ¿Qué servicios puedo solicitar?</span>
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <span th:if="${step == '5'}">El registro es <strong>rápido y
+                                            sencillo.</strong>Solo necesitas completar un
+                                        formulario
+                                        con la
+                                        información básica de tu tienda, como nombre,
+                                        dirección, tipo de productos y datos de contacto.
+                                        Nuestro equipo revisará la información y, una vez aprobada, tu tienda estará
+                                        lista
+                                        para
+                                        operar dentro
+                                        del sistema.</span>
+                                    <span th:if="${step == '3'}"><ul><p>Truck Flow permite:</p>
+                                        <li>Registrar empleados conductores</li>
+                                        <li>Llevar control de documentación</li>
+                                        <li>Ver historial de viajes realizados</li>
+                                        <li>Evaluar desempeño</li>
+                                        <li>Controlar disponibilidad</li>
+                                        Si la empresa necesita más personal, el sistema puede:
+                                        <li>Mostrar conductores cercanos disponibles</li>
+                                        <li>Permitir postulación de conductores externos</li>
+                                        <li>Sugerir vehículos compatibles según el servicio requerido</li>
+                                        Esto facilita cubrir picos de demanda sin complicaciones.
+                                    </span></ul>
+                                    <span th:if="${step == '8'}"> El proceso de registro es simple y guiado. Debes
+                                        completar un formulario con tus datos personales, experiencia como conductor,
+                                        tipo de servicios que puedes prestar y documentación básica. En caso de contar
+                                        con vehículo propio, también se solicitarán los documentos del mismo. Nuestro
+                                        equipo valida la información para garantizar la seguridad y calidad del servicio
+                                        dentro de la plataforma. Una vez aprobado, tu cuenta quedará activa para recibir
+                                        solicitudes.</span>
+                                    <span th:if="${step == '10'}">
+                                        <p>Dependiendo de su necesidad, el cliente puede:</p>
+                                        <ul>
+                                            <li>Pedir servicios a tiendas registradas (compras y domicilios) 🛍️</li>
+                                            <li>Solicitar mensajería o envío de paquetes 📦</li>
+                                            <li>Pedir transporte de mercancía 🚛</li>
+                                            <li>Solicitar servicio a una empresa de transporte específica 🏢</li>
+                                            <li>Contratar directamente a un conductor disponible 👤</li>
+                                            <li>Solicitar un vehículo para traslado urbano o intermunicipal 🚗</li>
+                                        </ul>
+                                        <p>La plataforma mostrará las opciones disponibles según ubicación y tipo de
+                                            servicio.</p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ITEM 4 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour">
+                                    <span th:if="${step == '5'}">🏪 ¿Qué tipo de conductor puede unirse como
+                                        tienda?</span>
+                                    <span th:if="${step == '3'}">📊 Control y seguimiento de viajes</span>
+                                    <span th:if="${step == '8'}">🚛 ¿Qué tipos de servicios puedo ofrecer como
+                                        conductor?</span>
+                                    <span th:if="${step == '10'}">📲 ¿Qué debo hacer como cliente?</span>
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <span th:if="${step == '5'}">Pueden registrarse <strong>todo tipo de
+                                            tiendas:</strong> abarrotes, restaurantes,
+                                        farmacias, licorerías,
+                                        tiendas
+                                        especializadas y más.
+                                        Si vendes productos y quieres llegar a más clientes, <strong>Truck Flow es para
+                                            ti.</strong></span>
+                                    <span th:if="${step == '3'}">
+                                        <p>Cada viaje puede incluir un proceso completo de registro:</p>
+                                        <p>Antes de salir:</p>
+                                        <ul>
+                                            <li>Llenado de planilla digital</li>
+                                            <li>Kilometraje inicial</li>
+                                            <li>Hora de salida</li>
+                                            <li>Peso o tipo de carga</li>
+                                            <li>Estado del vehículo</li>
+                                            <li>Observaciones</li>
+                                        </ul>
+                                        <p>Durante el servicio:</p>
+                                        <ul>
+                                            <li>Seguimiento del recorrido</li>
+                                            <li>Actualización de estado</li>
+                                        </ul>
+                                        <p>Al finalizar:</p>
+                                        <ul>
+                                            <li>Kilometraje final</li>
+                                            <li>Hora de llegada</li>
+                                            <li>Confirmación de entrega</li>
+                                            <li>Registro de novedades</li>
+                                        </ul>
+                                        <p>
+                                            Todo queda almacenado en el historial del sistema para auditoría y control
+                                            interno.
+                                        </p>
+                                    </span>
+                                    <span th:if="${step == '8'}">
+                                        <p>Dependiendo de tu experiencia, disponibilidad y tipo de vehículo, puedes
+                                            ofrecer:</p>
+                                        <ul>
+                                            <li>Servicios de domicilios y entregas rápidas</li>
+                                            <li>Transporte de mercancía ligera o pesada</li>
+                                            <li>Cargue y descargue de productos</li>
+                                            <li>Cobertura de turnos de envío para empresas</li>
+                                            <li>Traslados urbanos o intermunicipales</li>
+                                            <li>Servicios bajo demanda solicitados por clientes</li>
+                                        </ul>
+                                        <p>El sistema prioriza mostrarte solicitudes compatibles con tu perfil para
+                                            mejorar tu experiencia y tus ingresos.</p>
+                                    </span>
+                                    <span th:if="${step == '10'}">
+                                        <p>El cliente únicamente debe:</p>
+                                        <ul>
+                                            <li>Indicar el punto de recogida</li>
+                                            <li>Indicar el punto de destino</li>
+                                            <li>Especificar el tipo de carga o servicio</li>
+                                            <li>Confirmar la solicitud</li>
+                                        </ul>
+                                        <p>Después de eso, podrá:</p>
+                                        <ul>
+                                            <li>Ver quién acepta el servicio</li>
+                                            <li>Hacer seguimiento del proceso</li>
+                                            <li>Recibir confirmación al finalizar</li>
+                                        </ul>
+                                        <p>
+                                            Todo queda registrado dentro del sistema.
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ITEM 5 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive">
+                                    <span th:if="${step == '5'}">💰 ¿Cuáles son los beneficios de unirme a Truck Flow
+                                        como tienda?</span>
+                                    <span th:if="${step == '3'}">💰 Control de gastos y operación</span>
+                                    <span th:if="${step == '8'}">👤 ¿Puedo trabajar con empresas o de manera
+                                        independiente?</span>
+                                    <span th:if="${step == '10'}">💰 Transparencia y control</span>
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <span th:if="${step == '5'}">
+                                        <ul>
+                                            <li>Mayor visibilidad para tu negocio</li>
+                                            <li>Incremento en tus ventas</li>
+                                            <li>Publicación fácil de productos</li>
+                                            <li>Acceso a nuevos clientes</li>
+                                            <li>Soporte y acompañamiento durante el proceso</li>
+                                        </ul>
+                                        <p>
+                                            Todo sin necesidad de tener tu propia app o sistema de ventas.
+                                        </p>
+                                    </span>
+                                    <span th:if="${step == '3'}">Aquí lo tienes correctamente estructurado con <ul>
+                                            <p>La empresa puede llevar seguimiento de:</p>
+                                            <ul>
+                                                <li>Gastos por viaje</li>
+                                                <li>Combustible</li>
+                                                <li>Mantenimiento</li>
+                                                <li>Pagos a conductores</li>
+                                                <li>Costos operativos por vehículo</li>
+                                                <li>Rendimiento por ruta o servicio</li>
+                                            </ul>
+                                            <p>
+                                                Esto permite analizar rentabilidad y optimizar recursos.
+                                            </p>
+                                    </span>
+                                    <span th:if="${step == '8'}">
+                                        <p>Sí. En Truck Flow puedes:</p>
+                                        <ul>
+                                            <li>Postularte para trabajar con empresas registradas</li>
+                                            <li>Aceptar solicitudes directas de clientes</li>
+                                            <li>Operar con tu propio vehículo</li>
+                                            <li>Cubrir turnos programados o servicios puntuales</li>
+                                        </ul>
+                                        <p>
+                                            Esto te permite ampliar tus oportunidades laborales y elegir la modalidad
+                                            que mejor se adapte a ti.
+                                        </p>
+                                    </span>
+                                    <span th:if="${step == '10'}">
+                                        <p>Antes de confirmar el servicio, el cliente podrá ver:</p>
+                                        <ul>
+                                            <li>Tipo de vehículo asignado</li>
+                                            <li>Distancia estimada</li>
+                                            <li>Tiempo aproximado</li>
+                                            <li>Costo estimado</li>
+                                        </ul>
+                                        <p>
+                                            Esto permite tomar decisiones con claridad y confianza.
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ITEM 6 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSix">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSix">
+                                    <span th:if="${step == '5'}">🤝 ¿Qué necesito para pertenecer a TruckFlow como
+                                        tienda?</span>
+                                    <span th:if="${step == '3'}">📝 Historial y procesos empresariales</span>
+                                    <span th:if="${step == '8'}">💰 ¿Cómo gano dinero con Truck Flow?</span>
+                                    <span th:if="${step == '10'}">🛡️ Seguridad y respaldo</span>
+                                </button>
+                            </h2>
+                            <div id="collapseSix" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <span th:if="${step == '5'}">
+                                        <p>Para formar parte de Truck Flow solo necesitas:</p>
+                                        <ul>
+                                            <li>Un negocio activo</li>
+                                            <li>Documentación básica de la tienda</li>
+                                            <li>Conexión a internet</li>
+                                            <li>Ganas de crecer y vender más</li>
+                                        </ul>
+                                        <p>
+                                            Nosotros te guiamos paso a paso para que empieces sin complicaciones.
+                                        </p>
+                                    </span>
+                                    <span th:if="${step == '3'}">
+                                        <p>Truck Flow funciona como una herramienta de gestión logística completa, ideal
+                                            para empresas que trabajan con:</p>
+                                        <ul>
+                                            <li>Transporte de mercancía</li>
+                                            <li>Mensajería</li>
+                                            <li>Domicilios</li>
+                                            <li>Logística urbana</li>
+                                            <li>Servicios intermunicipales</li>
+                                            <li>Flotas de motos o vehículos</li>
+                                        </ul>
+                                        <p>
+                                            Permite estandarizar procesos, digitalizar planillas y mantener orden
+                                            administrativo en cada operación.
+                                        </p>
+                                    </span>
+                                    <span th:if="${step == '8'}">Tus ingresos dependen del tipo de servicio que
+                                        realices, el tiempo trabajado y la cantidad de
+                                        solicitudes que aceptes. La plataforma te permite ver el detalle del servicio
+                                        antes de aceptarlo,
+                                        incluyendo recorrido, tipo de carga y compensación estimada, brindándote
+                                        transparencia y control.</span>
+                                    <span th:if="${step == '10'}">
+                                        <p>Truck Flow garantiza:</p>
+                                        <ul>
+                                            <li>Conductores y empresas registradas</li>
+                                            <li>Historial de cada servicio</li>
+                                            <li>Registro digital del proceso</li>
+                                            <li>Mayor trazabilidad y transparencia</li>
+                                        </ul>
+                                        <p>
+                                            El cliente puede confiar en que su servicio será gestionado dentro de un
+                                            entorno organizado y seguro.
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ITEM 7 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSeven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSeven">
+                                    <span th:if="${step == '5'}">📲 ¿Recibiré ayuda durante el proceso como
+                                        tienda?</span>
+                                    <span th:if="${step == '3'}">🤝 ¿Qué beneficios obtiene la empresa?</span>
+                                    <span th:if="${step == '8'}">🤝 ¿Qué requisitos necesito para pertenecer a Truck
+                                        Flow como conductor?</span>
+                                    <span th:if="${step == '10'}">📲 ¿Recibiré acompañamiento y soporte?</span>
+                                </button>
+                            </h2>
+                            <div id="collapseSeven" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <span th:if="${step == '5'}">¡Claro que sí!
+                                        Nuestro equipo te acompaña desde el registro hasta la publicación de tus
+                                        primeros
+                                        productos,
+                                        asegurándonos de que aproveches al máximo Truck Flow.</span>
+                                    <span th:if="${step == '3'}">
+                                        <ul>
+                                            <li>Mayor control y organización</li>
+                                            <li>Reducción de errores manuales</li>
+                                            <li>Seguimiento en tiempo real</li>
+                                            <li>Acceso a conductores adicionales cuando se necesiten</li>
+                                            <li>Historial completo de viajes y empleados</li>
+                                            <li>Optimización de tiempos y costos</li>
+                                            <li>Plataforma centralizada y segura</li>
+                                        </ul>
+                                    </span>
+                                    <span th:if="${step == '8'}">
+                                        <p>Para unirte necesitas:</p>
+                                        <ul>
+                                            <li>Documento de identidad válido</li>
+                                            <li>Licencia de conducción vigente</li>
+                                            <li>Experiencia básica como conductor (según el servicio)</li>
+                                            <li>Vehículo propio (opcional)</li>
+                                            <li>Documentación del vehículo (si aplica)</li>
+                                            <li>Teléfono móvil con acceso a internet</li>
+                                            <li>Compromiso con el buen servicio y la puntualidad</li>
+                                        </ul>
+                                    </span>
+                                    <span th:if="${step == '10'}">Sí. En Truck Flow te acompañamos en todo el proceso:
+                                        desde que creas tu cuenta y realizas tu primer pedido, hasta la entrega final de
+                                        tus envíos. Nuestro equipo está disponible para resolver tus dudas y asegurarnos
+                                        de que tu experiencia sea segura, rápida y confiable.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/js/Registro.js}"></script>
+    </th:block>
+</body>
+
+</html>

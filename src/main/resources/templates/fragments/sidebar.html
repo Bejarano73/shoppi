@@ -1,63 +1,43 @@
 <th:block th:fragment="sidebar">
-    <div id="appSidebar" class="offcanvas offcanvas-start app-sidebar" tabindex="-1" aria-labelledby="appSidebarLabel" data-bs-scroll="true" data-bs-backdrop="false">
-        <div class="sidebar-brand">
+    <div id="appSidebar" class="offcanvas offcanvas-start app-sidebar" tabindex="-1" aria-labelledby="appSidebarLabel"
+         data-bs-scroll="true" data-bs-backdrop="false">
+
+        <div class="sidebar-brand d-none">
             <div class="brand-icon"><i class="bi bi-truck"></i></div>
             <div class="brand-text">
                 <div class="brand-title menu-text menu-d-none">Cootrasmateriales</div>
                 <div class="brand-sub menu-text menu-d-none">Gestión de Flota</div>
             </div>
         </div>
+
         <div class="offcanvas-body p-0 d-flex flex-column">
-            <div class="p-3">
+            <div class="p-0 m-0">
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/dashboard" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-speedometer2"></i>
+                    <li class="nav-item border">
+                        <a class="nav-link cursor"
+                           href="javascript:void(0)"
+                           hx-get="/"
+                           hx-target="#app-content"
+                           hx-push-url="true"
+                           hx-select="#page-content"
+                           data-bs-dismiss="offcanvas"> <i class="bi bi-house-door-fill"></i>
                             <span class="nav-text menu-text menu-d-none">Inicio</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/conductores" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-people"></i>
-                            <span class="nav-text menu-text menu-d-none">Conductores</span>
+
+                    <li sec:authorize="!isAuthenticated()" class="nav-item border">
+                        <a class="nav-link cursor"
+                           href="javascript:void(0)"
+                           hx-get="/Registro?step=10"
+                           hx-target="#app-content"
+                           hx-push-url="true"
+                           hx-select="#page-content"
+                           data-bs-dismiss="offcanvas">
+                            <i class="bi bi-person-plus-fill"></i>
+                            <span class="nav-text menu-text menu-d-none">Registro</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/documentos" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-file-earmark-text"></i>
-                            <span class="nav-text menu-text menu-d-none">Documentos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/solicitar-viaje" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-truck-front"></i>
-                            <span class="nav-text menu-text menu-d-none">Solicitar Viaje</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/crear-solicitud" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-clipboard-plus"></i>
-                            <span class="nav-text menu-text menu-d-none">Crear Solicitud</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/flota" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-truck"></i>
-                            <span class="nav-text menu-text menu-d-none">Flota</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/peticiones" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-table"></i>
-                            <span class="nav-text menu-text menu-d-none">Peticiones</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link cursor" hx-get="/perfil" hx-target="#app-content" hx-push-url="true" hx-select="#page-content">
-                            <i class="bi bi-table"></i>
-                            <span class="nav-text menu-text menu-d-none">Perfil</span>
-                        </a>
-                    </li>
+
                 </ul>
             </div>
         </div>

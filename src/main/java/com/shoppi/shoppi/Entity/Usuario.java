@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -85,5 +86,11 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return activo;
+    }
+
+    public void encriptarPassword(PasswordEncoder encoder) {
+        if (this.password != null) {
+            this.password = encoder.encode(this.password);
+        }
     }
 }
